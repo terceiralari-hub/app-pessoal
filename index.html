@@ -28,7 +28,6 @@
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Estilo customizado para o Checkbox Redondo */
         .round-cb {
             appearance: none;
             width: 1.5rem; height: 1.5rem;
@@ -123,7 +122,6 @@
                     <input type="text" id="s-qtd" placeholder="Qtd" required class="w-20 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
                 </div>
                 <div class="flex gap-2">
-                    <!-- Nova ordem das categorias -->
                     <select id="s-category" class="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
                         <option value="Mercearia">🍝 Mercearia</option>
                         <option value="Hortifruti">🥦 Hortifruti</option>
@@ -136,14 +134,40 @@
                 </div>
             </form>
 
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden" id="shopping-list-container">
-                <!-- A lista será injetada aqui -->
-            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden" id="shopping-list-container"></div>
             
             <div class="flex gap-2 mt-4">
-                <button onclick="copyListToMonth()" class="w-1/2 bg-blue-500 text-white p-2 rounded font-bold"><i class="fa-regular fa-copy mr-1"></i> Duplicar p/ Mês</button>
+                <button onclick="shareWhatsApp()" class="w-1/2 bg-green-600 text-white p-2 rounded font-bold"><i class="fa-brands fa-whatsapp mr-1"></i> Compartilhar</button>
                 <button onclick="clearShopping()" class="w-1/2 text-red-500 border border-red-500 p-2 rounded font-bold"><i class="fa-solid fa-trash mr-1"></i> Limpar Mês</button>
             </div>
+        </section>
+
+        <!-- CARDÁPIO SEMANAL -->
+        <section id="tab-menu" class="tab-content">
+            <h2 class="text-xl font-bold mb-4">Cardápio Semanal</h2>
+            
+            <!-- Calendário Dias da Semana -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-3 mb-4 flex justify-between text-center overflow-x-auto" id="week-calendar">
+                <!-- Gerado via JS -->
+            </div>
+
+            <!-- Adicionar Refeição -->
+            <form id="form-menu" class="flex flex-col gap-2 mb-4 bg-white dark:bg-gray-800 p-4 rounded-xl shadow">
+                <div class="flex gap-2">
+                    <input type="text" id="m-dish" placeholder="Nome do prato/refeição..." required class="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+                    <select id="m-type" class="w-1/3 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+                        <option value="Café da Manhã">Café</option>
+                        <option value="Almoço">Almoço</option>
+                        <option value="Snack">Snack</option>
+                        <option value="Jantar">Jantar</option>
+                    </select>
+                </div>
+                <textarea id="m-desc" placeholder="Ingredientes / Modo de preparo (opcional)..." class="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 h-16 text-sm"></textarea>
+                <button type="submit" class="bg-primary text-white p-2 rounded font-bold"><i class="fa-solid fa-utensils mr-1"></i> Adicionar ao Cardápio</button>
+            </form>
+
+            <!-- Lista de Refeições do Dia -->
+            <div class="space-y-3" id="menu-list"></div>
         </section>
 
         <!-- CONFIGURAÇÕES -->
@@ -152,7 +176,7 @@
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 space-y-4">
                 <div>
                     <h3 class="font-bold mb-2 text-primary"><i class="fa-solid fa-download mr-2"></i>Exportar Dados</h3>
-                    <p class="text-sm mb-2 text-gray-500">Salve um backup de todas as suas transações e compras.</p>
+                    <p class="text-sm mb-2 text-gray-500">Salve um backup de todas as suas transações, compras e cardápio.</p>
                     <button onclick="exportData()" class="w-full bg-gray-200 dark:bg-gray-700 p-2 rounded">Exportar JSON</button>
                 </div>
                 <hr class="dark:border-gray-700">
@@ -167,12 +191,13 @@
 
     </main>
 
-    <!-- NAVEGAÇÃO -->
-    <nav class="fixed bottom-0 w-full bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg flex justify-around p-3 pb-safe z-50">
-        <button onclick="nav('dashboard')" class="nav-btn text-primary flex flex-col items-center w-1/4" data-target="dashboard"><i class="fa-solid fa-chart-pie text-xl"></i><span class="text-[10px] mt-1">Início</span></button>
-        <button onclick="nav('history')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/4" data-target="history"><i class="fa-solid fa-list text-xl"></i><span class="text-[10px] mt-1">Histórico</span></button>
-        <button onclick="nav('shopping')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/4" data-target="shopping"><i class="fa-solid fa-cart-shopping text-xl"></i><span class="text-[10px] mt-1">Compras</span></button>
-        <button onclick="nav('settings')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/4" data-target="settings"><i class="fa-solid fa-gear text-xl"></i><span class="text-[10px] mt-1">Ajustes</span></button>
+    <!-- NAVEGAÇÃO INFERIOR -->
+    <nav class="fixed bottom-0 w-full bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg flex justify-around p-3 pb-safe z-50 text-xs">
+        <button onclick="nav('dashboard')" class="nav-btn text-primary flex flex-col items-center w-1/5" data-target="dashboard"><i class="fa-solid fa-chart-pie text-lg"></i><span class="mt-1">Início</span></button>
+        <button onclick="nav('history')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/5" data-target="history"><i class="fa-solid fa-list text-lg"></i><span class="mt-1">Histórico</span></button>
+        <button onclick="nav('shopping')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/5" data-target="shopping"><i class="fa-solid fa-cart-shopping text-lg"></i><span class="mt-1">Compras</span></button>
+        <button onclick="nav('menu')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/5" data-target="menu"><i class="fa-solid fa-utensils text-lg"></i><span class="mt-1">Cardápio</span></button>
+        <button onclick="nav('settings')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/5" data-target="settings"><i class="fa-solid fa-gear text-lg"></i><span class="mt-1">Ajustes</span></button>
     </nav>
 
     <script>
@@ -200,12 +225,14 @@
             activeBtn.classList.remove('text-gray-400'); activeBtn.classList.add('text-primary');
             if(tabId === 'dashboard') updateDashboard();
             if(tabId === 'history') updateHistory();
+            if(tabId === 'menu') loadMenu();
         }
 
         const db = new Dexie("FinPWA_DB");
-        db.version(2).stores({
+        db.version(3).stores({
             transactions: '++id, type, amount, description, category, date',
-            shopping: '++id, text, quantity, category, done, dateMonth'
+            shopping: '++id, text, quantity, category, done, dateMonth',
+            menu: '++id, dish, type, desc, dayOfWeek'
         });
 
         const formatCurrency = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
@@ -272,10 +299,7 @@
             const select = document.getElementById('s-month-filter'); select.innerHTML = '';
             const startDate = new Date(2026, 7); let currentDate = new Date();
             if(currentDate < startDate) currentDate = new Date(2026, 7);
-            
-            // Adiciona meses futuros para o caso do usuário ter copiado a lista para frente
             let d = new Date(currentDate.getFullYear(), currentDate.getMonth() + 6, 1);
-            
             while (d >= startDate) {
                 let monthStr = String(d.getMonth() + 1).padStart(2, '0');
                 let val = `${d.getFullYear()}-${monthStr}`;
@@ -284,7 +308,6 @@
                 select.innerHTML += `<option value="${val}">${display}</option>`;
                 d.setMonth(d.getMonth() - 1);
             }
-            // Selecionar mês atual por padrão
             select.value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
         }
 
@@ -309,23 +332,17 @@
             
             if(items.length === 0) { container.innerHTML = '<p class="text-center text-gray-500 py-4 text-sm">Lista vazia neste mês.</p>'; return; }
 
-            // Ordem das Categorias Fixas
             const order = ["Mercearia", "Hortifruti", "Proteínas", "Higiene", "Limpeza", "Outros"];
             const grouped = { "Mercearia": [], "Hortifruti": [], "Proteínas": [], "Higiene": [], "Limpeza": [], "Outros": [] };
 
-            // Agrupando
             items.forEach(i => {
                 if(grouped[i.category]) grouped[i.category].push(i);
                 else grouped["Outros"].push(i);
             });
 
-            // Renderizando por grupo
             order.forEach(cat => {
                 if(grouped[cat].length > 0) {
-                    // Cabeçalho da Categoria
                     container.innerHTML += `<div class="bg-gray-200 dark:bg-gray-700 px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-widest border-b dark:border-gray-600">${cat}</div>`;
-                    
-                    // Itens da Categoria
                     grouped[cat].forEach(i => {
                         container.innerHTML += `
                             <div class="flex items-center justify-between p-3 border-b dark:border-gray-700 last:border-0 bg-white dark:bg-gray-800">
@@ -354,7 +371,6 @@
             if(newText === null || newText.trim() === "") return;
             const newQtd = prompt("Editar quantidade:", item.quantity);
             if(newQtd === null) return;
-            
             await db.shopping.update(id, { text: newText, quantity: newQtd });
             loadShopping();
         }
@@ -369,25 +385,155 @@
             }
         }
 
-        async function copyListToMonth() {
-            const currentMonth = document.getElementById('s-month-filter').value;
-            const target = prompt("Para qual mês deseja duplicar essa lista? (Digite no formato MM/AAAA. Ex: 10/2026)");
-            
-            if(!target) return;
-            const parts = target.split('/');
-            if(parts.length !== 2 || parts[0].length !== 2 || parts[1].length !== 4) return alert("Formato inválido. Use MM/AAAA");
-            
-            const targetMonth = `${parts[1]}-${parts[0]}`;
-            const items = await db.shopping.where('dateMonth').equals(currentMonth).toArray();
-            
-            if(items.length === 0) return alert("A lista atual está vazia!");
+        async function shareWhatsApp() {
+            const filterMonth = document.getElementById('s-month-filter').value;
+            const items = await db.shopping.where('dateMonth').equals(filterMonth).toArray();
+            if(items.length === 0) return alert('A lista de compras está vazia!');
 
-            const newItems = items.map(i => ({ text: i.text, quantity: i.quantity, category: i.category, done: false, dateMonth: targetMonth }));
-            await db.shopping.bulkAdd(newItems);
+            let msg = `🛒 *Lista de Compras (${filterMonth})*\n\n`;
             
-            alert(`Lista copiada com sucesso para ${target}!`);
-            document.getElementById('s-month-filter').value = targetMonth;
-            loadShopping();
+            const order = ["Mercearia", "Hortifruti", "Proteínas", "Higiene", "Limpeza", "Outros"];
+            order.forEach(cat => {
+                const catItems = items.filter(i => i.category === cat);
+                if(catItems.length > 0) {
+                    msg += `*${cat.toUpperCase()}*\n`;
+                    catItems.forEach(i => {
+                        msg += `${i.done ? '✅' : '▫️'} ${i.text} (${i.quantity})\n`;
+                    });
+                    msg += `\n`;
+                }
+            });
+
+            const encodedMsg = encodeURIComponent(msg);
+            window.open(`https://api.whatsapp.com/send?text=${encodedMsg}`, '_blank');
+        }
+
+        /* ======== CARDÁPIO SEMANAL ======== */
+        const daysOfWeek = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+        let selectedDay = 'Segunda';
+
+        function renderWeekCalendar() {
+            const cal = document.getElementById('week-calendar');
+            cal.innerHTML = '';
+            daysOfWeek.forEach(day => {
+                const isSel = day === selectedDay;
+                cal.innerHTML += `
+                    <button onclick="selectDay('${day}')" class="flex-1 py-2 px-1 rounded-lg text-xs font-bold transition-colors ${isSel ? 'bg-primary text-white shadow' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700'}">
+                        ${day.slice(0, 3)}
+                    </button>
+                `;
+            });
+        }
+
+        function selectDay(day) {
+            selectedDay = day;
+            renderWeekCalendar();
+            loadMenu();
+        }
+
+        document.getElementById('form-menu').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await db.menu.add({
+                dish: document.getElementById('m-dish').value,
+                type: document.getElementById('m-type').value,
+                desc: document.getElementById('m-desc').value,
+                dayOfWeek: selectedDay
+            });
+            document.getElementById('m-dish').value = '';
+            document.getElementById('m-desc').value = '';
+            loadMenu();
+        });
+
+        async function loadMenu() {
+            renderWeekCalendar();
+            const items = await db.menu.where('dayOfWeek').equals(selectedDay).toArray();
+            const container = document.getElementById('menu-list');
+            container.innerHTML = '';
+
+            if(items.length === 0) {
+                container.innerHTML = `<p class="text-center text-gray-500 py-6 text-sm">Nenhuma refeição cadastrada para ${selectedDay}.</p>`;
+                return;
+            }
+
+            const tagColors = {
+                'Café da Manhã': 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300',
+                'Almoço': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300',
+                'Snack': 'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300',
+                'Jantar': 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300'
+            };
+
+            items.forEach(i => {
+                container.innerHTML += `
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-4 border-l-4 border-primary">
+                        <div class="flex justify-between items-start cursor-pointer" onclick="toggleMenuDesc(${i.id})">
+                            <div>
+                                <h3 class="font-bold text-base leading-snug">${i.dish}</h3>
+                                <span class="inline-block mt-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full ${tagColors[i.type] || 'bg-gray-100 text-gray-700'}">${i.type}</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button onclick="event.stopPropagation(); editMenu(${i.id})" class="text-blue-500 p-1"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="event.stopPropagation(); deleteMenu(${i.id})" class="text-red-500 font-bold p-1"><i class="fa-solid fa-xmark text-xl"></i></button>
+                            </div>
+                        </div>
+                        <div id="m-desc-${i.id}" class="hidden mt-3 pt-3 border-t dark:border-gray-700 text-xs text-gray-600 dark:text-gray-300 whitespace-pre-line">
+                            ${i.desc ? i.desc : '<span class="italic text-gray-400">Sem descrição/ingredientes cadastrados.</span>'}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleMenuDesc(id) {
+            const el = document.getElementById(`m-desc-${id}`);
+            if(el) el.classList.toggle('hidden');
+        }
+
+        async function editMenu(id) {
+            const item = await db.menu.get(id);
+            if(!item) return;
+            const newDish = prompt("Editar nome do prato:", item.dish);
+            if(newDish === null || newDish.trim() === "") return;
+            const newDesc = prompt("Editar ingredientes / descrição:", item.desc || "");
+            
+            await db.menu.update(id, { dish: newDish, desc: newDesc });
+            loadMenu();
+        }
+
+        async function deleteMenu(id) {
+            if(confirm('Excluir esta refeição do cardápio?')) {
+                await db.menu.delete(id);
+                loadMenu();
+            }
+        }
+
+        /* ======== IMPORTAR/EXPORTAR ======== */
+        async function exportData() {
+            const txs = await db.transactions.toArray();
+            const shop = await db.shopping.toArray();
+            const menuData = await db.menu.toArray();
+            const data = { transactions: txs, shopping: shop, menu: menuData };
+            const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+            const url = URL.createObjectURL(blob); const a = document.createElement('a');
+            a.href = url; a.download = `backup_finpwa_${new Date().toISOString().slice(0,10)}.json`;
+            a.click(); URL.revokeObjectURL(url);
+        }
+        async function importData() {
+            const fileInput = document.getElementById('importFile');
+            if (!fileInput.files.length) return alert('Selecione um arquivo JSON.');
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (confirm('Isso apagará os dados atuais. Continuar?')) {
+                        await db.transactions.clear(); await db.shopping.clear(); await db.menu.clear();
+                        if(data.transactions) await db.transactions.bulkAdd(data.transactions);
+                        if(data.shopping) await db.shopping.bulkAdd(data.shopping);
+                        if(data.menu) await db.menu.bulkAdd(data.menu);
+                        alert('Dados importados com sucesso!'); window.location.reload();
+                    }
+                } catch (err) { alert('Erro ao ler o arquivo JSON válido.'); }
+            };
+            reader.readAsText(fileInput.files[0]);
         }
 
         // INIT
