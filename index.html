@@ -60,10 +60,11 @@
     <!-- MAIN CONTENT -->
     <main class="p-4 max-w-md mx-auto">
         
-        <!-- DASHBOARD -->
+        <!-- ================= RESUMO (ANTIGO INÍCIO) ================= -->
         <section id="tab-dashboard" class="tab-content active">
+            <!-- Cards de Saldo Geral -->
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 mb-6 text-center">
-                <p class="text-sm text-gray-500 dark:text-gray-400">Saldo Atual</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Saldo Atual do Casal</p>
                 <h2 class="text-3xl font-bold mt-1" id="dash-balance">R$ 0,00</h2>
                 <div class="flex justify-between mt-4 border-t dark:border-gray-700 pt-4">
                     <div class="text-green-500"><i class="fa-solid fa-arrow-up mr-1"></i> <span id="dash-income">R$ 0,00</span></div>
@@ -71,6 +72,19 @@
                 </div>
             </div>
 
+            <!-- Divisão de Gastos Larissa vs Pedro -->
+            <div class="grid grid-cols-2 gap-3 mb-6">
+                <div class="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-xl border border-purple-200 dark:border-purple-800 text-center">
+                    <p class="text-xs text-purple-600 dark:text-purple-300 font-bold uppercase">Pago por Larissa</p>
+                    <p class="text-lg font-bold text-purple-700 dark:text-purple-200 mt-1" id="dash-larissa">R$ 0,00</p>
+                </div>
+                <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-xl border border-blue-200 dark:border-blue-800 text-center">
+                    <p class="text-xs text-blue-600 dark:text-blue-300 font-bold uppercase">Pago por Pedro</p>
+                    <p class="text-lg font-bold text-blue-700 dark:text-blue-200 mt-1" id="dash-pedro">R$ 0,00</p>
+                </div>
+            </div>
+
+            <!-- Nova Transação -->
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
                 <h3 class="font-bold mb-3"><i class="fa-solid fa-plus-circle mr-2"></i>Nova Transação</h3>
                 <form id="form-transaction" class="space-y-3">
@@ -81,35 +95,80 @@
                         </select>
                         <input type="number" id="t-amount" step="0.01" placeholder="Valor (R$)" required class="p-2 border rounded w-2/3 dark:bg-gray-700 dark:border-gray-600">
                     </div>
+                    
                     <input type="text" id="t-desc" placeholder="Descrição" required class="p-2 border rounded w-full dark:bg-gray-700 dark:border-gray-600">
+                    
                     <div class="flex gap-2">
-                        <select id="t-category" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
-                            <option value="Alimentação">Alimentação</option>
-                            <option value="Transporte">Transporte</option>
-                            <option value="Moradia">Moradia</option>
-                            <option value="Lazer">Lazer</option>
-                            <option value="Saúde">Saúde</option>
-                            <option value="Salário">Salário</option>
-                            <option value="Outros">Outros</option>
+                        <select id="t-payer" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                            <option value="Larissa">Larissa</option>
+                            <option value="Pedro">Pedro</option>
                         </select>
-                        <input type="date" id="t-date" required class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                        <input type="month" id="t-date" required class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
                     </div>
-                    <button type="submit" class="w-full bg-primary text-white p-2 rounded font-bold mt-2">Salvar</button>
+
+                    <select id="t-category" class="p-2 border rounded w-full dark:bg-gray-700 dark:border-gray-600">
+                        <option value="Salário">Salário</option>
+                        <option value="VR - Larissa">VR - Larissa</option>
+                        <option value="VA - Larissa">VA - Larissa</option>
+                        <option value="Pedro">Pedro (Alimentação)</option>
+                        <option value="Aluguel">Aluguel</option>
+                        <option value="Transporte">Transporte</option>
+                        <option value="Lazer">Lazer</option>
+                        <option value="Outras entradas">Outras entradas</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+
+                    <button type="submit" class="w-full bg-primary text-white p-2 rounded font-bold mt-2">Salvar Transação</button>
                 </form>
             </div>
+
+            <!-- Categoria BÁSICOS (Divisão 50/50) -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
+                <h3 class="font-bold mb-1 text-primary"><i class="fa-solid fa-bolt mr-2"></i>Contas Básicas (50/50)</h3>
+                <p class="text-xs text-gray-500 mb-3">Insira o valor total das contas fixas para dividir automaticamente meio a meio.</p>
+                
+                <form id="form-basics" class="space-y-3">
+                    <div class="flex gap-2">
+                        <select id="b-item" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                            <option value="Água">💧 Água</option>
+                            <option value="Energia">⚡ Energia</option>
+                            <option value="Seguro">🛡️ Seguro</option>
+                            <option value="Gás">🔥 Gás</option>
+                            <option value="Internet">🌐 Internet</option>
+                        </select>
+                        <input type="number" id="b-amount" step="0.01" placeholder="Valor Total (R$)" required class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                    <div class="flex gap-2">
+                        <select id="b-payer" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                            <option value="Larissa">Pago por Larissa</option>
+                            <option value="Pedro">Pago por Pedro</option>
+                        </select>
+                        <input type="month" id="b-date" required class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">Lançar Básico (Divide 50%)</button>
+                </form>
+            </div>
+
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
                 <h3 class="font-bold mb-3">Despesas por Categoria (Mês)</h3>
                 <canvas id="expenseChart" height="200"></canvas>
             </div>
         </section>
 
-        <!-- HISTÓRICO -->
+        <!-- ================= HISTÓRICO ================= -->
         <section id="tab-history" class="tab-content">
             <h2 class="text-xl font-bold mb-4">Histórico de Transações</h2>
+            
+            <!-- Gráfico Mês a Mês -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-4 mb-6">
+                <h3 class="font-bold text-sm mb-2">Evolução Mensal de Gastos</h3>
+                <canvas id="historyChart" height="180"></canvas>
+            </div>
+
             <div id="history-list" class="space-y-3"></div>
         </section>
 
-        <!-- LISTA DE COMPRAS -->
+        <!-- ================= LISTA DE COMPRAS ================= -->
         <section id="tab-shopping" class="tab-content">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold">Lista de Compras</h2>
@@ -142,23 +201,18 @@
             </div>
         </section>
 
-        <!-- CARDÁPIO SEMANAL (DINÂMICO) -->
+        <!-- ================= CARDÁPIO SEMANAL ================= -->
         <section id="tab-menu" class="tab-content">
             <h2 class="text-xl font-bold mb-2">Cardápio Semanal</h2>
             
-            <!-- Controle do Mês e Navegação entre Semanas -->
             <div class="flex justify-between items-center mb-3 px-1">
                 <button onclick="changeWeek(-1)" class="text-primary text-lg p-2 font-bold"><i class="fa-solid fa-chevron-left"></i></button>
                 <span id="menu-month-year" class="font-bold text-sm uppercase tracking-wide text-gray-600 dark:text-gray-300"></span>
                 <button onclick="changeWeek(1)" class="text-primary text-lg p-2 font-bold"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
-            <!-- Calendário da Semana Ativa -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-2 mb-4 flex justify-between text-center overflow-x-auto gap-1" id="week-calendar">
-                <!-- Gerado via JS -->
-            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-2 mb-4 flex justify-between text-center overflow-x-auto gap-1" id="week-calendar"></div>
 
-            <!-- Adicionar Refeição -->
             <form id="form-menu" class="flex flex-col gap-2 mb-4 bg-white dark:bg-gray-800 p-4 rounded-xl shadow">
                 <div class="flex gap-2">
                     <input type="text" id="m-dish" placeholder="Nome do prato/refeição..." required class="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
@@ -173,11 +227,10 @@
                 <button type="submit" class="bg-primary text-white p-2 rounded font-bold"><i class="fa-solid fa-utensils mr-1"></i> Adicionar ao Cardápio</button>
             </form>
 
-            <!-- Lista de Refeições do Dia -->
             <div class="space-y-3" id="menu-list"></div>
         </section>
 
-        <!-- CONFIGURAÇÕES -->
+        <!-- ================= CONFIGURAÇÕES ================= -->
         <section id="tab-settings" class="tab-content">
             <h2 class="text-xl font-bold mb-4">Configurações & Dados</h2>
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 space-y-4">
@@ -200,7 +253,7 @@
 
     <!-- NAVEGAÇÃO INFERIOR -->
     <nav class="fixed bottom-0 w-full bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg flex justify-around p-3 pb-safe z-50 text-xs">
-        <button onclick="nav('dashboard')" class="nav-btn text-primary flex flex-col items-center w-1/5" data-target="dashboard"><i class="fa-solid fa-chart-pie text-lg"></i><span class="mt-1">Início</span></button>
+        <button onclick="nav('dashboard')" class="nav-btn text-primary flex flex-col items-center w-1/5" data-target="dashboard"><i class="fa-solid fa-chart-pie text-lg"></i><span class="mt-1">Resumo</span></button>
         <button onclick="nav('history')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/5" data-target="history"><i class="fa-solid fa-list text-lg"></i><span class="mt-1">Histórico</span></button>
         <button onclick="nav('shopping')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/5" data-target="shopping"><i class="fa-solid fa-cart-shopping text-lg"></i><span class="mt-1">Compras</span></button>
         <button onclick="nav('menu')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/5" data-target="menu"><i class="fa-solid fa-utensils text-lg"></i><span class="mt-1">Cardápio</span></button>
@@ -236,16 +289,20 @@
         }
 
         const db = new Dexie("FinPWA_DB");
-        db.version(4).stores({
-            transactions: '++id, type, amount, description, category, date',
+        db.version(5).stores({
+            transactions: '++id, type, amount, description, category, date, payer',
             shopping: '++id, text, quantity, category, done, dateMonth',
             menu: '++id, dish, type, desc, dateStr'
         });
 
         const formatCurrency = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
-        const formatDate = (dateStr) => { const [y, m, d] = dateStr.split('-'); return `${d}/${m}/${y}`; };
-        document.getElementById('t-date').valueAsDate = new Date();
+        
+        // Formatar Mês/Ano Padrão (AAAA-MM)
+        const currentMonthStr = new Date().toISOString().slice(0,7);
+        document.getElementById('t-date').value = currentMonthStr;
+        document.getElementById('b-date').value = currentMonthStr;
 
+        /* ======== LANÇAR TRANSAÇÃO ======== */
         document.getElementById('form-transaction').addEventListener('submit', async (e) => {
             e.preventDefault();
             await db.transactions.add({
@@ -253,41 +310,113 @@
                 amount: parseFloat(document.getElementById('t-amount').value),
                 description: document.getElementById('t-desc').value,
                 category: document.getElementById('t-category').value,
+                payer: document.getElementById('t-payer').value,
                 date: document.getElementById('t-date').value
             });
-            e.target.reset(); document.getElementById('t-date').valueAsDate = new Date();
-            updateDashboard(); alert('Salvo com sucesso!');
+            e.target.reset();
+            document.getElementById('t-date').value = currentMonthStr;
+            updateDashboard(); alert('Transação salva com sucesso!');
+        });
+
+        /* ======== LANÇAR BÁSICOS (DIVISÃO 50/50) ======== */
+        document.getElementById('form-basics').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const item = document.getElementById('b-item').value;
+            const totalAmount = parseFloat(document.getElementById('b-amount').value);
+            const payer = document.getElementById('b-payer').value;
+            const dateStr = document.getElementById('b-date').value;
+
+            const halfAmount = totalAmount / 2;
+
+            // Salva como uma despesa com a tag de Básico
+            await db.transactions.add({
+                type: 'expense',
+                amount: totalAmount,
+                description: `Básico: ${item} (50% = ${formatCurrency(halfAmount)})`,
+                category: 'Básicos',
+                payer: payer,
+                date: dateStr
+            });
+
+            e.target.reset();
+            document.getElementById('b-date').value = currentMonthStr;
+            updateDashboard();
+            alert(`Conta de ${item} salva! Cada um contribui com ${formatCurrency(halfAmount)}.`);
         });
 
         async function updateDashboard() {
             const txs = await db.transactions.toArray();
-            let income = 0, expense = 0; const currentMonth = new Date().toISOString().slice(0,7);
+            let income = 0, expense = 0;
+            let larissaPaid = 0, pedroPaid = 0;
+
+            const currentMonth = document.getElementById('t-date').value || currentMonthStr;
+
             const expensesByCategory = {};
+
             txs.forEach(t => {
-                if(t.date.startsWith(currentMonth)) {
-                    if (t.type === 'income') income += t.amount;
-                    else { expense += t.amount; expensesByCategory[t.category] = (expensesByCategory[t.category] || 0) + t.amount; }
+                if(t.date === currentMonth) {
+                    if (t.type === 'income') {
+                        income += t.amount;
+                    } else {
+                        expense += t.amount;
+                        expensesByCategory[t.category] = (expensesByCategory[t.category] || 0) + t.amount;
+                        
+                        if(t.payer === 'Larissa') larissaPaid += t.amount;
+                        if(t.payer === 'Pedro') pedroPaid += t.amount;
+                    }
                 }
             });
+
             document.getElementById('dash-balance').innerText = formatCurrency(income - expense);
             document.getElementById('dash-income').innerText = formatCurrency(income);
             document.getElementById('dash-expense').innerText = formatCurrency(expense);
+            document.getElementById('dash-larissa').innerText = formatCurrency(larissaPaid);
+            document.getElementById('dash-pedro').innerText = formatCurrency(pedroPaid);
+
             renderChart(expensesByCategory);
         }
 
         async function updateHistory() {
             const txs = await db.transactions.orderBy('date').reverse().toArray();
             const list = document.getElementById('history-list'); list.innerHTML = '';
-            if(txs.length === 0) list.innerHTML = '<p class="text-center text-gray-500">Nenhuma transação encontrada.</p>';
+            
+            if(txs.length === 0) list.innerHTML = '<p class="text-center text-gray-500 py-4">Nenhuma transação encontrada.</p>';
+
+            const monthlyData = {};
+
             txs.forEach(t => {
                 const isInc = t.type === 'income';
-                list.innerHTML += `<div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow flex justify-between items-center border-l-4 ${isInc ? 'border-green-500' : 'border-red-500'}">
-                    <div><p class="font-bold">${t.description}</p><p class="text-xs text-gray-500">${formatDate(t.date)} - ${t.category}</p></div>
-                    <div class="text-right"><p class="font-bold ${isInc ? 'text-green-500' : 'text-red-500'}">${isInc ? '+' : '-'}${formatCurrency(t.amount)}</p>
-                    <button onclick="deleteTransaction(${t.id})" class="text-red-500 text-xs mt-1"><i class="fa-solid fa-trash"></i></button></div></div>`;
+                
+                // Agrupa para o gráfico mensal do histórico
+                if(!isInc) {
+                    monthlyData[t.date] = (monthlyData[t.date] || 0) + t.amount;
+                }
+
+                const [y, m] = t.date.split('-');
+                const monthDisplay = `${m}/${y}`;
+
+                list.innerHTML += `
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow flex justify-between items-center border-l-4 ${isInc ? 'border-green-500' : 'border-red-500'}">
+                        <div>
+                            <p class="font-bold text-sm">${t.description}</p>
+                            <p class="text-xs text-gray-500">${monthDisplay} • ${t.category} • <span class="font-bold text-gray-700 dark:text-gray-300">${t.payer || 'Geral'}</span></p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold ${isInc ? 'text-green-500' : 'text-red-500'}">${isInc ? '+' : '-'}${formatCurrency(t.amount)}</p>
+                            <button onclick="deleteTransaction(${t.id})" class="text-red-500 text-xs mt-1"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
             });
+
+            renderHistoryChart(monthlyData);
         }
-        async function deleteTransaction(id) { if(confirm('Excluir transação?')) { await db.transactions.delete(id); updateHistory(); updateDashboard(); } }
+
+        async function deleteTransaction(id) {
+            if(confirm('Excluir esta transação?')) {
+                await db.transactions.delete(id); updateHistory(); updateDashboard();
+            }
+        }
 
         let chartInstance = null;
         function renderChart(dataObj) {
@@ -297,8 +426,41 @@
             if(chartInstance) chartInstance.destroy();
             const labels = Object.keys(dataObj); const data = Object.values(dataObj);
             if(labels.length === 0) { chartInstance = new Chart(ctx, { type: 'doughnut', data: { labels: ['Sem despesas'], datasets: [{ data: [1], backgroundColor: ['#ccc'] }] } }); return; }
-            chartInstance = new Chart(ctx, { type: 'doughnut', data: { labels, datasets: [{ data, backgroundColor: ['#ef4444', '#f97316', '#f59e0b', '#84cc16', '#06b6d4', '#3b82f6', '#8b5cf6'] }] }, options: { plugins: { legend: { labels: { color: textColor } } } } });
+            chartInstance = new Chart(ctx, { type: 'doughnut', data: { labels, datasets: [{ data, backgroundColor: ['#ef4444', '#f97316', '#f59e0b', '#84cc16', '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899'] }] }, options: { plugins: { legend: { labels: { color: textColor } } } } });
         }
+
+        let historyChartInstance = null;
+        function renderHistoryChart(dataObj) {
+            const ctx = document.getElementById('historyChart').getContext('2d');
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#fff' : '#000';
+            
+            if(historyChartInstance) historyChartInstance.destroy();
+            
+            const labels = Object.keys(dataObj).reverse();
+            const data = Object.values(dataObj).reverse();
+
+            historyChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Despesas Totais (R$)',
+                        data: data,
+                        backgroundColor: '#10b981',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    plugins: { legend: { labels: { color: textColor } } },
+                    scales: {
+                        x: { ticks: { color: textColor } },
+                        y: { ticks: { color: textColor } }
+                    }
+                }
+            });
+        }
+
         function updateChart() { updateDashboard(); }
 
         /* ======== LISTA DE COMPRAS ======== */
@@ -413,14 +575,14 @@
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        /* ======== CARDÁPIO SEMANAL (LÓGICA DINÂMICA) ======== */
-        let currentWeekOffset = 0; // 0 = semana atual, -1 = semana passada, 1 = próxima semana
-        let selectedMenuDateStr = new Date().toISOString().slice(0, 10); // AAAA-MM-DD
+        /* ======== CARDÁPIO SEMANAL ======== */
+        let currentWeekOffset = 0;
+        let selectedMenuDateStr = new Date().toISOString().slice(0, 10);
 
         function getMondayOfOffsetWeek(offset) {
             const d = new Date();
             const day = d.getDay();
-            const diff = d.getDate() - day + (day === 0 ? -6 : 1); // ajusta para segunda-feira
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
             const monday = new Date(d.setDate(diff));
             monday.setDate(monday.getDate() + (offset * 7));
             return monday;
@@ -445,7 +607,6 @@
             const monday = getMondayOfOffsetWeek(currentWeekOffset);
             const daysShort = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
             
-            // Atualizar cabeçalho Mês / Ano
             const sunday = new Date(monday);
             sunday.setDate(sunday.getDate() + 6);
             
