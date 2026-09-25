@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Minhas Finanças & Produtividade</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#10b981">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2933/2933116.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { primary: '#10b981' } } }
+        }
+    </script>
+
+    <!-- FontAwesome, Dexie.js e Chart.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Ocultar barra de rolagem mas manter funcionalidade */
+        ::-webkit-scrollbar { display: none; }
+        body { -ms-overflow-style: none; scrollbar-width: none; -webkit-tap-highlight-color: transparent; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300 pb-20">
+
+    <!-- Header -->
+    <header class="bg-primary text-white p-4 sticky top-0 z-10 shadow-md flex justify-between items-center">
+        <h1 class="text-xl font-bold"><i class="fa-solid fa-wallet mr-2"></i>FinPWA</h1>
+        <button id="themeToggle" class="p-2 rounded-full hover:bg-white/20 transition">
+            <i class="fa-solid fa-moon text-xl" id="themeIcon"></i>
+        </button>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="p-4 max-w-md mx-auto">
+        
+        <!-- ================= DASHBOARD ================= -->
+        <section id="tab-dashboard" class="tab-content active">
+            <!-- Cards de Saldo -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 mb-6 text-center">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Saldo Atual</p>
+                <h2 class="text-3xl font-bold mt-1" id="dash-balance">R$ 0,00</h2>
+                <div class="flex justify-between mt-4 border-t dark:border-gray-700 pt-4">
+                    <div class="text-green-500"><i class="fa-solid fa-arrow-up mr-1"></i> <span id="dash-income">R$ 0,00</span></div>
+                    <div class="text-red-500"><i class="fa-solid fa-arrow-down mr-1"></i> <span id="dash-expense">R$ 0,00</span></div>
+                </div>
+            </div>
+
+            <!-- Adicionar Transação -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
+                <h3 class="font-bold mb-3"><i class="fa-solid fa-plus-circle mr-2"></i>Nova Transação</h3>
+                <form id="form-transaction" class="space-y-3">
+                    <div class="flex gap-2">
+                        <select id="t-type" class="p-2 border rounded w-1/3 dark:bg-gray-700 dark:border-gray-600">
+                            <option value="expense">Despesa</option>
+                            <option value="income">Entrada</option>
+                        </select>
+                        <input type="number" id="t-amount" step="0.01" placeholder="Valor (R$)" required class="p-2 border rounded w-2/3 dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                    <input type="text" id="t-desc" placeholder="Descrição" required class="p-2 border rounded w-full dark:bg-gray-700 dark:border-gray-600">
+                    <div class="flex gap-2">
+                        <select id="t-category" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                            <option value="Alimentação">Alimentação</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Moradia">Moradia</option>
+                            <option value="Lazer">Lazer</option>
+                            <option value="Saúde">Saúde</option>
+                            <option value="Salário">Salário</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                        <input type="date" id="t-date" required class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white p-2 rounded font-bold mt-2">Salvar</button>
+                </form>
+            </div>
+
+            <!-- Gráfico -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
+                <h3 class="font-bold mb-3">Despesas por Categoria (Mês)</h3>
+                <canvas id="expenseChart" height="200"></canvas>
+            </div>
+        </section>
+
+        <!-- ================= HISTÓRICO ================= -->
+        <section id="tab-history" class="tab-content">
+            <h2 class="text-xl font-bold mb-4">Histórico de Transações</h2>
+            <div id="history-list" class="space-y-3">
+                <!-- Lista gerada via JS -->
+            </div>
+        </section>
+
+        <!-- ================= LISTA DE COMPRAS ================= -->
+        <section id="tab-shopping" class="tab-content">
+            <h2 class="text-xl font-bold mb-4">Lista de Compras</h2>
+            <form id="form-shopping" class="flex gap-2 mb-4">
+                <input type="text" id="s-item" placeholder="Novo item..." required class="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+                <button type="submit" class="bg-primary text-white px-4 rounded"><i class="fa-solid fa-plus"></i></button>
+            </form>
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-2">
+                <ul id="shopping-list" class="divide-y dark:divide-gray-700">
+                    <!-- Lista gerada via JS -->
+                </ul>
+            </div>
+            <button onclick="clearShopping()" class="w-full mt-4 text-red-500 border border-red-500 p-2 rounded font-bold">Limpar Lista</button>
+        </section>
+
+        <!-- ================= CONFIGURAÇÕES ================= -->
+        <section id="tab-settings" class="tab-content">
+            <h2 class="text-xl font-bold mb-4">Configurações & Dados</h2>
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 space-y-4">
+                <div>
+                    <h3 class="font-bold mb-2 text-primary"><i class="fa-solid fa-download mr-2"></i>Exportar Dados</h3>
+                    <p class="text-sm mb-2 text-gray-500">Salve um backup de todas as suas transações e compras.</p>
+                    <button onclick="exportData()" class="w-full bg-gray-200 dark:bg-gray-700 p-2 rounded">Exportar JSON</button>
+                </div>
+                <hr class="dark:border-gray-700">
+                <div>
+                    <h3 class="font-bold mb-2 text-primary"><i class="fa-solid fa-upload mr-2"></i>Importar Dados</h3>
+                    <p class="text-sm mb-2 text-gray-500">Restaure um backup. Isso substituirá os dados atuais!</p>
+                    <input type="file" id="importFile" accept=".json" class="block w-full text-sm mb-2">
+                    <button onclick="importData()" class="w-full bg-red-500 text-white p-2 rounded">Importar e Substituir</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="fixed bottom-0 w-full bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg flex justify-around p-3 pb-safe z-50">
+        <button onclick="nav('dashboard')" class="nav-btn text-primary flex flex-col items-center w-1/4" data-target="dashboard">
+            <i class="fa-solid fa-chart-pie text-xl"></i>
+            <span class="text-[10px] mt-1">Início</span>
+        </button>
+        <button onclick="nav('history')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/4" data-target="history">
+            <i class="fa-solid fa-list text-xl"></i>
+            <span class="text-[10px] mt-1">Histórico</span>
+        </button>
+        <button onclick="nav('shopping')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/4" data-target="shopping">
+            <i class="fa-solid fa-cart-shopping text-xl"></i>
+            <span class="text-[10px] mt-1">Compras</span>
+        </button>
+        <button onclick="nav('settings')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/4" data-target="settings">
+            <i class="fa-solid fa-gear text-xl"></i>
+            <span class="text-[10px] mt-1">Ajustes</span>
+        </button>
+    </nav>
+
+    <!-- LÓGICA DO APP (JavaScript) -->
+    <script>
+        // ================= SERVICE WORKER =================
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(() => console.log("SW Registrado"));
+        }
+
+        // ================= TEMA (Claro/Escuro) =================
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        if(localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            if (html.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+            updateChart(); // Atualiza cores do gráfico
+        });
+
+        // ================= NAVEGAÇÃO =================
+        function nav(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-primary');
+                btn.classList.add('text-gray-400');
+            });
+            const activeBtn = document.querySelector(`.nav-btn[data-target="${tabId}"]`);
+            activeBtn.classList.remove('text-gray-400');
+            activeBtn.classList.add('text-primary');
+
+            if(tabId === 'dashboard') updateDashboard();
+            if(tabId === 'history') updateHistory();
+        }
+
+        // ================= BANCO DE DADOS (Dexie) =================
+        const db = new Dexie("FinPWA_DB");
+        db.version(1).stores({
+            transactions: '++id, type, amount, description, category, date',
+            shopping: '++id, text, done'
+        });
+
+        // ================= FORMATAÇÃO =================
+        const formatCurrency = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+        const formatDate = (dateStr) => {
+            const [y, m, d] = dateStr.split('-');
+            return `${d}/${m}/${y}`;
+        };
+        document.getElementById('t-date').valueAsDate = new Date(); // Data padrão = hoje
+
+        // ================= FINANÇAS =================
+        document.getElementById('form-transaction').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const transaction = {
+                type: document.getElementById('t-type').value,
+                amount: parseFloat(document.getElementById('t-amount').value),
+                description: document.getElementById('t-desc').value,
+                category: document.getElementById('t-category').value,
+                date: document.getElementById('t-date').value
+            };
+            await db.transactions.add(transaction);
+            e.target.reset();
+            document.getElementById('t-date').valueAsDate = new Date();
+            updateDashboard();
+            alert('Salvo com sucesso!');
+        });
+
+        async function updateDashboard() {
+            const txs = await db.transactions.toArray();
+            let income = 0, expense = 0;
+            
+            // Filtro para o mês atual (simplificado)
+            const currentMonth = new Date().toISOString().slice(0,7);
+            
+            const expensesByCategory = {};
+
+            txs.forEach(t => {
+                if(t.date.startsWith(currentMonth)) {
+                    if (t.type === 'income') income += t.amount;
+                    else {
+                        expense += t.amount;
+                        expensesByCategory[t.category] = (expensesByCategory[t.category] || 0) + t.amount;
+                    }
+                }
+            });
+
+            document.getElementById('dash-balance').innerText = formatCurrency(income - expense);
+            document.getElementById('dash-income').innerText = formatCurrency(income);
+            document.getElementById('dash-expense').innerText = formatCurrency(expense);
+
+            renderChart(expensesByCategory);
+        }
+
+        async function updateHistory() {
+            const txs = await db.transactions.orderBy('date').reverse().toArray();
+            const list = document.getElementById('history-list');
+            list.innerHTML = '';
+            
+            if(txs.length === 0) list.innerHTML = '<p class="text-center text-gray-500">Nenhuma transação encontrada.</p>';
+
+            txs.forEach(t => {
+                const isInc = t.type === 'income';
+                list.innerHTML += `
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow flex justify-between items-center border-l-4 ${isInc ? 'border-green-500' : 'border-red-500'}">
+                        <div>
+                            <p class="font-bold">${t.description}</p>
+                            <p class="text-xs text-gray-500">${formatDate(t.date)} - ${t.category}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold ${isInc ? 'text-green-500' : 'text-red-500'}">${isInc ? '+' : '-'}${formatCurrency(t.amount)}</p>
+                            <button onclick="deleteTransaction(${t.id})" class="text-red-500 text-xs mt-1"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        async function deleteTransaction(id) {
+            if(confirm('Excluir transação?')) {
+                await db.transactions.delete(id);
+                updateHistory();
+                updateDashboard();
+            }
+        }
+
+        // ================= GRÁFICO (Chart.js) =================
+        let chartInstance = null;
+        function renderChart(dataObj) {
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#fff' : '#000';
+
+            if(chartInstance) chartInstance.destroy();
+
+            const labels = Object.keys(dataObj);
+            const data = Object.values(dataObj);
+
+            if(labels.length === 0) {
+                // Gráfico vazio placeholder
+                chartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: { labels: ['Sem despesas'], datasets: [{ data: [1], backgroundColor: ['#ccc'] }] }
+                });
+                return;
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#ef4444', '#f97316', '#f59e0b', '#84cc16', '#06b6d4', '#3b82f6', '#8b5cf6']
+                    }]
+                },
+                options: { plugins: { legend: { labels: { color: textColor } } } }
+            });
+        }
+        function updateChart() { updateDashboard(); } // Recarrega o gráfico para ajustar cores
+
+        // ================= LISTA DE COMPRAS =================
+        document.getElementById('form-shopping').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('s-item');
+            await db.shopping.add({ text: input.value, done: false });
+            input.value = '';
+            loadShopping();
+        });
+
+        async function loadShopping() {
+            const items = await db.shopping.toArray();
+            const list = document.getElementById('shopping-list');
+            list.innerHTML = '';
+            items.forEach(i => {
+                list.innerHTML += `
+                    <li class="flex items-center justify-between p-3">
+                        <label class="flex items-center gap-3 cursor-pointer flex-1">
+                            <input type="checkbox" ${i.done ? 'checked' : ''} onchange="toggleShopping(${i.id}, this.checked)" class="w-5 h-5 accent-primary">
+                            <span class="${i.done ? 'line-through text-gray-400' : ''}">${i.text}</span>
+                        </label>
+                        <button onclick="deleteShopping(${i.id})" class="text-red-500 ml-2"><i class="fa-solid fa-xmark"></i></button>
+                    </li>
+                `;
+            });
+        }
+
+        async function toggleShopping(id, done) {
+            await db.shopping.update(id, { done });
+            loadShopping();
+        }
+
+        async function deleteShopping(id) {
+            await db.shopping.delete(id);
+            loadShopping();
+        }
+
+        async function clearShopping() {
+            if(confirm('Limpar toda a lista?')) {
+                await db.shopping.clear();
+                loadShopping();
+            }
+        }
+
+        // ================= IMPORTAR/EXPORTAR JSON =================
+        async function exportData() {
+            const txs = await db.transactions.toArray();
+            const shop = await db.shopping.toArray();
+            const data = { transactions: txs, shopping: shop };
+            
+            const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup_finpwa_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        async function importData() {
+            const fileInput = document.getElementById('importFile');
+            if (!fileInput.files.length) return alert('Selecione um arquivo JSON.');
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (confirm('Isso apagará os dados atuais. Continuar?')) {
+                        await db.transactions.clear();
+                        await db.shopping.clear();
+                        if(data.transactions) await db.transactions.bulkAdd(data.transactions);
+                        if(data.shopping) await db.shopping.bulkAdd(data.shopping);
+                        alert('Dados importados com sucesso!');
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    alert('Erro ao ler o arquivo JSON válido.');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // INIT
+        updateDashboard();
+        loadShopping();
+
+    </script>
+</body>
+</html>
