@@ -60,11 +60,11 @@
     <!-- MAIN CONTENT -->
     <main class="p-4 max-w-md mx-auto">
         
-        <!-- ================= RESUMO (ANTIGO INÍCIO) ================= -->
+        <!-- ================= RESUMO ================= -->
         <section id="tab-dashboard" class="tab-content active">
-            <!-- Cards de Saldo Geral -->
+            <!-- Saldo Geral -->
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 mb-6 text-center">
-                <p class="text-sm text-gray-500 dark:text-gray-400">Saldo Atual do Casal</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Saldo Geral</p>
                 <h2 class="text-3xl font-bold mt-1" id="dash-balance">R$ 0,00</h2>
                 <div class="flex justify-between mt-4 border-t dark:border-gray-700 pt-4">
                     <div class="text-green-500"><i class="fa-solid fa-arrow-up mr-1"></i> <span id="dash-income">R$ 0,00</span></div>
@@ -72,14 +72,14 @@
                 </div>
             </div>
 
-            <!-- Divisão de Gastos Larissa vs Pedro -->
+            <!-- Saldo Individual (Larissa vs Pedro) -->
             <div class="grid grid-cols-2 gap-3 mb-6">
                 <div class="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-xl border border-purple-200 dark:border-purple-800 text-center">
-                    <p class="text-xs text-purple-600 dark:text-purple-300 font-bold uppercase">Pago por Larissa</p>
+                    <p class="text-xs text-purple-600 dark:text-purple-300 font-bold uppercase">Larissa (Saldo)</p>
                     <p class="text-lg font-bold text-purple-700 dark:text-purple-200 mt-1" id="dash-larissa">R$ 0,00</p>
                 </div>
                 <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-xl border border-blue-200 dark:border-blue-800 text-center">
-                    <p class="text-xs text-blue-600 dark:text-blue-300 font-bold uppercase">Pago por Pedro</p>
+                    <p class="text-xs text-blue-600 dark:text-blue-300 font-bold uppercase">Pedro (Saldo)</p>
                     <p class="text-lg font-bold text-blue-700 dark:text-blue-200 mt-1" id="dash-pedro">R$ 0,00</p>
                 </div>
             </div>
@@ -122,10 +122,10 @@
                 </form>
             </div>
 
-            <!-- Categoria BÁSICOS (Divisão 50/50) -->
+            <!-- CONTAS BÁSICAS + AJUSTES COM CALCULADORA -->
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
-                <h3 class="font-bold mb-1 text-primary"><i class="fa-solid fa-bolt mr-2"></i>Contas Básicas (50/50)</h3>
-                <p class="text-xs text-gray-500 mb-3">Insira o valor total das contas fixas para dividir automaticamente meio a meio.</p>
+                <h3 class="font-bold mb-1 text-primary"><i class="fa-solid fa-bolt mr-2"></i>Contas Básicas</h3>
+                <p class="text-xs text-gray-500 mb-3">Água, Energia, Seguro, Gás ou Internet.</p>
                 
                 <form id="form-basics" class="space-y-3">
                     <div class="flex gap-2">
@@ -136,21 +136,57 @@
                             <option value="Gás">🔥 Gás</option>
                             <option value="Internet">🌐 Internet</option>
                         </select>
-                        <input type="number" id="b-amount" step="0.01" placeholder="Valor Total (R$)" required class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                        <input type="number" id="b-amount" step="0.01" placeholder="Valor Total (R$)" required oninput="calcAdjustments()" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
                     </div>
                     <div class="flex gap-2">
                         <select id="b-payer" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
-                            <option value="Larissa">Pago por Larissa</option>
-                            <option value="Pedro">Pago por Pedro</option>
+                            <option value="Larissa">Quem Pagou: Larissa</option>
+                            <option value="Pedro">Quem Pagou: Pedro</option>
                         </select>
                         <input type="month" id="b-date" required class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">Lançar Básico (Divide 50%)</button>
+                    
+                    <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">Divide 50%</button>
                 </form>
+
+                <!-- Sessão Ajustes -->
+                <div class="mt-4 pt-4 border-t dark:border-gray-700">
+                    <button onclick="toggleAdjustments()" class="w-full text-left font-bold text-xs text-gray-600 dark:text-gray-300 flex justify-between items-center">
+                        <span><i class="fa-solid fa-sliders mr-1"></i> Ajustes Proporcionais (Calculadora)</span>
+                        <i class="fa-solid fa-chevron-down" id="adj-icon"></i>
+                    </button>
+
+                    <div id="adjustments-panel" class="hidden mt-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl space-y-3">
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Ajuste quando a divisão não for 50/50:</p>
+                        
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div>
+                                <label class="font-bold block mb-1">Larissa (%)</label>
+                                <input type="number" id="adj-l-pct" value="50" min="0" max="100" oninput="onPctChange('Larissa')" class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+                                <span id="adj-l-val" class="text-[10px] text-gray-500 font-bold block mt-1">R$ 0,00</span>
+                            </div>
+                            <div>
+                                <label class="font-bold block mb-1">Pedro (%)</label>
+                                <input type="number" id="adj-p-pct" value="50" min="0" max="100" oninput="onPctChange('Pedro')" class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+                                <span id="adj-p-val" class="text-[10px] text-gray-500 font-bold block mt-1">R$ 0,00</span>
+                            </div>
+                        </div>
+
+                        <button onclick="submitAdjustedBasics()" class="w-full bg-purple-600 text-white p-2 rounded font-bold text-xs">Lançar com Ajuste Personalizado</button>
+                    </div>
+                </div>
             </div>
 
+            <!-- Gráfico com Filtro -->
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
-                <h3 class="font-bold mb-3">Despesas por Categoria (Mês)</h3>
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-sm">Despesas por Categoria</h3>
+                    <div class="flex gap-1 text-xs">
+                        <button onclick="setCategoryFilter('Geral')" id="cf-Geral" class="px-2 py-1 rounded bg-primary text-white font-bold">Geral</button>
+                        <button onclick="setCategoryFilter('Larissa')" id="cf-Larissa" class="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">Larissa</button>
+                        <button onclick="setCategoryFilter('Pedro')" id="cf-Pedro" class="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">Pedro</button>
+                    </div>
+                </div>
                 <canvas id="expenseChart" height="200"></canvas>
             </div>
         </section>
@@ -159,10 +195,27 @@
         <section id="tab-history" class="tab-content">
             <h2 class="text-xl font-bold mb-4">Histórico de Transações</h2>
             
-            <!-- Gráfico Mês a Mês -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-4 mb-6">
-                <h3 class="font-bold text-sm mb-2">Evolução Mensal de Gastos</h3>
+            <!-- Gráfico de Barras por Mês/Ano com Filtro -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-4 mb-4">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-xs">Entradas vs Saídas (Mês/Ano)</h3>
+                    <div class="flex gap-1 text-xs">
+                        <button onclick="setHistoryChartFilter('Geral')" id="hf-Geral" class="px-2 py-0.5 rounded bg-primary text-white font-bold">Geral</button>
+                        <button onclick="setHistoryChartFilter('Larissa')" id="hf-Larissa" class="px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700">Larissa</button>
+                        <button onclick="setHistoryChartFilter('Pedro')" id="hf-Pedro" class="px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700">Pedro</button>
+                    </div>
+                </div>
                 <canvas id="historyChart" height="180"></canvas>
+            </div>
+
+            <!-- Filtro da Lista de Transações -->
+            <div class="flex justify-between items-center mb-3 bg-white dark:bg-gray-800 p-2 rounded-xl shadow">
+                <span class="text-xs font-bold pl-2">Filtrar Histórico:</span>
+                <select id="history-list-filter" onchange="updateHistory()" class="p-1 border rounded text-xs dark:bg-gray-700 dark:border-gray-600 font-bold text-primary">
+                    <option value="Geral">Geral (Todos)</option>
+                    <option value="Larissa">Apenas Larissa</option>
+                    <option value="Pedro">Apenas Pedro</option>
+                </select>
             </div>
 
             <div id="history-list" class="space-y-3"></div>
@@ -296,11 +349,39 @@
         });
 
         const formatCurrency = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
-        
-        // Formatar Mês/Ano Padrão (AAAA-MM)
         const currentMonthStr = new Date().toISOString().slice(0,7);
         document.getElementById('t-date').value = currentMonthStr;
         document.getElementById('b-date').value = currentMonthStr;
+
+        /* ======== ESTADOS DOS FILTROS DE GRÁFICOS ======== */
+        let categoryFilterState = 'Geral';
+        let historyChartFilterState = 'Geral';
+
+        function setCategoryFilter(person) {
+            categoryFilterState = person;
+            ['Geral', 'Larissa', 'Pedro'].forEach(p => {
+                const btn = document.getElementById(`cf-${p}`);
+                if(p === person) {
+                    btn.className = "px-2 py-1 rounded bg-primary text-white font-bold";
+                } else {
+                    btn.className = "px-2 py-1 rounded bg-gray-200 dark:bg-gray-700";
+                }
+            });
+            updateDashboard();
+        }
+
+        function setHistoryChartFilter(person) {
+            historyChartFilterState = person;
+            ['Geral', 'Larissa', 'Pedro'].forEach(p => {
+                const btn = document.getElementById(`hf-${p}`);
+                if(p === person) {
+                    btn.className = "px-2 py-0.5 rounded bg-primary text-white font-bold";
+                } else {
+                    btn.className = "px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700";
+                }
+            });
+            updateHistory();
+        }
 
         /* ======== LANÇAR TRANSAÇÃO ======== */
         document.getElementById('form-transaction').addEventListener('submit', async (e) => {
@@ -328,7 +409,6 @@
 
             const halfAmount = totalAmount / 2;
 
-            // Salva como uma despesa com a tag de Básico
             await db.transactions.add({
                 type: 'expense',
                 amount: totalAmount,
@@ -340,29 +420,101 @@
 
             e.target.reset();
             document.getElementById('b-date').value = currentMonthStr;
+            calcAdjustments();
             updateDashboard();
-            alert(`Conta de ${item} salva! Cada um contribui com ${formatCurrency(halfAmount)}.`);
+            alert(`Conta de ${item} salva! Divisão de 50/50 calculada.`);
         });
 
+        /* ======== CALCULADORA DE AJUSTES ======== */
+        function toggleAdjustments() {
+            const panel = document.getElementById('adjustments-panel');
+            const icon = document.getElementById('adj-icon');
+            panel.classList.toggle('hidden');
+            icon.classList.toggle('fa-chevron-up');
+            icon.classList.toggle('fa-chevron-down');
+            calcAdjustments();
+        }
+
+        function onPctChange(changedPerson) {
+            const lInput = document.getElementById('adj-l-pct');
+            const pInput = document.getElementById('adj-p-pct');
+            if(changedPerson === 'Larissa') {
+                let lVal = parseFloat(lInput.value) || 0;
+                if(lVal > 100) lVal = 100;
+                pInput.value = 100 - lVal;
+            } else {
+                let pVal = parseFloat(pInput.value) || 0;
+                if(pVal > 100) pVal = 100;
+                lInput.value = 100 - pVal;
+            }
+            calcAdjustments();
+        }
+
+        function calcAdjustments() {
+            const total = parseFloat(document.getElementById('b-amount').value) || 0;
+            const lPct = parseFloat(document.getElementById('adj-l-pct').value) || 0;
+            const pPct = parseFloat(document.getElementById('adj-p-pct').value) || 0;
+
+            const lVal = total * (lPct / 100);
+            const pVal = total * (pPct / 100);
+
+            document.getElementById('adj-l-val').innerText = formatCurrency(lVal);
+            document.getElementById('adj-p-val').innerText = formatCurrency(pVal);
+        }
+
+        async function submitAdjustedBasics() {
+            const total = parseFloat(document.getElementById('b-amount').value);
+            if(!total || total <= 0) return alert('Insira um valor total para a conta!');
+
+            const item = document.getElementById('b-item').value;
+            const payer = document.getElementById('b-payer').value;
+            const dateStr = document.getElementById('b-date').value;
+
+            const lPct = parseFloat(document.getElementById('adj-l-pct').value) || 0;
+            const pPct = parseFloat(document.getElementById('adj-p-pct').value) || 0;
+
+            const lVal = total * (lPct / 100);
+            const pVal = total * (pPct / 100);
+
+            await db.transactions.add({
+                type: 'expense',
+                amount: total,
+                description: `Básico: ${item} (Ajuste: Lar ${lPct}% = ${formatCurrency(lVal)} | Ped ${pPct}% = ${formatCurrency(pVal)})`,
+                category: 'Básicos',
+                payer: payer,
+                date: dateStr
+            });
+
+            document.getElementById('b-amount').value = '';
+            calcAdjustments();
+            updateDashboard();
+            alert(`Conta de ${item} salva com divisão proporcional!`);
+        }
+
+        /* ======== ATUALIZAR DASHDboard / RESUMO ======== */
         async function updateDashboard() {
             const txs = await db.transactions.toArray();
             let income = 0, expense = 0;
-            let larissaPaid = 0, pedroPaid = 0;
+            let larissaBal = 0, pedroBal = 0;
 
             const currentMonth = document.getElementById('t-date').value || currentMonthStr;
-
             const expensesByCategory = {};
 
             txs.forEach(t => {
                 if(t.date === currentMonth) {
                     if (t.type === 'income') {
                         income += t.amount;
+                        if(t.payer === 'Larissa') larissaBal += t.amount;
+                        if(t.payer === 'Pedro') pedroBal += t.amount;
                     } else {
                         expense += t.amount;
-                        expensesByCategory[t.category] = (expensesByCategory[t.category] || 0) + t.amount;
-                        
-                        if(t.payer === 'Larissa') larissaPaid += t.amount;
-                        if(t.payer === 'Pedro') pedroPaid += t.amount;
+                        if(t.payer === 'Larissa') larissaBal -= t.amount;
+                        if(t.payer === 'Pedro') pedroBal -= t.amount;
+
+                        // Filtro por pessoa no gráfico de pizza de categorias
+                        if(categoryFilterState === 'Geral' || t.payer === categoryFilterState) {
+                            expensesByCategory[t.category] = (expensesByCategory[t.category] || 0) + t.amount;
+                        }
                     }
                 }
             });
@@ -370,46 +522,52 @@
             document.getElementById('dash-balance').innerText = formatCurrency(income - expense);
             document.getElementById('dash-income').innerText = formatCurrency(income);
             document.getElementById('dash-expense').innerText = formatCurrency(expense);
-            document.getElementById('dash-larissa').innerText = formatCurrency(larissaPaid);
-            document.getElementById('dash-pedro').innerText = formatCurrency(pedroPaid);
+            document.getElementById('dash-larissa').innerText = formatCurrency(larissaBal);
+            document.getElementById('dash-pedro').innerText = formatCurrency(pedroBal);
 
             renderChart(expensesByCategory);
         }
 
+        /* ======== ATUALIZAR HISTÓRICO ======== */
         async function updateHistory() {
             const txs = await db.transactions.orderBy('date').reverse().toArray();
             const list = document.getElementById('history-list'); list.innerHTML = '';
+            const listFilter = document.getElementById('history-list-filter').value;
             
-            if(txs.length === 0) list.innerHTML = '<p class="text-center text-gray-500 py-4">Nenhuma transação encontrada.</p>';
-
-            const monthlyData = {};
+            const monthlyIncExp = {};
 
             txs.forEach(t => {
-                const isInc = t.type === 'income';
-                
-                // Agrupa para o gráfico mensal do histórico
-                if(!isInc) {
-                    monthlyData[t.date] = (monthlyData[t.date] || 0) + t.amount;
+                // Filtro para o Gráfico de Barras Duplas (Mês/Ano)
+                if(historyChartFilterState === 'Geral' || t.payer === historyChartFilterState) {
+                    if(!monthlyIncExp[t.date]) monthlyIncExp[t.date] = { inc: 0, exp: 0 };
+                    if(t.type === 'income') monthlyIncExp[t.date].inc += t.amount;
+                    else monthlyIncExp[t.date].exp += t.amount;
                 }
 
-                const [y, m] = t.date.split('-');
-                const monthDisplay = `${m}/${y}`;
+                // Filtro da Lista de Caixinhas abaixo
+                if(listFilter === 'Geral' || t.payer === listFilter) {
+                    const isInc = t.type === 'income';
+                    const [y, m] = t.date.split('-');
+                    const monthDisplay = `${m}/${y}`;
 
-                list.innerHTML += `
-                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow flex justify-between items-center border-l-4 ${isInc ? 'border-green-500' : 'border-red-500'}">
-                        <div>
-                            <p class="font-bold text-sm">${t.description}</p>
-                            <p class="text-xs text-gray-500">${monthDisplay} • ${t.category} • <span class="font-bold text-gray-700 dark:text-gray-300">${t.payer || 'Geral'}</span></p>
+                    list.innerHTML += `
+                        <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow flex justify-between items-center border-l-4 ${isInc ? 'border-green-500' : 'border-red-500'}">
+                            <div>
+                                <p class="font-bold text-sm">${t.description}</p>
+                                <p class="text-xs text-gray-500">${monthDisplay} • ${t.category} • <span class="font-bold text-gray-700 dark:text-gray-300">${t.payer || 'Geral'}</span></p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold ${isInc ? 'text-green-500' : 'text-red-500'}">${isInc ? '+' : '-'}${formatCurrency(t.amount)}</p>
+                                <button onclick="deleteTransaction(${t.id})" class="text-red-500 text-xs mt-1"><i class="fa-solid fa-trash"></i></button>
+                            </div>
                         </div>
-                        <div class="text-right">
-                            <p class="font-bold ${isInc ? 'text-green-500' : 'text-red-500'}">${isInc ? '+' : '-'}${formatCurrency(t.amount)}</p>
-                            <button onclick="deleteTransaction(${t.id})" class="text-red-500 text-xs mt-1"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
-                `;
+                    `;
+                }
             });
 
-            renderHistoryChart(monthlyData);
+            if(list.innerHTML === '') list.innerHTML = '<p class="text-center text-gray-500 py-4">Nenhuma transação encontrada.</p>';
+
+            renderHistoryChart(monthlyIncExp);
         }
 
         async function deleteTransaction(id) {
@@ -418,6 +576,7 @@
             }
         }
 
+        /* ======== GRÁFICOS ======== */
         let chartInstance = null;
         function renderChart(dataObj) {
             const ctx = document.getElementById('expenseChart').getContext('2d');
@@ -437,19 +596,23 @@
             
             if(historyChartInstance) historyChartInstance.destroy();
             
-            const labels = Object.keys(dataObj).reverse();
-            const data = Object.values(dataObj).reverse();
+            const rawLabels = Object.keys(dataObj).reverse();
+            const labels = rawLabels.map(d => {
+                const [y, m] = d.split('-');
+                return `${m}/${y}`;
+            });
+
+            const incomeData = rawLabels.map(d => dataObj[d].inc);
+            const expenseData = rawLabels.map(d => dataObj[d].exp);
 
             historyChartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: 'Despesas Totais (R$)',
-                        data: data,
-                        backgroundColor: '#10b981',
-                        borderRadius: 6
-                    }]
+                    datasets: [
+                        { label: 'Entradas', data: incomeData, backgroundColor: '#10b981', borderRadius: 4 },
+                        { label: 'Saídas', data: expenseData, backgroundColor: '#ef4444', borderRadius: 4 }
+                    ]
                 },
                 options: {
                     plugins: { legend: { labels: { color: textColor } } },
