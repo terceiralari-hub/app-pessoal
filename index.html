@@ -64,7 +64,7 @@
         <section id="tab-dashboard" class="tab-content active">
             <!-- Saldo Geral -->
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 mb-6 text-center">
-                <p class="text-sm text-gray-500 dark:text-gray-400">Saldo Geral</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Saldo Geral (Exceto Benefícios/Alimentação)</p>
                 <h2 class="text-3xl font-bold mt-1" id="dash-balance">R$ 0,00</h2>
                 <div class="flex justify-between mt-4 border-t dark:border-gray-700 pt-4">
                     <div class="text-green-500"><i class="fa-solid fa-arrow-up mr-1"></i> <span id="dash-income">R$ 0,00</span></div>
@@ -101,14 +101,33 @@
                 </div>
             </div>
 
+            <!-- GRÁFICO DE ROSCA (POSICIONADO MAIS ABAIXO) -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-sm">Distribuição de Custos</h3>
+                    <div class="flex gap-1 text-xs">
+                        <button onclick="setCategoryFilter('Geral')" id="cf-Geral" class="px-2 py-1 rounded bg-primary text-white font-bold">Geral</button>
+                        <button onclick="setCategoryFilter('Alimentacao')" id="cf-Alimentacao" class="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">Alimentação</button>
+                        <button onclick="setCategoryFilter('Basicos')" id="cf-Basicos" class="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">Básico</button>
+                    </div>
+                </div>
+                
+                <div class="h-48 relative">
+                    <canvas id="expenseChart"></canvas>
+                </div>
+
+                <!-- Detalhes & Variação MoM Por Categoria -->
+                <div id="mom-list-container" class="mt-4 pt-3 border-t dark:border-gray-700 space-y-1 text-xs"></div>
+            </div>
+
             <!-- Nova Transação -->
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
                 <h3 class="font-bold mb-3"><i class="fa-solid fa-plus-circle mr-2"></i>Nova Transação</h3>
                 <form id="form-transaction" class="space-y-3">
                     <div class="flex gap-2">
                         <select id="t-type" class="p-2 border rounded w-1/3 dark:bg-gray-700 dark:border-gray-600">
-                            <option value="expense">Despesa</option>
                             <option value="income">Entrada</option>
+                            <option value="expense" selected>Despesa</option>
                         </select>
                         <input type="number" id="t-amount" step="0.01" placeholder="Valor (R$)" required class="p-2 border rounded w-2/3 dark:bg-gray-700 dark:border-gray-600">
                     </div>
@@ -123,17 +142,31 @@
                         <input type="month" id="t-date" required onchange="updateDashboard()" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
                     </div>
 
-                    <select id="t-category" class="p-2 border rounded w-full dark:bg-gray-700 dark:border-gray-600">
+                    <select id="t-category" onchange="toggleFoodSub()" class="p-2 border rounded w-full dark:bg-gray-700 dark:border-gray-600">
                         <option value="Salário">Salário</option>
-                        <option value="VR - Larissa">VR - Larissa</option>
-                        <option value="VA - Larissa">VA - Larissa</option>
-                        <option value="Pedro">Pedro (Alimentação)</option>
                         <option value="Aluguel">Aluguel</option>
+                        <option value="Alimentação">Alimentação (Benefício)</option>
                         <option value="Transporte">Transporte</option>
                         <option value="Lazer">Lazer</option>
                         <option value="Outras entradas">Outras entradas</option>
-                        <option value="Outros">Outros</option>
+                        <option value="Outras despesas">Outras despesas</option>
                     </select>
+
+                    <!-- SUB-CAMPO DE CHECKBOX PARA ALIMENTAÇÃO -->
+                    <div id="food-sub-panel" class="hidden p-3 bg-green-50 dark:bg-green-900/30 rounded-xl border border-green-200 dark:border-green-800 space-y-2">
+                        <p class="text-xs font-bold text-green-700 dark:text-green-300">Tipo de Benefício de Alimentação:</p>
+                        <div class="flex items-center gap-4 text-xs font-semibold">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="foodSub" value="VR Larissa" checked class="mr-1"> VR Larissa
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="foodSub" value="VA Larissa" class="mr-1"> VA Larissa
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="foodSub" value="VR Pedro" class="mr-1"> VR Pedro
+                            </label>
+                        </div>
+                    </div>
 
                     <button type="submit" class="w-full bg-primary text-white p-2 rounded font-bold mt-2">Salvar Transação</button>
                 </form>
@@ -192,35 +225,12 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Gráfico de Rosca com Legenda Lateral e Variação MoM -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-sm">Despesas por Categoria</h3>
-                    <div class="flex gap-1 text-xs">
-                        <button onclick="setCategoryFilter('Geral')" id="cf-Geral" class="px-2 py-1 rounded bg-primary text-white font-bold">Geral</button>
-                        <button onclick="setCategoryFilter('Larissa')" id="cf-Larissa" class="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">Larissa</button>
-                        <button onclick="setCategoryFilter('Pedro')" id="cf-Pedro" class="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">Pedro</button>
-                    </div>
-                </div>
-                
-                <div class="h-48 relative">
-                    <canvas id="expenseChart"></canvas>
-                </div>
-
-                <!-- Variação Mês a Mês (MoM) -->
-                <div class="mt-4 pt-3 border-t dark:border-gray-700 flex justify-between items-center text-xs">
-                    <span class="text-gray-500">Variação MoM (vs Mês Anterior):</span>
-                    <span id="mom-variation" class="font-bold px-2 py-0.5 rounded text-[11px]">0%</span>
-                </div>
-            </div>
         </section>
 
         <!-- ================= HISTÓRICO ================= -->
         <section id="tab-history" class="tab-content">
             <h2 class="text-xl font-bold mb-4">Histórico de Transações</h2>
             
-            <!-- Gráfico de Barras com Filtro Mês/Ano e Pessoa -->
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-4 mb-4">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-xs">Entradas vs Saídas</h3>
@@ -233,7 +243,6 @@
                 <canvas id="historyChart" height="180"></canvas>
             </div>
 
-            <!-- Filtros da Lista do Histórico (Mês/Ano + Pessoa) -->
             <div class="grid grid-cols-2 gap-2 mb-4">
                 <input type="month" id="history-month-filter" onchange="updateHistory()" class="p-2 border rounded text-xs dark:bg-gray-700 dark:border-gray-600 font-bold text-primary">
                 <select id="history-list-filter" onchange="updateHistory()" class="p-2 border rounded text-xs dark:bg-gray-700 dark:border-gray-600 font-bold text-primary">
@@ -244,6 +253,24 @@
             </div>
 
             <div id="history-list" class="space-y-3"></div>
+        </section>
+
+        <!-- ================= INVESTIMENTOS (PLACEHOLDER) ================= -->
+        <section id="tab-investments" class="tab-content">
+            <div class="text-center py-12">
+                <i class="fa-solid fa-hand-holding-dollar text-5xl text-primary mb-3"></i>
+                <h2 class="text-xl font-bold">Investimentos</h2>
+                <p class="text-sm text-gray-500 mt-2">Módulo em desenvolvimento...</p>
+            </div>
+        </section>
+
+        <!-- ================= VIAGENS (PLACEHOLDER) ================= -->
+        <section id="tab-travel" class="tab-content">
+            <div class="text-center py-12">
+                <i class="fa-solid fa-plane-departure text-5xl text-primary mb-3"></i>
+                <h2 class="text-xl font-bold">Viagens</h2>
+                <p class="text-sm text-gray-500 mt-2">Módulo em desenvolvimento...</p>
+            </div>
         </section>
 
         <!-- ================= LISTA DE COMPRAS ================= -->
@@ -265,7 +292,7 @@
                         <option value="Proteínas">🥩 Proteínas</option>
                         <option value="Higiene">🪥 Higiene</option>
                         <option value="Limpeza">🧼 Limpeza</option>
-                        <option value="Outros">📦 Outros</option>
+                        <option value="Outras despesas">📦 Outras despesas</option>
                     </select>
                     <button type="submit" class="bg-primary text-white px-4 rounded font-bold"><i class="fa-solid fa-plus mr-1"></i> Add</button>
                 </div>
@@ -295,7 +322,7 @@
                 <div class="flex gap-2">
                     <input type="text" id="m-dish" placeholder="Nome do prato/refeição..." required class="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
                     <select id="m-type" class="w-1/3 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
-                        <option value="Café da Manhã">Café</option>
+                        <option value="Café da Manhã">Café da Manhã</option>
                         <option value="Almoço">Almoço</option>
                         <option value="Snack">Snack</option>
                         <option value="Jantar">Jantar</option>
@@ -329,13 +356,28 @@
 
     </main>
 
-    <!-- NAVEGAÇÃO INFERIOR -->
-    <nav class="fixed bottom-0 w-full bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg flex justify-around p-3 pb-safe z-50 text-xs">
-        <button onclick="nav('dashboard')" class="nav-btn text-primary flex flex-col items-center w-1/5" data-target="dashboard"><i class="fa-solid fa-chart-pie text-lg"></i><span class="mt-1">Resumo</span></button>
-        <button onclick="nav('history')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/5" data-target="history"><i class="fa-solid fa-list text-lg"></i><span class="mt-1">Histórico</span></button>
-        <button onclick="nav('shopping')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/5" data-target="shopping"><i class="fa-solid fa-cart-shopping text-lg"></i><span class="mt-1">Compras</span></button>
-        <button onclick="nav('menu')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/5" data-target="menu"><i class="fa-solid fa-utensils text-lg"></i><span class="mt-1">Cardápio</span></button>
-        <button onclick="nav('settings')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/5" data-target="settings"><i class="fa-solid fa-gear text-lg"></i><span class="mt-1">Ajustes</span></button>
+    <!-- NAVEGAÇÃO INFERIOR AJUSTADA -->
+    <nav class="fixed bottom-0 w-full bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg flex justify-around p-2 pb-safe z-50 text-[10px]">
+        <button onclick="nav('dashboard')" class="nav-btn text-primary flex flex-col items-center w-1/7" data-target="dashboard">
+            <i class="fa-solid fa-history text-base"></i><span class="mt-1">Resumo</span>
+        </button>
+        <button onclick="nav('history')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/7" data-target="history">
+            <i class="fa-solid fa-chart-line text-base"></i><span class="mt-1">Histórico</span>
+        </button>
+        <button onclick="nav('investments')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/7" data-target="investments">
+            <i class="fa-solid fa-dollar-sign text-base"></i><span class="mt-1">Invest.</span>
+        </button>
+        <button onclick="nav('shopping')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/7" data-target="shopping">
+            <i class="fa-solid fa-cart-shopping text-base"></i><span class="mt-1">Compras</span></button>
+        <button onclick="nav('menu')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/7" data-target="menu">
+            <i class="fa-solid fa-utensils text-base"></i><span class="mt-1">Cardápio</span>
+        </button>
+        <button onclick="nav('travel')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/7" data-target="travel">
+            <i class="fa-solid fa-plane text-base"></i><span class="mt-1">Viagens</span>
+        </button>
+        <button onclick="nav('settings')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/7" data-target="settings">
+            <i class="fa-solid fa-gear text-base"></i><span class="mt-1">Ajustes</span>
+        </button>
     </nav>
 
     <script>
@@ -357,18 +399,21 @@
 
         function nav(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(`tab-${tabId}`).classList.add('active');
+            const targetEl = document.getElementById(`tab-${tabId}`);
+            if(targetEl) targetEl.classList.add('active');
+            
             document.querySelectorAll('.nav-btn').forEach(btn => { btn.classList.remove('text-primary'); btn.classList.add('text-gray-400'); });
             const activeBtn = document.querySelector(`.nav-btn[data-target="${tabId}"]`);
-            activeBtn.classList.remove('text-gray-400'); activeBtn.classList.add('text-primary');
+            if(activeBtn) { activeBtn.classList.remove('text-gray-400'); activeBtn.classList.add('text-primary'); }
+            
             if(tabId === 'dashboard') updateDashboard();
             if(tabId === 'history') updateHistory();
             if(tabId === 'menu') loadMenu();
         }
 
         const db = new Dexie("FinPWA_DB");
-        db.version(6).stores({
-            transactions: '++id, type, amount, description, category, date, payer, details',
+        db.version(7).stores({
+            transactions: '++id, type, amount, description, category, subcategory, date, payer, details, sharedPayer, userAmount',
             shopping: '++id, text, quantity, category, done, dateMonth',
             menu: '++id, dish, type, desc, dateStr'
         });
@@ -379,16 +424,26 @@
         document.getElementById('b-date').value = currentMonthStr;
         document.getElementById('history-month-filter').value = currentMonthStr;
 
-        /* ======== ESTADOS DOS FILTROS ======== */
+        /* ======== CONTROLE DE SUB-CAMPO ======== */
+        function toggleFoodSub() {
+            const cat = document.getElementById('t-category').value;
+            const panel = document.getElementById('food-sub-panel');
+            if(cat === 'Alimentação') panel.classList.remove('hidden');
+            else panel.classList.add('hidden');
+        }
+
+        /* ======== ESTADOS DOS FILTROS DE ROSCA ======== */
         let categoryFilterState = 'Geral';
         let historyChartFilterState = 'Geral';
 
-        function setCategoryFilter(person) {
-            categoryFilterState = person;
-            ['Geral', 'Larissa', 'Pedro'].forEach(p => {
-                const btn = document.getElementById(`cf-${p}`);
-                if(p === person) btn.className = "px-2 py-1 rounded bg-primary text-white font-bold";
-                else btn.className = "px-2 py-1 rounded bg-gray-200 dark:bg-gray-700";
+        function setCategoryFilter(view) {
+            categoryFilterState = view;
+            ['Geral', 'Alimentacao', 'Basicos'].forEach(v => {
+                const btn = document.getElementById(`cf-${v}`);
+                if(btn) {
+                    if(v === view) btn.className = "px-2 py-1 rounded bg-primary text-white font-bold";
+                    else btn.className = "px-2 py-1 rounded bg-gray-200 dark:bg-gray-700";
+                }
             });
             updateDashboard();
         }
@@ -397,8 +452,10 @@
             historyChartFilterState = person;
             ['Geral', 'Larissa', 'Pedro'].forEach(p => {
                 const btn = document.getElementById(`hf-${p}`);
-                if(p === person) btn.className = "px-2 py-0.5 rounded bg-primary text-white font-bold";
-                else btn.className = "px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700";
+                if(btn) {
+                    if(p === person) btn.className = "px-2 py-0.5 rounded bg-primary text-white font-bold";
+                    else btn.className = "px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700";
+                }
             });
             updateHistory();
         }
@@ -406,18 +463,33 @@
         /* ======== LANÇAR TRANSAÇÃO ======== */
         document.getElementById('form-transaction').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const category = document.getElementById('t-category').value;
+            let subcategory = '';
+            if(category === 'Alimentação') {
+                const selectedRadio = document.querySelector('input[name="foodSub"]:checked');
+                subcategory = selectedRadio ? selectedRadio.value : 'VR Larissa';
+            }
+
+            const amount = parseFloat(document.getElementById('t-amount').value);
+            const payer = document.getElementById('t-payer').value;
+
             await db.transactions.add({
                 type: document.getElementById('t-type').value,
-                amount: parseFloat(document.getElementById('t-amount').value),
+                amount: amount,
+                userAmount: amount, // Integral para lançamentos simples
                 description: document.getElementById('t-desc').value,
-                category: document.getElementById('t-category').value,
-                payer: document.getElementById('t-payer').value,
+                category: category,
+                subcategory: subcategory,
+                payer: payer,
                 date: document.getElementById('t-date').value,
-                details: ''
+                details: subcategory ? `Subcategoria: ${subcategory}` : ''
             });
+
             e.target.reset();
             document.getElementById('t-date').value = currentMonthStr;
-            updateDashboard(); alert('Transação salva com sucesso!');
+            toggleFoodSub();
+            updateDashboard(); 
+            alert('Transação salva com sucesso!');
         });
 
         /* ======== LANÇAR BÁSICOS ======== */
@@ -433,9 +505,11 @@
             await db.transactions.add({
                 type: 'expense',
                 amount: totalAmount,
+                userAmount: halfAmount, // Contabiliza apenas 50% para a pessoa no histórico
                 description: `Básico: ${item}`,
                 details: `Divisão 50/50 (${formatCurrency(halfAmount)} para cada)`,
                 category: 'Básicos',
+                subcategory: item,
                 payer: payer,
                 date: dateStr
             });
@@ -497,13 +571,16 @@
 
             const lVal = total * (lPct / 100);
             const pVal = total * (pPct / 100);
+            const userVal = payer === 'Larissa' ? lVal : pVal;
 
             await db.transactions.add({
                 type: 'expense',
                 amount: total,
+                userAmount: userVal, // Salva apenas a cota do pagador
                 description: `Básico: ${item}`,
                 details: `Ajuste: Lar ${lPct}% = ${formatCurrency(lVal)} | Ped ${pPct}% = ${formatCurrency(pVal)}`,
                 category: 'Básicos',
+                subcategory: item,
                 payer: payer,
                 date: dateStr
             });
@@ -523,34 +600,62 @@
 
             const currentMonth = document.getElementById('t-date').value || currentMonthStr;
             const expensesByCategory = {};
+            const prevMonthExpensesByCategory = {};
 
             // Mês anterior para MoM
             const d = new Date(currentMonth + '-02');
             d.setMonth(d.getMonth() - 1);
             const prevMonthStr = d.toISOString().slice(0,7);
-            let prevMonthExpense = 0;
 
             txs.forEach(t => {
+                const isFood = (t.category === 'Alimentação' || t.category.includes('VR') || t.category.includes('VA'));
+                const effectiveAmount = t.userAmount !== undefined ? t.userAmount : t.amount;
+
                 if(t.date === currentMonth) {
                     if (t.type === 'income') {
                         income += t.amount;
-                        if(t.payer === 'Larissa') larissaBal += t.amount;
-                        if(t.payer === 'Pedro') pedroBal += t.amount;
+                        if(t.payer === 'Larissa') larissaBal += effectiveAmount;
+                        if(t.payer === 'Pedro') pedroBal += effectiveAmount;
                     } else {
-                        expense += t.amount;
-                        if(t.payer === 'Larissa') {
-                            larissaBal -= t.amount;
-                            larissaExpensesMonth += t.amount;
+                        // REGRA: Alimentação NÃO desconta do Saldo Geral
+                        if(!isFood) {
+                            expense += t.amount;
                         }
-                        if(t.payer === 'Pedro') pedroBal -= t.amount;
 
-                        if(categoryFilterState === 'Geral' || t.payer === categoryFilterState) {
-                            expensesByCategory[t.category] = (expensesByCategory[t.category] || 0) + t.amount;
+                        if(t.payer === 'Larissa') {
+                            if(!isFood) larissaBal -= effectiveAmount;
+                            larissaExpensesMonth += effectiveAmount;
+                        }
+                        if(t.payer === 'Pedro') {
+                            if(!isFood) pedroBal -= effectiveAmount;
+                        }
+
+                        // Agrupamento para Gráfico de Rosca
+                        let key = t.category;
+                        if(categoryFilterState === 'Alimentacao') {
+                            if(isFood) key = t.subcategory || t.category;
+                            else key = null;
+                        } else if(categoryFilterState === 'Basicos') {
+                            if(t.category === 'Básicos') key = t.subcategory || t.description;
+                            else key = null;
+                        }
+
+                        if(key) {
+                            expensesByCategory[key] = (expensesByCategory[key] || 0) + t.amount;
                         }
                     }
                 } else if(t.date === prevMonthStr && t.type === 'expense') {
-                    if(categoryFilterState === 'Geral' || t.payer === categoryFilterState) {
-                        prevMonthExpense += t.amount;
+                    let key = t.category;
+                    if(categoryFilterState === 'Alimentacao') {
+                        if(isFood) key = t.subcategory || t.category;
+                        else key = null;
+                    } else if(categoryFilterState === 'Basicos') {
+                        if(t.category === 'Básicos') key = t.subcategory || t.description;
+                        else key = null;
+                    }
+
+                    if(key) {
+                        prevMonthExpensesByCategory[key] = (prevMonthExpensesByCategory[key] || 0) + t.amount;
                     }
                 }
             });
@@ -561,7 +666,7 @@
             document.getElementById('dash-larissa').innerText = formatCurrency(larissaBal);
             document.getElementById('dash-pedro').innerText = formatCurrency(pedroBal);
 
-            // Atualiza Teto de Gastos Larissa (R$ 3.000,00)
+            // Teto de Gastos Larissa (R$ 3.000,00)
             const tetoMax = 3000;
             const tetoLivre = tetoMax - larissaExpensesMonth;
             const pctSpent = Math.min(100, Math.max(0, (larissaExpensesMonth / tetoMax) * 100));
@@ -578,18 +683,40 @@
                 document.getElementById('teto-progress-bar').className = 'bg-purple-600 h-full transition-all duration-300';
             }
 
-            // MoM
-            const momEl = document.getElementById('mom-variation');
-            const currentCatExpense = Object.values(expensesByCategory).reduce((a,b)=>a+b, 0);
+            // MoM Individual por Item
+            const momContainer = document.getElementById('mom-list-container');
+            momContainer.innerHTML = '';
             
-            if(prevMonthExpense > 0) {
-                const diff = ((currentCatExpense - prevMonthExpense) / prevMonthExpense) * 100;
-                const isUp = diff > 0;
-                momEl.innerText = `${isUp ? '+' : ''}${diff.toFixed(1)}%`;
-                momEl.className = isUp ? 'font-bold px-2 py-0.5 rounded text-[11px] bg-red-100 text-red-700' : 'font-bold px-2 py-0.5 rounded text-[11px] bg-green-100 text-green-700';
+            const totalCurr = Object.values(expensesByCategory).reduce((a,b)=>a+b, 0);
+
+            if(Object.keys(expensesByCategory).length === 0) {
+                momContainer.innerHTML = `<p class="text-gray-400 italic text-center py-2">Sem despesas registradas para este filtro.</p>`;
             } else {
-                momEl.innerText = 'N/A';
-                momEl.className = 'font-bold px-2 py-0.5 rounded text-[11px] bg-gray-100 text-gray-600';
+                Object.keys(expensesByCategory).forEach(catKey => {
+                    const currVal = expensesByCategory[catKey];
+                    const prevVal = prevMonthExpensesByCategory[catKey] || 0;
+                    const pctOfTotal = totalCurr > 0 ? ((currVal / totalCurr) * 100).toFixed(1) : '0.0';
+                    
+                    let momBadge = 'N/A';
+                    let badgeClass = 'bg-gray-100 text-gray-600';
+
+                    if(prevVal > 0) {
+                        const diff = ((currVal - prevVal) / prevVal) * 100;
+                        const isUp = diff > 0;
+                        momBadge = `${isUp ? '+' : ''}${diff.toFixed(1)}%`;
+                        badgeClass = isUp ? 'bg-red-100 text-red-700 font-bold' : 'bg-green-100 text-green-700 font-bold';
+                    }
+
+                    momContainer.innerHTML += `
+                        <div class="flex justify-between items-center py-1 border-b dark:border-gray-700 last:border-0">
+                            <span class="font-bold text-gray-700 dark:text-gray-300">${catKey} <span class="text-[10px] font-normal text-gray-400">(${pctOfTotal}%)</span></span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-semibold">${formatCurrency(currVal)}</span>
+                                <span class="px-1.5 py-0.5 rounded text-[10px] ${badgeClass}">${momBadge} MoM</span>
+                            </div>
+                        </div>
+                    `;
+                });
             }
 
             renderChart(expensesByCategory);
@@ -606,30 +733,33 @@
             const monthlyIncExp = {};
 
             txs.forEach(t => {
-                // Gráfico de Barras por Mês/Ano
+                const effectiveAmount = t.userAmount !== undefined ? t.userAmount : t.amount;
+
+                // Gráfico de Barras por Mês
                 if(historyChartFilterState === 'Geral' || t.payer === historyChartFilterState) {
                     if(!monthlyIncExp[t.date]) monthlyIncExp[t.date] = { inc: 0, exp: 0 };
-                    if(t.type === 'income') monthlyIncExp[t.date].inc += t.amount;
-                    else monthlyIncExp[t.date].exp += t.amount;
+                    if(t.type === 'income') monthlyIncExp[t.date].inc += effectiveAmount;
+                    else monthlyIncExp[t.date].exp += effectiveAmount;
                 }
 
-                // Lista de Transações com Filtro de Mês/Ano e Pessoa
+                // Lista do Histórico
                 if((selectedMonthFilter === "" || t.date === selectedMonthFilter) &&
                    (listFilter === 'Geral' || t.payer === listFilter)) {
                     
                     const isInc = t.type === 'income';
                     const [y, m] = t.date.split('-');
                     const monthDisplay = `${m}/${y}`;
+                    const displayCategory = t.subcategory ? `${t.category} (${t.subcategory})` : t.category;
 
                     list.innerHTML += `
                         <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow border-l-4 ${isInc ? 'border-green-500' : 'border-red-500'} cursor-pointer" onclick="toggleTxDetails(${t.id})">
                             <div class="flex justify-between items-center">
                                 <div>
                                     <p class="font-bold text-sm">${t.description}</p>
-                                    <p class="text-xs text-gray-500">${monthDisplay} • ${t.category} • <span class="font-bold text-gray-700 dark:text-gray-300">${t.payer || 'Geral'}</span></p>
+                                    <p class="text-xs text-gray-500">${monthDisplay} • ${displayCategory} • <span class="font-bold text-gray-700 dark:text-gray-300">${t.payer || 'Geral'}</span></p>
                                 </div>
                                 <div class="text-right">
-                                    <p class="font-bold ${isInc ? 'text-green-500' : 'text-red-500'}">${isInc ? '+' : '-'}${formatCurrency(t.amount)}</p>
+                                    <p class="font-bold ${isInc ? 'text-green-500' : 'text-red-500'}">${isInc ? '+' : '-'}${formatCurrency(effectiveAmount)}</p>
                                     <button onclick="event.stopPropagation(); deleteTransaction(${t.id})" class="text-red-500 text-xs mt-1 p-1"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </div>
@@ -675,6 +805,8 @@
                 return; 
             }
 
+            const total = data.reduce((a,b)=>a+b, 0);
+
             chartInstance = new Chart(ctx, { 
                 type: 'doughnut', 
                 data: { 
@@ -687,8 +819,17 @@
                     plugins: { 
                         legend: { 
                             position: 'right', 
-                            labels: { color: textColor, boxWidth: 12, font: { size: 10 } } 
-                        } 
+                            labels: { color: textColor, boxWidth: 10, font: { size: 9 } } 
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const val = context.raw || 0;
+                                    const pct = total > 0 ? ((val / total) * 100).toFixed(1) : 0;
+                                    return ` ${context.label}: R$ ${val.toFixed(2)} (${pct}%)`;
+                                }
+                            }
+                        }
                     } 
                 } 
             });
@@ -770,16 +911,16 @@
             
             if(items.length === 0) { container.innerHTML = '<p class="text-center text-gray-500 py-4 text-sm">Lista vazia neste mês.</p>'; return; }
 
-            const order = ["Mercearia", "Hortifruti", "Proteínas", "Higiene", "Limpeza", "Outros"];
-            const grouped = { "Mercearia": [], "Hortifruti": [], "Proteínas": [], "Higiene": [], "Limpeza": [], "Outros": [] };
+            const order = ["Mercearia", "Hortifruti", "Proteínas", "Higiene", "Limpeza", "Outras despesas"];
+            const grouped = { "Mercearia": [], "Hortifruti": [], "Proteínas": [], "Higiene": [], "Limpeza": [], "Outras despesas": [] };
 
             items.forEach(i => {
                 if(grouped[i.category]) grouped[i.category].push(i);
-                else grouped["Outros"].push(i);
+                else grouped["Outras despesas"].push(i);
             });
 
             order.forEach(cat => {
-                if(grouped[cat].length > 0) {
+                if(grouped[cat] && grouped[cat].length > 0) {
                     container.innerHTML += `<div class="bg-gray-200 dark:bg-gray-700 px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-widest border-b dark:border-gray-600">${cat}</div>`;
                     grouped[cat].forEach(i => {
                         container.innerHTML += `
@@ -829,7 +970,7 @@
             if(items.length === 0) return alert('A lista de compras está vazia!');
 
             let msg = `🛒 *Lista de Compras (${filterMonth})*\n\n`;
-            const order = ["Mercearia", "Hortifruti", "Proteínas", "Higiene", "Limpeza", "Outros"];
+            const order = ["Mercearia", "Hortifruti", "Proteínas", "Higiene", "Limpeza", "Outras despesas"];
             order.forEach(cat => {
                 const catItems = items.filter(i => i.category === cat);
                 if(catItems.length > 0) {
@@ -928,6 +1069,16 @@
                 return;
             }
 
+            // ORDENAÇÃO CRONOLÓGICA FIXA DAS REFEIÇÕES
+            const mealOrder = {
+                'Café da Manhã': 1,
+                'Almoço': 2,
+                'Snack': 3,
+                'Jantar': 4
+            };
+
+            items.sort((a, b) => (mealOrder[a.type] || 99) - (mealOrder[b.type] || 99));
+
             const tagColors = {
                 'Café da Manhã': 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300',
                 'Almoço': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300',
@@ -1010,8 +1161,10 @@
         }
 
         // INIT
-        generateMonthOptions(); document.getElementById('s-qtd').value = '1';
-        updateDashboard(); loadShopping();
+        generateMonthOptions(); 
+        document.getElementById('s-qtd').value = '1';
+        updateDashboard(); 
+        loadShopping();
     </script>
 </body>
 </html>
