@@ -1,15 +1,14 @@
 {
-  "name": "Minhas Finanças & Produtividade",
-  "short_name": "FinPWA",
-  "description": "App offline para gestão financeira e lista de compras.",
+  "name": "Casinha",
+  "short_name": "Casinha",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#111827",
+  "background_color": "#10b981",
   "theme_color": "#10b981",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2933/2933116.png",
-      "sizes": "512x512",
+      "src": "355.png",
+      "sizes": "192x192 512x512",
       "type": "image/png"
     }
   ]
