@@ -22,9 +22,11 @@
                         'app-card-hover': '#111F38',
                         'app-accent': '#16D6FA',
                         'app-accent-blue': '#5274FF',
-                        'app-text': '#FFFFFF',
                         'app-subtext': '#8A99AD',
-                        'input-bg': '#14223B'
+                        'input-bg': '#14223B',
+                        'color-cardinal': '#C8183A',
+                        'color-vidaloca': '#51821E',
+                        'blue-medium-light': '#1A2B4C'
                     }
                 }
             }
@@ -41,8 +43,18 @@
             -ms-overflow-style: none; 
             scrollbar-width: none; 
             -webkit-tap-highlight-color: transparent;
-            background-color: #000000;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
+
+        /* TEMA CLARO vs TEMA ESCURO */
+        html.dark body { background-color: #000000; color: #FFFFFF; }
+        html.light body { background-color: #F1F5F9; color: #0F172A; }
+
+        html.light .bg-app-card { background-color: #FFFFFF; border-color: #E2E8F0; }
+        html.light .bg-input-bg { background-color: #F8FAFC; border-color: #CBD5E1; color: #0F172A; }
+        html.light .text-app-subtext { color: #64748B; }
+        html.light .text-white { color: #0F172A; }
+
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
@@ -50,33 +62,49 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* DESIGN SYSTEM - VARIANT 6 INPUTS & DROPDOWNS */
-        .ui-label {
-            display: block;
-            font-size: 11px;
+        /* DROPDOWNS E INPUTS - OPÇÃO 1 (FLOATING LABEL NO BORDER) */
+        .ui-field-group {
+            position: relative;
+            margin-top: 6px;
+        }
+
+        .ui-field-label {
+            position: absolute;
+            top: -9px;
+            left: 12px;
+            background-color: #0B1528;
+            padding: 0 6px;
+            font-size: 10px;
             font-weight: 600;
             color: #8A99AD;
-            margin-bottom: 4px;
-            padding-left: 2px;
+            border-radius: 4px;
+            z-index: 10;
+        }
+
+        html.light .ui-field-label {
+            background-color: #FFFFFF;
         }
 
         .ui-input, .ui-select {
             width: 100%;
-            background-color: #14223B;
-            color: #FFFFFF;
+            background-color: transparent;
+            color: inherit;
             font-size: 13px;
             font-weight: 500;
-            padding: 10px 14px;
+            padding: 11px 14px;
             border-radius: 12px;
-            border: 1px solid transparent;
+            border: 1px solid #1D2D4A;
             outline: none;
             transition: all 0.2s ease;
             appearance: none;
         }
 
+        html.light .ui-input, html.light .ui-select {
+            border-color: #CBD5E1;
+        }
+
         .ui-input:focus, .ui-select:focus {
-            border-color: #5274FF;
-            background-color: #182845;
+            border-color: #16D6FA;
         }
 
         .ui-select-wrapper {
@@ -115,7 +143,7 @@
         .round-cb:checked::before { transform: scale(1); }
     </style>
 </head>
-<body class="bg-black text-white min-h-screen pb-28">
+<body class="min-h-screen pb-28">
 
     <!-- HEADER -->
     <header class="bg-app-card/90 backdrop-blur border-b border-app-card-hover text-white p-4 sticky top-0 z-40 shadow-xl flex justify-between items-center">
@@ -140,10 +168,10 @@
                 <p class="text-[11px] uppercase tracking-wider text-app-subtext font-semibold">Saldo Geral</p>
                 <h2 class="text-3xl font-extrabold text-white mt-1" id="dash-balance">R$ 0,00</h2>
                 <div class="flex justify-between mt-4 border-t border-app-card-hover/80 pt-3 text-xs font-semibold">
-                    <div class="text-emerald-400 flex items-center gap-1.5">
+                    <div class="text-color-vidaloca flex items-center gap-1.5">
                         <i class="fa-solid fa-arrow-up text-[10px]"></i> <span id="dash-income">R$ 0,00</span>
                     </div>
-                    <div class="text-rose-400 flex items-center gap-1.5">
+                    <div class="text-color-cardinal flex items-center gap-1.5">
                         <i class="fa-solid fa-arrow-down text-[10px]"></i> <span id="dash-expense">R$ 0,00</span>
                     </div>
                 </div>
@@ -166,10 +194,10 @@
                 <h3 class="font-bold mb-4 text-white text-sm flex items-center gap-2">
                     <i class="fa-solid fa-plus-circle text-app-accent"></i> Nova Transação
                 </h3>
-                <form id="form-transaction" class="space-y-3">
+                <form id="form-transaction" class="space-y-4">
                     <div class="flex gap-2">
-                        <div class="w-1/3">
-                            <label class="ui-label">Tipo</label>
+                        <div class="ui-field-group w-1/3">
+                            <span class="ui-field-label">Tipo</span>
                             <div class="ui-select-wrapper">
                                 <select id="t-type" class="ui-select">
                                     <option value="income">Entrada</option>
@@ -177,20 +205,20 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="w-2/3">
-                            <label class="ui-label">Valor (R$)</label>
+                        <div class="ui-field-group w-2/3">
+                            <span class="ui-field-label">Valor (R$)</span>
                             <input type="number" id="t-amount" step="0.01" placeholder="0,00" required class="ui-input">
                         </div>
                     </div>
                     
-                    <div>
-                        <label class="ui-label">Descrição</label>
-                        <input type="text" id="t-desc" placeholder="Ex: Supermercado, Aluguel..." required class="ui-input">
+                    <div class="ui-field-group">
+                        <span class="ui-field-label">Descrição</span>
+                        <input type="text" id="t-desc" placeholder="Ex: Mercado, Aluguel..." required class="ui-input">
                     </div>
                     
                     <div class="flex gap-2">
-                        <div class="w-1/2">
-                            <label class="ui-label">Pagador</label>
+                        <div class="ui-field-group w-1/2">
+                            <span class="ui-field-label">Pagador</span>
                             <div class="ui-select-wrapper">
                                 <select id="t-payer" class="ui-select">
                                     <option value="Larissa">Larissa</option>
@@ -198,14 +226,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="w-1/2">
-                            <label class="ui-label">Mês de Referência</label>
+                        <div class="ui-field-group w-1/2">
+                            <span class="ui-field-label">Mês Referência</span>
                             <input type="month" id="t-date" required onchange="updateDashboard()" class="ui-input">
                         </div>
                     </div>
 
-                    <div>
-                        <label class="ui-label">Categoria</label>
+                    <div class="ui-field-group">
+                        <span class="ui-field-label">Categoria</span>
                         <div class="ui-select-wrapper">
                             <select id="t-category" onchange="toggleFoodSub()" class="ui-select">
                                 <option value="Salário">Salário</option>
@@ -228,7 +256,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-app-accent-blue hover:bg-blue-600 text-white p-2.5 rounded-xl font-bold text-xs transition duration-200 mt-2">Salvar Transação</button>
+                    <button type="submit" class="w-full bg-color-vidaloca hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs transition duration-200 mt-2">Salvar Transação</button>
                 </form>
             </div>
 
@@ -239,28 +267,28 @@
                 </h3>
                 <p class="text-xs text-app-subtext mb-4">Divisão rápida de despesas fixas da casa.</p>
                 
-                <form id="form-basics" class="space-y-3">
+                <form id="form-basics" class="space-y-4">
                     <div class="flex gap-2">
-                        <div class="w-1/2">
-                            <label class="ui-label">Conta</label>
+                        <div class="ui-field-group w-1/2">
+                            <span class="ui-field-label">Conta</span>
                             <div class="ui-select-wrapper">
                                 <select id="b-item" class="ui-select">
-                                    <option value="Água">🚿 Água</option>
-                                    <option value="Energia">🔌 Energia</option>
-                                    <option value="Seguro">🛡️ Seguro</option>
-                                    <option value="Gás">🔥 Gás</option>
-                                    <option value="Internet">📶 Internet</option>
+                                    <option value="Água">Água</option>
+                                    <option value="Energia">Energia</option>
+                                    <option value="Seguro">Seguro</option>
+                                    <option value="Gás">Gás</option>
+                                    <option value="Internet">Internet</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="w-1/2">
-                            <label class="ui-label">Valor Total (R$)</label>
+                        <div class="ui-field-group w-1/2">
+                            <span class="ui-field-label">Valor Total (R$)</span>
                             <input type="number" id="b-amount" step="0.01" placeholder="0,00" required oninput="calcAdjustments()" class="ui-input">
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <div class="w-1/2">
-                            <label class="ui-label">Quem Pagou</label>
+                        <div class="ui-field-group w-1/2">
+                            <span class="ui-field-label">Quem Pagou</span>
                             <div class="ui-select-wrapper">
                                 <select id="b-payer" class="ui-select">
                                     <option value="Larissa">Larissa</option>
@@ -268,8 +296,8 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="w-1/2">
-                            <label class="ui-label">Mês</label>
+                        <div class="ui-field-group w-1/2">
+                            <span class="ui-field-label">Mês</span>
                             <input type="month" id="b-date" required class="ui-input">
                         </div>
                     </div>
@@ -287,13 +315,13 @@
                         <p class="text-[11px] text-app-subtext">Defina a porcentagem de cada um:</p>
                         
                         <div class="grid grid-cols-2 gap-2 text-xs">
-                            <div>
-                                <label class="ui-label">Larissa (%)</label>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Larissa (%)</span>
                                 <input type="number" id="adj-l-pct" value="50" min="0" max="100" oninput="onPctChange('Larissa')" class="ui-input">
                                 <span id="adj-l-val" class="text-[10px] text-app-accent font-bold block mt-1">R$ 0,00</span>
                             </div>
-                            <div>
-                                <label class="ui-label">Pedro (%)</label>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Pedro (%)</span>
                                 <input type="number" id="adj-p-pct" value="50" min="0" max="100" oninput="onPctChange('Pedro')" class="ui-input">
                                 <span id="adj-p-val" class="text-[10px] text-app-accent-blue font-bold block mt-1">R$ 0,00</span>
                             </div>
@@ -304,7 +332,7 @@
                 </div>
             </div>
 
-            <!-- PENÚLTIMO BLOCO: TETO DE GASTOS LARISSA -->
+            <!-- TETO DE GASTOS LARISSA -->
             <div class="bg-app-card border-l-4 border-l-app-accent border border-app-card-hover rounded-2xl shadow-xl p-5">
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -318,16 +346,16 @@
                 </div>
                 
                 <div class="flex justify-between text-xs font-bold mt-1">
-                    <span class="text-app-subtext">Gasto (sem aliment.): <span id="teto-spent" class="text-rose-400">R$ 0,00</span></span>
-                    <span class="text-app-subtext">Livre: <span id="teto-free" class="text-emerald-400">R$ 3.000,00</span></span>
+                    <span class="text-app-subtext">Gasto: <span id="teto-spent" class="text-color-cardinal">R$ 0,00</span></span>
+                    <span class="text-app-subtext">Livre: <span id="teto-free" class="text-color-vidaloca">R$ 3.000,00</span></span>
                 </div>
             </div>
 
-            <!-- ÚLTIMO BLOCO: GRÁFICO DE ROSCA MELHORADO SEM BORDAS -->
+            <!-- GRÁFICO DE ROSCA -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-sm text-white">Distribuição de Custos</h3>
-                    <div class="w-32">
+                    <div class="w-32 ui-field-group !mt-0">
                         <input type="month" id="chart-month-filter" onchange="updateDashboard()" class="ui-input !py-1 !px-2 !text-[11px]">
                     </div>
                 </div>
@@ -367,25 +395,32 @@
         <section id="tab-history" class="tab-content space-y-4">
             <h2 class="text-xl font-bold text-white">Histórico de Transações</h2>
             
-            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow p-4">
+            <!-- BLOCO DE HISTÓRICO COM TOM AZUL INTERMEDIÁRIO/CLARO -->
+            <div class="bg-blue-medium-light border border-app-card-hover rounded-2xl shadow p-4">
                 <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-xs text-app-subtext">Entradas vs Saídas (Sem Alimentação)</h3>
-                    <div class="flex gap-1 text-xs">
-                        <button onclick="setHistoryChartFilter('Geral')" id="hf-Geral" class="px-2 py-0.5 rounded bg-app-accent-blue text-white font-bold">Geral</button>
-                        <button onclick="setHistoryChartFilter('Larissa')" id="hf-Larissa" class="px-2 py-0.5 rounded bg-input-bg text-app-subtext">Larissa</button>
-                        <button onclick="setHistoryChartFilter('Pedro')" id="hf-Pedro" class="px-2 py-0.5 rounded bg-input-bg text-app-subtext">Pedro</button>
+                    <h3 class="font-bold text-xs text-white">Entradas vs Saídas</h3>
+                    <div class="flex gap-2 text-sm">
+                        <button onclick="setHistoryChartFilter('Geral')" id="hf-Geral" class="p-1.5 rounded-lg bg-app-accent-blue text-white font-bold transition" title="Geral">
+                            <i class="fa-solid fa-user-group"></i>
+                        </button>
+                        <button onclick="setHistoryChartFilter('Larissa')" id="hf-Larissa" class="p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white transition" title="Larissa">
+                            <i class="fa-solid fa-person-dress"></i>
+                        </button>
+                        <button onclick="setHistoryChartFilter('Pedro')" id="hf-Pedro" class="p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white transition" title="Pedro">
+                            <i class="fa-solid fa-person"></i>
+                        </button>
                     </div>
                 </div>
                 <canvas id="historyChart" height="180"></canvas>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
-                <div>
-                    <label class="ui-label">Mês</label>
+                <div class="ui-field-group">
+                    <span class="ui-field-label">Mês</span>
                     <input type="month" id="history-month-filter" onchange="updateHistory()" class="ui-input">
                 </div>
-                <div>
-                    <label class="ui-label">Pessoa</label>
+                <div class="ui-field-group">
+                    <span class="ui-field-label">Filtrar por Pessoa</span>
                     <div class="ui-select-wrapper">
                         <select id="history-list-filter" onchange="updateHistory()" class="ui-select">
                             <option value="Geral">Todas as Pessoas</option>
@@ -421,38 +456,47 @@
         <section id="tab-shopping" class="tab-content space-y-4">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-white">Lista de Compras</h2>
-                <div class="w-36">
+                <div class="w-36 ui-field-group !mt-0">
                     <div class="ui-select-wrapper">
                         <select id="s-month-filter" class="ui-select !py-1.5 !text-xs font-bold text-app-accent" onchange="loadShopping()"></select>
                     </div>
                 </div>
             </div>
 
-            <form id="form-shopping" class="flex flex-col gap-2 bg-app-card border border-app-card-hover p-4 rounded-2xl shadow">
+            <form id="form-shopping" class="flex flex-col gap-3 bg-app-card border border-app-card-hover p-4 rounded-2xl shadow">
                 <div class="flex gap-2">
-                    <input type="text" id="s-item" placeholder="Nome do item..." required class="ui-input flex-1">
-                    <input type="text" id="s-qtd" placeholder="Qtd" required class="ui-input w-20">
+                    <div class="ui-field-group flex-1">
+                        <span class="ui-field-label">Item</span>
+                        <input type="text" id="s-item" placeholder="Nome do item..." required class="ui-input">
+                    </div>
+                    <div class="ui-field-group w-20">
+                        <span class="ui-field-label">Qtd</span>
+                        <input type="text" id="s-qtd" placeholder="1" required class="ui-input">
+                    </div>
                 </div>
                 <div class="flex gap-2">
-                    <div class="ui-select-wrapper flex-1">
-                        <select id="s-category" class="ui-select">
-                            <option value="Mercearia">🍝 Mercearia</option>
-                            <option value="Hortifruti">🥦 Hortifruti</option>
-                            <option value="Proteínas">🥩 Proteínas</option>
-                            <option value="Higiene">🪥 Higiene</option>
-                            <option value="Limpeza">🧼 Limpeza</option>
-                            <option value="Outras despesas">📦 Outras despesas</option>
-                        </select>
+                    <div class="ui-field-group flex-1">
+                        <span class="ui-field-label">Categoria</span>
+                        <div class="ui-select-wrapper">
+                            <select id="s-category" class="ui-select">
+                                <option value="Mercearia">🍝 Mercearia</option>
+                                <option value="Hortifruti">🥦 Hortifruti</option>
+                                <option value="Proteínas">🥩 Proteínas</option>
+                                <option value="Higiene">🪥 Higiene</option>
+                                <option value="Limpeza">🧼 Limpeza</option>
+                                <option value="Outras despesas">📦 Outras despesas</option>
+                            </select>
+                        </div>
                     </div>
-                    <button type="submit" class="bg-app-accent-blue text-white px-4 rounded-xl font-bold text-xs"><i class="fa-solid fa-plus mr-1"></i> Add</button>
+                    <button type="submit" class="bg-app-accent-blue text-white px-4 rounded-xl font-bold text-xs self-end h-[42px]"><i class="fa-solid fa-plus mr-1"></i> Add</button>
                 </div>
             </form>
 
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow overflow-hidden" id="shopping-list-container"></div>
             
             <div class="flex gap-2">
-                <button onclick="shareWhatsApp()" class="w-1/2 bg-emerald-600 text-white p-2.5 rounded-xl font-bold text-xs"><i class="fa-brands fa-whatsapp mr-1"></i> Compartilhar</button>
-                <button onclick="clearShopping()" class="w-1/2 text-rose-400 border border-rose-500/40 p-2.5 rounded-xl font-bold text-xs"><i class="fa-solid fa-trash mr-1"></i> Limpar Mês</button>
+                <button onclick="shareWhatsApp()" class="w-1/2 bg-color-vidaloca text-white p-2.5 rounded-xl font-bold text-xs"><i class="fa-brands fa-whatsapp mr-1"></i> Compartilhar</button>
+                <button onclick="clearShopping()" class="w-1/2 text-color-cardinal border border-color-cardinal/40 p-2.5 rounded-xl font-bold text-xs"><i class="fa-solid fa-trash mr-1"></i> Limpar Mês</button>
             </div>
         </section>
 
@@ -468,19 +512,28 @@
 
             <div class="bg-app-card border border-app-card-hover rounded-2xl p-2 flex justify-between text-center overflow-x-auto gap-1 no-scrollbar" id="week-calendar"></div>
 
-            <form id="form-menu" class="flex flex-col gap-2 bg-app-card border border-app-card-hover p-4 rounded-2xl shadow">
+            <form id="form-menu" class="flex flex-col gap-3 bg-app-card border border-app-card-hover p-4 rounded-2xl shadow">
                 <div class="flex gap-2">
-                    <input type="text" id="m-dish" placeholder="Nome do prato/refeição..." required class="ui-input flex-1">
-                    <div class="ui-select-wrapper w-1/3">
-                        <select id="m-type" class="ui-select">
-                            <option value="Café da Manhã">Café da Manhã</option>
-                            <option value="Almoço">Almoço</option>
-                            <option value="Snack">Snack</option>
-                            <option value="Jantar">Jantar</option>
-                        </select>
+                    <div class="ui-field-group flex-1">
+                        <span class="ui-field-label">Prato</span>
+                        <input type="text" id="m-dish" placeholder="Nome do prato..." required class="ui-input">
+                    </div>
+                    <div class="ui-field-group w-1/3">
+                        <span class="ui-field-label">Refeição</span>
+                        <div class="ui-select-wrapper">
+                            <select id="m-type" class="ui-select">
+                                <option value="Café da Manhã">Café da Manhã</option>
+                                <option value="Almoço">Almoço</option>
+                                <option value="Snack">Snack</option>
+                                <option value="Jantar">Jantar</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <textarea id="m-desc" placeholder="Ingredientes / Modo de preparo (opcional)..." class="ui-input h-16 resize-none"></textarea>
+                <div class="ui-field-group">
+                    <span class="ui-field-label">Modo de preparo / Ingredientes</span>
+                    <textarea id="m-desc" placeholder="Ingredientes (opcional)..." class="ui-input h-16 resize-none"></textarea>
+                </div>
                 <button type="submit" class="bg-app-accent-blue text-white p-2.5 rounded-xl font-bold text-xs"><i class="fa-solid fa-utensils mr-1"></i> Adicionar ao Cardápio</button>
             </form>
 
@@ -501,15 +554,35 @@
                     <h3 class="font-bold mb-1 text-white text-sm"><i class="fa-solid fa-upload mr-2 text-app-accent"></i>Importar Dados</h3>
                     <p class="text-xs mb-3 text-app-subtext">Restaure um backup. Isso substituirá os dados atuais!</p>
                     <input type="file" id="importFile" accept=".json" class="block w-full text-xs text-app-subtext mb-3">
-                    <button onclick="importData()" class="w-full bg-rose-600 text-white p-2.5 rounded-xl font-bold text-xs">Importar e Substituir</button>
+                    <button onclick="importData()" class="w-full bg-color-cardinal text-white p-2.5 rounded-xl font-bold text-xs">Importar e Substituir</button>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- NAVEGAÇÃO INFERIOR ESTILO BUBBLE -->
-    <div class="fixed bottom-3 left-0 right-0 z-50 flex justify-center px-4">
+    <!-- MODAL DE CONFIRMAÇÃO ESTILIZADO -->
+    <div id="custom-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-[#0D192D] border border-app-card-hover rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative animate-fadeIn">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-app-subtext hover:text-white w-8 h-8 rounded-full bg-input-bg flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="w-16 h-16 rounded-full bg-emerald-950/60 border border-color-vidaloca/50 text-color-vidaloca flex items-center justify-center mx-auto mb-4 text-2xl shadow-[0_0_20px_rgba(81,130,30,0.3)]">
+                <i class="fa-solid fa-check"></i>
+            </div>
+
+            <h3 id="modal-title" class="text-xl font-extrabold text-white mb-2">Com sucesso!</h3>
+            <p id="modal-msg" class="text-xs text-app-subtext mb-6">Ação executada com sucesso.</p>
+
+            <button onclick="closeModal()" class="w-full bg-color-vidaloca hover:opacity-90 text-white font-bold py-3 rounded-2xl text-xs transition duration-200">
+                Concluído
+            </button>
+        </div>
+    </div>
+
+    <!-- NAVEGAÇÃO INFERIOR -->
+    <div class="fixed bottom-3 left-0 right-0 z-40 flex justify-center px-4">
         <nav class="bg-app-card/95 border border-app-card-hover/90 backdrop-blur-md rounded-full shadow-2xl p-1.5 max-w-md sm:max-w-xl md:max-w-2xl w-full">
             <div class="flex items-center overflow-x-auto no-scrollbar gap-1 px-1">
                 
@@ -562,6 +635,46 @@
     <!-- JAVASCRIPT & LÓGICA COMPLETA -->
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+
+        // MODO CLARO / MODO ESCURO CORRIGIDO
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        if (localStorage.getItem('theme') === 'light') {
+            html.classList.remove('dark');
+            html.classList.add('light');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            html.classList.remove('light');
+            html.classList.add('dark');
+            themeIcon.classList.replace('fa-sun', 'fa-moon');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+            updateChart();
+        });
+
+        // MODAL CUSTOMIZADO
+        function showModal(title, msg) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-msg').innerText = msg;
+            document.getElementById('custom-modal').classList.remove('hidden');
+        }
+        function closeModal() {
+            document.getElementById('custom-modal').classList.add('hidden');
+        }
 
         // PALETA VIBRANTE PARA O GRÁFICO DE ROSCA
         const VIBRANT_PALETTE = [
@@ -648,8 +761,13 @@
             ['Geral', 'Larissa', 'Pedro'].forEach(p => {
                 const btn = document.getElementById(`hf-${p}`);
                 if(btn) {
-                    if(p === person) btn.className = "px-2 py-0.5 rounded bg-app-accent-blue text-white font-bold";
-                    else btn.className = "px-2 py-0.5 rounded bg-input-bg text-app-subtext";
+                    if((p === 'Geral' && historyChartFilterState === 'Geral') || 
+                       (p === 'Larissa' && historyChartFilterState === 'Larissa') || 
+                       (p === 'Pedro' && historyChartFilterState === 'Pedro')) {
+                        btn.className = "p-1.5 rounded-lg bg-app-accent-blue text-white font-bold transition";
+                    } else {
+                        btn.className = "p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white transition";
+                    }
                 }
             });
             updateHistory();
@@ -683,7 +801,7 @@
             document.getElementById('t-date').value = currentMonthStr;
             toggleFoodSub();
             updateDashboard(); 
-            alert('Transação salva com sucesso!');
+            showModal('Com sucesso!', 'Transação salva com sucesso.');
         });
 
         document.getElementById('form-basics').addEventListener('submit', async (e) => {
@@ -698,7 +816,7 @@
             await db.transactions.add({
                 type: 'expense',
                 amount: totalAmount,
-                userAmount: halfAmount,
+                userAmount: halfAmount, // Apenas a cota individual (50%) entra nas despesas do pagador
                 description: `Básico: ${item}`,
                 details: `Divisão 50/50 (${formatCurrency(halfAmount)} para cada)`,
                 category: 'Básicos',
@@ -711,7 +829,7 @@
             document.getElementById('b-date').value = currentMonthStr;
             calcAdjustments();
             updateDashboard();
-            alert(`Conta de ${item} salva! Divisão de 50/50 calculada.`);
+            showModal('Com sucesso!', `Conta de ${item} salva com divisão de 50/50.`);
         });
 
         function toggleAdjustments() {
@@ -768,7 +886,7 @@
             await db.transactions.add({
                 type: 'expense',
                 amount: total,
-                userAmount: userVal,
+                userAmount: userVal, // Lança apenas a cota proporcional da pessoa
                 description: `Básico: ${item}`,
                 details: `Ajuste: Lar ${lPct}% = ${formatCurrency(lVal)} | Ped ${pPct}% = ${formatCurrency(pVal)}`,
                 category: 'Básicos',
@@ -780,7 +898,7 @@
             document.getElementById('b-amount').value = '';
             calcAdjustments();
             updateDashboard();
-            alert(`Conta de ${item} salva com divisão proporcional!`);
+            showModal('Com sucesso!', `Conta de ${item} salva com divisão proporcional.`);
         }
 
         async function updateDashboard() {
@@ -810,9 +928,9 @@
                         if(t.payer === 'Larissa') larissaBal += effectiveAmount;
                         if(t.payer === 'Pedro') pedroBal += effectiveAmount;
                     } else {
-                        // ALIMENTAÇÃO NÃO DESCONTA DO SALDO GERAL
+                        // CONTAS BÁSICAS E DESPESAS CONTABILIZAM APENAS O VALOR PROPORCIONAL
                         if(!isFood) {
-                            expense += t.amount;
+                            expense += effectiveAmount;
                             if(t.payer === 'Larissa') larissaBal -= effectiveAmount;
                             if(t.payer === 'Pedro') pedroBal -= effectiveAmount;
                         }
@@ -834,13 +952,13 @@
                             // ALIMENTAÇÃO SAI DO GRÁFICO GERAL
                             if(!isFood) key = t.category;
                         } else if(categoryViewFilter === 'Alimentacao') {
-                            // ALIMENTAÇÃO APARECE AQUI EXCLUSIVAMENTE
+                            // ALIMENTAÇÃO APARECE EXCLUSIVAMENTE AQUI
                             if(isFood) key = t.subcategory || t.category;
                         } else if(categoryViewFilter === 'Basicos') {
                             if(t.category === 'Básicos') key = t.subcategory || t.description;
                         }
 
-                        if(key) expensesByCategory[key] = (expensesByCategory[key] || 0) + t.amount;
+                        if(key) expensesByCategory[key] = (expensesByCategory[key] || 0) + effectiveAmount;
                     }
                 } else if(t.date === prevMonthStr && t.type === 'expense') {
                     const matchesPerson = (categoryPersonFilter === 'Todos' || t.payer === categoryPersonFilter);
@@ -855,7 +973,7 @@
                             if(t.category === 'Básicos') key = t.subcategory || t.description;
                         }
 
-                        if(key) prevMonthExpensesByCategory[key] = (prevMonthExpensesByCategory[key] || 0) + t.amount;
+                        if(key) prevMonthExpensesByCategory[key] = (prevMonthExpensesByCategory[key] || 0) + effectiveAmount;
                     }
                 }
             });
@@ -866,7 +984,7 @@
             document.getElementById('dash-larissa').innerText = formatCurrency(larissaBal);
             document.getElementById('dash-pedro').innerText = formatCurrency(pedroBal);
 
-            // TETO DE GASTOS LARISSA (3.000,00)
+            // TETO DE GASTOS LARISSA (R$ 3.000,00)
             const tetoMax = 3000;
             const tetoLivre = tetoMax - larissaExpensesMonth;
             const pctSpent = Math.min(100, Math.max(0, (larissaExpensesMonth / tetoMax) * 100));
@@ -876,10 +994,10 @@
             document.getElementById('teto-progress-bar').style.width = `${pctSpent}%`;
 
             if(tetoLivre < 0) {
-                document.getElementById('teto-free').className = 'text-rose-500 font-bold';
-                document.getElementById('teto-progress-bar').className = 'bg-rose-500 h-full transition-all duration-300';
+                document.getElementById('teto-free').className = 'text-color-cardinal font-bold';
+                document.getElementById('teto-progress-bar').className = 'bg-color-cardinal h-full transition-all duration-300';
             } else {
-                document.getElementById('teto-free').className = 'text-emerald-400';
+                document.getElementById('teto-free').className = 'text-color-vidaloca';
                 document.getElementById('teto-progress-bar').className = 'bg-app-accent h-full transition-all duration-300';
             }
 
@@ -940,7 +1058,6 @@
                 const effectiveAmount = t.userAmount !== undefined ? t.userAmount : t.amount;
                 const isFood = (t.category === 'Alimentação' || t.category.includes('VR') || t.category.includes('VA'));
 
-                // SAÍDAS DE ALIMENTAÇÃO EXCLUÍDAS DO GRÁFICO DE BARRAS DO HISTÓRICO
                 if(historyChartFilterState === 'Geral' || t.payer === historyChartFilterState) {
                     if(!monthlyIncExp[t.date]) monthlyIncExp[t.date] = { inc: 0, exp: 0 };
                     if(t.type === 'income') {
@@ -959,15 +1076,15 @@
                     const displayCategory = t.subcategory ? `${t.category} (${t.subcategory})` : t.category;
 
                     list.innerHTML += `
-                        <div class="bg-app-card border border-app-card-hover p-3.5 rounded-2xl shadow border-l-4 ${isInc ? 'border-l-emerald-400' : 'border-l-rose-500'} cursor-pointer" onclick="toggleTxDetails(${t.id})">
+                        <div class="bg-app-card border border-app-card-hover p-3.5 rounded-2xl shadow border-l-4 ${isInc ? 'border-l-color-vidaloca' : 'border-l-color-cardinal'} cursor-pointer" onclick="toggleTxDetails(${t.id})">
                             <div class="flex justify-between items-center">
                                 <div>
                                     <p class="font-bold text-sm text-white">${t.description}</p>
                                     <p class="text-xs text-app-subtext">${monthDisplay} • ${displayCategory} • <span class="font-semibold text-white">${t.payer || 'Geral'}</span></p>
                                 </div>
                                 <div class="text-right">
-                                    <p class="font-bold ${isInc ? 'text-emerald-400' : 'text-rose-400'}">${isInc ? '+' : '-'}${formatCurrency(effectiveAmount)}</p>
-                                    <button onclick="event.stopPropagation(); deleteTransaction(${t.id})" class="text-rose-400 text-xs mt-1 p-1"><i class="fa-solid fa-trash"></i></button>
+                                    <p class="font-bold ${isInc ? 'text-color-vidaloca' : 'text-color-cardinal'}">${isInc ? '+' : '-'}${formatCurrency(effectiveAmount)}</p>
+                                    <button onclick="event.stopPropagation(); deleteTransaction(${t.id})" class="text-color-cardinal text-xs mt-1 p-1"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </div>
                             ${t.details ? `<div id="tx-det-${t.id}" class="hidden mt-2 pt-2 border-t border-app-card-hover text-xs text-app-subtext font-semibold">${t.details}</div>` : ''}
@@ -1066,15 +1183,21 @@
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: 'Entradas', data: incomeData, backgroundColor: '#34d399', borderRadius: 6 },
-                        { label: 'Saídas', data: expenseData, backgroundColor: '#f87171', borderRadius: 6 }
+                        { label: 'Entradas', data: incomeData, backgroundColor: '#51821E', borderRadius: 6 },
+                        { label: 'Saídas', data: expenseData, backgroundColor: '#C8183A', borderRadius: 6 }
                     ]
                 },
                 options: {
                     plugins: { legend: { labels: { color: '#FFFFFF', font: { size: 11 } } } },
                     scales: {
-                        x: { ticks: { color: '#8A99AD' }, grid: { color: '#14223B' } },
-                        y: { ticks: { color: '#8A99AD' }, grid: { color: '#14223B' } }
+                        x: { 
+                            ticks: { color: '#8A99AD' }, 
+                            grid: { display: false } 
+                        },
+                        y: { 
+                            display: false,
+                            grid: { display: false } 
+                        }
                     }
                 }
             });
@@ -1107,6 +1230,7 @@
             });
             document.getElementById('s-item').value = ''; document.getElementById('s-qtd').value = '1';
             loadShopping();
+            showModal('Com sucesso!', 'Item adicionado à lista de compras.');
         });
 
         async function loadShopping() {
@@ -1140,7 +1264,7 @@
                                 </label>
                                 <div class="flex items-center gap-3 ml-2">
                                     <button onclick="editShopping(${i.id})" class="text-app-subtext p-1"><i class="fa-solid fa-pen"></i></button>
-                                    <button onclick="deleteShopping(${i.id})" class="text-rose-400 font-bold p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+                                    <button onclick="deleteShopping(${i.id})" class="text-color-cardinal font-bold p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
                                 </div>
                             </div>
                         `;
@@ -1258,6 +1382,7 @@
             document.getElementById('m-dish').value = '';
             document.getElementById('m-desc').value = '';
             loadMenu();
+            showModal('Com sucesso!', 'Prato adicionado ao cardápio.');
         });
 
         async function loadMenu() {
@@ -1300,7 +1425,7 @@
                             </div>
                             <div class="flex items-center gap-3">
                                 <button onclick="event.stopPropagation(); editMenu(${i.id})" class="text-app-subtext p-1"><i class="fa-solid fa-pen text-xs"></i></button>
-                                <button onclick="event.stopPropagation(); deleteMenu(${i.id})" class="text-rose-400 font-bold p-1"><i class="fa-solid fa-xmark text-base"></i></button>
+                                <button onclick="event.stopPropagation(); deleteMenu(${i.id})" class="text-color-cardinal font-bold p-1"><i class="fa-solid fa-xmark text-base"></i></button>
                             </div>
                         </div>
                         <div id="m-desc-${i.id}" class="hidden mt-3 pt-3 border-t border-app-card-hover text-xs text-app-subtext whitespace-pre-line">
@@ -1357,7 +1482,8 @@
                         if(data.transactions) await db.transactions.bulkAdd(data.transactions);
                         if(data.shopping) await db.shopping.bulkAdd(data.shopping);
                         if(data.menu) await db.menu.bulkAdd(data.menu);
-                        alert('Dados importados com sucesso!'); window.location.reload();
+                        showModal('Com sucesso!', 'Dados importados com sucesso.');
+                        setTimeout(() => window.location.reload(), 1500);
                     }
                 } catch (err) { alert('Erro ao ler o arquivo JSON válido.'); }
             };
