@@ -1,20 +1,30 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="light">
+<html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Minhas Finanças & Produtividade</title>
+    <title>Casinha</title>
     
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#10b981">
+    <meta name="theme-color" content="#021024">
     <link rel="icon" href="355.png">
-    <link rel="apple-touch-icon" href="355.png"> 
+    <link rel="apple-touch-icon" href="355.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: { extend: { colors: { primary: '#10b981' } } }
+            theme: {
+                extend: {
+                    colors: {
+                        'blue-deep': '#021024',
+                        'blue-navy': '#052659',
+                        'blue-mid': '#5483B3',
+                        'blue-soft': '#7DA0CA',
+                        'blue-light': '#C1E8FF'
+                    }
+                }
+            }
         }
     </script>
 
@@ -24,15 +34,24 @@
 
     <style>
         ::-webkit-scrollbar { display: none; }
-        body { -ms-overflow-style: none; scrollbar-width: none; -webkit-tap-highlight-color: transparent; }
+        body { 
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+            -webkit-tap-highlight-color: transparent;
+            background-color: #000000;
+        }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* Custom Scrollbar escondido para o menu horizontal */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
         .round-cb {
             appearance: none;
             width: 1.5rem; height: 1.5rem;
-            border: 2px solid #9ca3af;
+            border: 2px solid #5483B3;
             border-radius: 50%;
             display: grid; place-content: center;
             cursor: pointer; transition: all 0.2s;
@@ -42,72 +61,81 @@
             content: ""; width: 0.8rem; height: 0.8rem;
             border-radius: 50%; transform: scale(0);
             transition: 0.2s transform ease-in-out;
-            box-shadow: inset 1em 1em #10b981;
+            box-shadow: inset 1em 1em #C1E8FF;
         }
-        .round-cb:checked { border-color: #10b981; }
+        .round-cb:checked { border-color: #C1E8FF; }
         .round-cb:checked::before { transform: scale(1); }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300 pb-20">
+<body class="bg-black text-gray-200 min-h-screen pb-28">
 
-    <!-- Header -->
-    <header class="bg-primary text-white p-4 sticky top-0 z-10 shadow-md flex justify-between items-center">
-        <h1 class="text-xl font-bold"><i class="fa-solid fa-wallet mr-2"></i>Casinha</h1>
-        <button id="themeToggle" class="p-2 rounded-full hover:bg-white/20 transition">
+    <!-- HEADER -->
+    <header class="bg-blue-deep/90 backdrop-blur border-b border-blue-navy text-blue-light p-4 sticky top-0 z-40 shadow-lg flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <img src="355.png" onerror="this.style.display='none'" class="w-8 h-8 rounded-full object-cover border border-blue-soft">
+            <h1 class="text-xl font-bold tracking-wide flex items-center gap-2">
+                <i class="fa-solid fa-house text-blue-light"></i> Casinha
+            </h1>
+        </div>
+        <button id="themeToggle" class="p-2 rounded-full hover:bg-blue-navy/50 transition text-blue-soft">
             <i class="fa-solid fa-moon text-xl" id="themeIcon"></i>
         </button>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="p-4 max-w-md mx-auto">
+    <!-- MAIN CONTAINER (Ajustável para Tablet e Celular) -->
+    <main class="p-4 max-w-md sm:max-w-xl md:max-w-2xl mx-auto space-y-6">
         
         <!-- ================= RESUMO ================= -->
-        <section id="tab-dashboard" class="tab-content active">
+        <section id="tab-dashboard" class="tab-content active space-y-6">
             <!-- Saldo Geral -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-5 mb-6 text-center">
-                <p class="text-sm text-gray-500 dark:text-gray-400">Saldo Geral</p>
-                <h2 class="text-3xl font-bold mt-1" id="dash-balance">R$ 0,00</h2>
-                <div class="flex justify-between mt-4 border-t dark:border-gray-700 pt-4">
-                    <div class="text-green-500"><i class="fa-solid fa-arrow-up mr-1"></i> <span id="dash-income">R$ 0,00</span></div>
-                    <div class="text-red-500"><i class="fa-solid fa-arrow-down mr-1"></i> <span id="dash-expense">R$ 0,00</span></div>
+            <div class="bg-blue-deep border border-blue-navy/80 rounded-2xl shadow-xl p-6 text-center">
+                <p class="text-xs uppercase tracking-wider text-blue-soft font-medium">Saldo Geral</p>
+                <h2 class="text-3xl font-extrabold text-blue-light mt-1" id="dash-balance">R$ 0,00</h2>
+                <div class="flex justify-between mt-5 border-t border-blue-navy/60 pt-4 text-sm font-semibold">
+                    <div class="text-emerald-400 flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-up text-xs"></i> <span id="dash-income">R$ 0,00</span>
+                    </div>
+                    <div class="text-rose-400 flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-down text-xs"></i> <span id="dash-expense">R$ 0,00</span>
+                    </div>
                 </div>
             </div>
 
             <!-- Saldo Individual -->
-            <div class="grid grid-cols-2 gap-3 mb-6">
-                <div class="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-xl border border-purple-200 dark:border-purple-800 text-center">
-                    <p class="text-xs text-purple-600 dark:text-purple-300 font-bold uppercase">Larissa (Saldo)</p>
-                    <p class="text-lg font-bold text-purple-700 dark:text-purple-200 mt-1" id="dash-larissa">R$ 0,00</p>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-blue-deep/80 p-4 rounded-xl border border-blue-navy text-center">
+                    <p class="text-[11px] text-blue-soft font-bold uppercase tracking-wider">Larissa (Saldo)</p>
+                    <p class="text-lg font-bold text-blue-light mt-1" id="dash-larissa">R$ 0,00</p>
                 </div>
-                <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-xl border border-blue-200 dark:border-blue-800 text-center">
-                    <p class="text-xs text-blue-600 dark:text-blue-300 font-bold uppercase">Pedro (Saldo)</p>
-                    <p class="text-lg font-bold text-blue-700 dark:text-blue-200 mt-1" id="dash-pedro">R$ 0,00</p>
+                <div class="bg-blue-deep/80 p-4 rounded-xl border border-blue-navy text-center">
+                    <p class="text-[11px] text-blue-soft font-bold uppercase tracking-wider">Pedro (Saldo)</p>
+                    <p class="text-lg font-bold text-blue-light mt-1" id="dash-pedro">R$ 0,00</p>
                 </div>
             </div>
 
             <!-- Nova Transação -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
-                <h3 class="font-bold mb-3"><i class="fa-solid fa-plus-circle mr-2"></i>Nova Transação</h3>
+            <div class="bg-blue-deep border border-blue-navy rounded-2xl shadow-lg p-5">
+                <h3 class="font-bold mb-3 text-blue-light text-sm flex items-center gap-2"><i class="fa-solid fa-plus-circle text-blue-soft"></i> Nova Transação</h3>
                 <form id="form-transaction" class="space-y-3">
                     <div class="flex gap-2">
-                        <select id="t-type" class="p-2 border rounded w-1/3 dark:bg-gray-700 dark:border-gray-600">
+                        <select id="t-type" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/3 text-xs font-semibold focus:outline-none focus:border-blue-mid">
                             <option value="income">Entrada</option>
                             <option value="expense" selected>Despesa</option>
                         </select>
-                        <input type="number" id="t-amount" step="0.01" placeholder="Valor (R$)" required class="p-2 border rounded w-2/3 dark:bg-gray-700 dark:border-gray-600">
+                        <input type="number" id="t-amount" step="0.01" placeholder="Valor (R$)" required class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-2/3 text-xs focus:outline-none focus:border-blue-mid">
                     </div>
                     
-                    <input type="text" id="t-desc" placeholder="Descrição" required class="p-2 border rounded w-full dark:bg-gray-700 dark:border-gray-600">
+                    <input type="text" id="t-desc" placeholder="Descrição" required class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-full text-xs focus:outline-none focus:border-blue-mid">
                     
                     <div class="flex gap-2">
-                        <select id="t-payer" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                        <select id="t-payer" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/2 text-xs focus:outline-none focus:border-blue-mid">
                             <option value="Larissa">Larissa</option>
                             <option value="Pedro">Pedro</option>
                         </select>
-                        <input type="month" id="t-date" required onchange="updateDashboard()" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                        <input type="month" id="t-date" required onchange="updateDashboard()" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/2 text-xs focus:outline-none focus:border-blue-mid">
                     </div>
 
-                    <select id="t-category" onchange="toggleFoodSub()" class="p-2 border rounded w-full dark:bg-gray-700 dark:border-gray-600">
+                    <select id="t-category" onchange="toggleFoodSub()" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-full text-xs focus:outline-none focus:border-blue-mid">
                         <option value="Salário">Salário</option>
                         <option value="Aluguel">Aluguel</option>
                         <option value="Alimentação">Alimentação (Benefício)</option>
@@ -117,117 +145,109 @@
                         <option value="Outras despesas">Outras despesas</option>
                     </select>
 
-                    <!-- SUB-CAMPO DE CHECKBOX PARA ALIMENTAÇÃO -->
-                    <div id="food-sub-panel" class="hidden p-3 bg-green-50 dark:bg-green-900/30 rounded-xl border border-green-200 dark:border-green-800 space-y-2">
-                        <p class="text-xs font-bold text-green-700 dark:text-green-300">Tipo de Benefício de Alimentação:</p>
-                        <div class="flex items-center gap-4 text-xs font-semibold">
-                            <label class="flex items-center cursor-pointer">
-                                <input type="radio" name="foodSub" value="VR Larissa" checked class="mr-1"> VR Larissa
-                            </label>
-                            <label class="flex items-center cursor-pointer">
-                                <input type="radio" name="foodSub" value="VA Larissa" class="mr-1"> VA Larissa
-                            </label>
-                            <label class="flex items-center cursor-pointer">
-                                <input type="radio" name="foodSub" value="VR Pedro" class="mr-1"> VR Pedro
-                            </label>
+                    <div id="food-sub-panel" class="hidden p-3 bg-blue-navy/30 rounded-xl border border-blue-navy space-y-2">
+                        <p class="text-xs font-bold text-blue-soft">Tipo de Benefício de Alimentação:</p>
+                        <div class="flex items-center gap-4 text-xs font-semibold text-blue-light">
+                            <label class="flex items-center cursor-pointer"><input type="radio" name="foodSub" value="VR Larissa" checked class="mr-1 accent-blue-light"> VR Larissa</label>
+                            <label class="flex items-center cursor-pointer"><input type="radio" name="foodSub" value="VA Larissa" class="mr-1 accent-blue-light"> VA Larissa</label>
+                            <label class="flex items-center cursor-pointer"><input type="radio" name="foodSub" value="VR Pedro" class="mr-1 accent-blue-light"> VR Pedro</label>
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-primary text-white p-2 rounded font-bold mt-2">Salvar Transação</button>
+                    <button type="submit" class="w-full bg-blue-navy hover:bg-blue-mid text-blue-light hover:text-white p-2.5 rounded-lg font-bold text-xs transition duration-200">Salvar Transação</button>
                 </form>
             </div>
 
-            <!-- CONTAS BÁSICAS + AJUSTES -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
-                <h3 class="font-bold mb-1 text-primary"><i class="fa-solid fa-bolt mr-2"></i>Contas Básicas</h3>
-                <p class="text-xs text-gray-500 mb-3">Água, Energia, Seguro, Gás ou Internet.</p>
+            <!-- CONTAS BÁSICAS -->
+            <div class="bg-blue-deep border border-blue-navy rounded-2xl shadow-lg p-5">
+                <h3 class="font-bold mb-1 text-blue-light text-sm flex items-center gap-2"><i class="fa-solid fa-bolt text-blue-soft"></i> Contas Básicas</h3>
+                <p class="text-xs text-blue-soft mb-3">Água, Energia, Seguro, Gás ou Internet.</p>
                 
                 <form id="form-basics" class="space-y-3">
                     <div class="flex gap-2">
-                        <select id="b-item" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                        <select id="b-item" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/2 text-xs focus:outline-none">
                             <option value="Água">💧 Água</option>
                             <option value="Energia">⚡ Energia</option>
                             <option value="Seguro">🛡️ Seguro</option>
                             <option value="Gás">🔥 Gás</option>
                             <option value="Internet">🌐 Internet</option>
                         </select>
-                        <input type="number" id="b-amount" step="0.01" placeholder="Valor Total (R$)" required oninput="calcAdjustments()" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                        <input type="number" id="b-amount" step="0.01" placeholder="Valor Total (R$)" required oninput="calcAdjustments()" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/2 text-xs focus:outline-none">
                     </div>
                     <div class="flex gap-2">
-                        <select id="b-payer" class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                        <select id="b-payer" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/2 text-xs focus:outline-none">
                             <option value="Larissa">Quem Pagou: Larissa</option>
                             <option value="Pedro">Quem Pagou: Pedro</option>
                         </select>
-                        <input type="month" id="b-date" required class="p-2 border rounded w-1/2 dark:bg-gray-700 dark:border-gray-600">
+                        <input type="month" id="b-date" required class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/2 text-xs focus:outline-none">
                     </div>
                     
-                    <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">Divide 50%</button>
+                    <button type="submit" class="w-full bg-blue-navy hover:bg-blue-mid text-blue-light hover:text-white p-2.5 rounded-lg font-bold text-xs transition">Divide 50%</button>
                 </form>
 
-                <div class="mt-4 pt-4 border-t dark:border-gray-700">
-                    <button onclick="toggleAdjustments()" class="w-full text-left font-bold text-xs text-gray-600 dark:text-gray-300 flex justify-between items-center">
+                <div class="mt-4 pt-4 border-t border-blue-navy/60">
+                    <button onclick="toggleAdjustments()" class="w-full text-left font-bold text-xs text-blue-soft flex justify-between items-center">
                         <span><i class="fa-solid fa-sliders mr-1"></i> Ajustes Proporcionais (Calculadora)</span>
                         <i class="fa-solid fa-chevron-down" id="adj-icon"></i>
                     </button>
 
-                    <div id="adjustments-panel" class="hidden mt-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl space-y-3">
-                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Ajuste quando a divisão não for 50/50:</p>
+                    <div id="adjustments-panel" class="hidden mt-3 p-3 bg-black/40 rounded-xl border border-blue-navy space-y-3">
+                        <p class="text-[11px] text-blue-soft">Ajuste quando a divisão não for 50/50:</p>
                         
                         <div class="grid grid-cols-2 gap-2 text-xs">
                             <div>
-                                <label class="font-bold block mb-1">Larissa (%)</label>
-                                <input type="number" id="adj-l-pct" value="50" min="0" max="100" oninput="onPctChange('Larissa')" class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
-                                <span id="adj-l-val" class="text-[10px] text-gray-500 font-bold block mt-1">R$ 0,00</span>
+                                <label class="font-bold block mb-1 text-blue-light">Larissa (%)</label>
+                                <input type="number" id="adj-l-pct" value="50" min="0" max="100" oninput="onPctChange('Larissa')" class="w-full p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg">
+                                <span id="adj-l-val" class="text-[10px] text-blue-soft font-bold block mt-1">R$ 0,00</span>
                             </div>
                             <div>
-                                <label class="font-bold block mb-1">Pedro (%)</label>
-                                <input type="number" id="adj-p-pct" value="50" min="0" max="100" oninput="onPctChange('Pedro')" class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
-                                <span id="adj-p-val" class="text-[10px] text-gray-500 font-bold block mt-1">R$ 0,00</span>
+                                <label class="font-bold block mb-1 text-blue-light">Pedro (%)</label>
+                                <input type="number" id="adj-p-pct" value="50" min="0" max="100" oninput="onPctChange('Pedro')" class="w-full p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg">
+                                <span id="adj-p-val" class="text-[10px] text-blue-soft font-bold block mt-1">R$ 0,00</span>
                             </div>
                         </div>
 
-                        <button onclick="submitAdjustedBasics()" class="w-full bg-purple-600 text-white p-2 rounded font-bold text-xs">Lançar com Ajuste Personalizado</button>
+                        <button onclick="submitAdjustedBasics()" class="w-full bg-blue-mid text-white p-2 rounded-lg font-bold text-xs">Lançar com Ajuste Personalizado</button>
                     </div>
                 </div>
             </div>
 
-            <!-- PENÚLTIMO BLOCO: MONITOR DE TETO DE GASTOS (LARISSA) -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6 border-l-4 border-purple-500">
+            <!-- PENÚLTIMO BLOCO: TETO DE GASTOS LARISSA -->
+            <div class="bg-blue-deep border-l-4 border-blue-light border border-blue-navy rounded-2xl shadow-lg p-5">
                 <div class="flex justify-between items-center mb-2">
-                    <h3 class="font-bold text-sm text-purple-700 dark:text-purple-300"><i class="fa-solid fa-bullseye mr-2"></i>Teto de Gastos (Larissa)</h3>
-                    <span class="text-xs font-bold text-gray-500">Teto: R$ 3.000,00</span>
+                    <h3 class="font-bold text-sm text-blue-light flex items-center gap-2"><i class="fa-solid fa-bullseye text-blue-soft"></i> Teto de Gastos (Larissa)</h3>
+                    <span class="text-xs font-bold text-blue-soft">Teto: R$ 3.000,00</span>
                 </div>
                 
-                <div class="w-full bg-gray-200 dark:bg-gray-700 h-3 rounded-full overflow-hidden mb-2">
-                    <div id="teto-progress-bar" class="bg-purple-600 h-full transition-all duration-300" style="width: 0%"></div>
+                <div class="w-full bg-black/50 border border-blue-navy h-3 rounded-full overflow-hidden mb-2">
+                    <div id="teto-progress-bar" class="bg-blue-light h-full transition-all duration-300" style="width: 0%"></div>
                 </div>
                 
                 <div class="flex justify-between text-xs font-bold mt-1">
-                    <span class="text-gray-500">Gasto: <span id="teto-spent" class="text-red-500">R$ 0,00</span></span>
-                    <span class="text-gray-500">Livre: <span id="teto-free" class="text-green-500">R$ 3.000,00</span></span>
+                    <span class="text-blue-soft">Gasto: <span id="teto-spent" class="text-rose-400">R$ 0,00</span></span>
+                    <span class="text-blue-soft">Livre: <span id="teto-free" class="text-emerald-400">R$ 3.000,00</span></span>
                 </div>
             </div>
 
-            <!-- ÚLTIMO BLOCO: GRÁFICO DE ROSCA COM FILTROS COMBINADOS -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 mb-6">
-                <h3 class="font-bold text-sm mb-3">Distribuição de Custos</h3>
+            <!-- ÚLTIMO BLOCO: GRÁFICO DE ROSCA -->
+            <div class="bg-blue-deep border border-blue-navy rounded-2xl shadow-lg p-5">
+                <h3 class="font-bold text-sm mb-3 text-blue-light">Distribuição de Custos</h3>
                 
-                <!-- FILTROS COMBINADOS (VISÃO + PESSOA) -->
                 <div class="space-y-2 mb-4">
                     <div class="flex items-center justify-between text-xs">
-                        <span class="text-gray-500 font-bold">Visão:</span>
+                        <span class="text-blue-soft font-bold">Visão:</span>
                         <div class="flex gap-1">
-                            <button onclick="setCategoryView('Geral')" id="cv-Geral" class="px-2 py-1 rounded bg-primary text-white font-bold">Geral</button>
-                            <button onclick="setCategoryView('Alimentacao')" id="cv-Alimentacao" class="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">Alimentação</button>
-                            <button onclick="setCategoryView('Basicos')" id="cv-Basicos" class="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">Básico</button>
+                            <button onclick="setCategoryView('Geral')" id="cv-Geral" class="px-2.5 py-1 rounded-lg bg-blue-navy text-blue-light font-bold">Geral</button>
+                            <button onclick="setCategoryView('Alimentacao')" id="cv-Alimentacao" class="px-2.5 py-1 rounded-lg bg-black/40 text-blue-soft border border-blue-navy">Alimentação</button>
+                            <button onclick="setCategoryView('Basicos')" id="cv-Basicos" class="px-2.5 py-1 rounded-lg bg-black/40 text-blue-soft border border-blue-navy">Básico</button>
                         </div>
                     </div>
                     <div class="flex items-center justify-between text-xs">
-                        <span class="text-gray-500 font-bold">Pessoa:</span>
+                        <span class="text-blue-soft font-bold">Pessoa:</span>
                         <div class="flex gap-1">
-                            <button onclick="setCategoryPerson('Todos')" id="cp-Todos" class="px-2 py-1 rounded bg-primary text-white font-bold">Todos</button>
-                            <button onclick="setCategoryPerson('Larissa')" id="cp-Larissa" class="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">Larissa</button>
-                            <button onclick="setCategoryPerson('Pedro')" id="cp-Pedro" class="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">Pedro</button>
+                            <button onclick="setCategoryPerson('Todos')" id="cp-Todos" class="px-2.5 py-1 rounded-lg bg-blue-navy text-blue-light font-bold">Todos</button>
+                            <button onclick="setCategoryPerson('Larissa')" id="cp-Larissa" class="px-2.5 py-1 rounded-lg bg-black/40 text-blue-soft border border-blue-navy">Larissa</button>
+                            <button onclick="setCategoryPerson('Pedro')" id="cp-Pedro" class="px-2.5 py-1 rounded-lg bg-black/40 text-blue-soft border border-blue-navy">Pedro</button>
                         </div>
                     </div>
                 </div>
@@ -236,30 +256,29 @@
                     <canvas id="expenseChart"></canvas>
                 </div>
 
-                <!-- Detalhes & Variação MoM Por Categoria -->
-                <div id="mom-list-container" class="mt-4 pt-3 border-t dark:border-gray-700 space-y-1 text-xs"></div>
+                <div id="mom-list-container" class="mt-4 pt-3 border-t border-blue-navy space-y-1 text-xs"></div>
             </div>
         </section>
 
         <!-- ================= HISTÓRICO ================= -->
-        <section id="tab-history" class="tab-content">
-            <h2 class="text-xl font-bold mb-4">Histórico de Transações</h2>
+        <section id="tab-history" class="tab-content space-y-4">
+            <h2 class="text-xl font-bold text-blue-light">Histórico de Transações</h2>
             
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-4 mb-4">
+            <div class="bg-blue-deep border border-blue-navy rounded-2xl shadow p-4">
                 <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-xs">Entradas vs Saídas</h3>
+                    <h3 class="font-bold text-xs text-blue-soft">Entradas vs Saídas</h3>
                     <div class="flex gap-1 text-xs">
-                        <button onclick="setHistoryChartFilter('Geral')" id="hf-Geral" class="px-2 py-0.5 rounded bg-primary text-white font-bold">Geral</button>
-                        <button onclick="setHistoryChartFilter('Larissa')" id="hf-Larissa" class="px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700">Larissa</button>
-                        <button onclick="setHistoryChartFilter('Pedro')" id="hf-Pedro" class="px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700">Pedro</button>
+                        <button onclick="setHistoryChartFilter('Geral')" id="hf-Geral" class="px-2 py-0.5 rounded bg-blue-navy text-blue-light font-bold">Geral</button>
+                        <button onclick="setHistoryChartFilter('Larissa')" id="hf-Larissa" class="px-2 py-0.5 rounded bg-black/40 text-blue-soft border border-blue-navy">Larissa</button>
+                        <button onclick="setHistoryChartFilter('Pedro')" id="hf-Pedro" class="px-2 py-0.5 rounded bg-black/40 text-blue-soft border border-blue-navy">Pedro</button>
                     </div>
                 </div>
                 <canvas id="historyChart" height="180"></canvas>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 mb-4">
-                <input type="month" id="history-month-filter" onchange="updateHistory()" class="p-2 border rounded text-xs dark:bg-gray-700 dark:border-gray-600 font-bold text-primary">
-                <select id="history-list-filter" onchange="updateHistory()" class="p-2 border rounded text-xs dark:bg-gray-700 dark:border-gray-600 font-bold text-primary">
+            <div class="grid grid-cols-2 gap-2">
+                <input type="month" id="history-month-filter" onchange="updateHistory()" class="p-2.5 border border-blue-navy bg-blue-deep text-blue-light rounded-lg text-xs font-bold">
+                <select id="history-list-filter" onchange="updateHistory()" class="p-2.5 border border-blue-navy bg-blue-deep text-blue-light rounded-lg text-xs font-bold">
                     <option value="Geral">Todas as Pessoas</option>
                     <option value="Larissa">Apenas Larissa</option>
                     <option value="Pedro">Apenas Pedro</option>
@@ -269,38 +288,38 @@
             <div id="history-list" class="space-y-3"></div>
         </section>
 
-        <!-- ================= INVESTIMENTOS (PLACEHOLDER) ================= -->
+        <!-- ================= INVESTIMENTOS ================= -->
         <section id="tab-investments" class="tab-content">
-            <div class="text-center py-12">
-                <i class="fa-solid fa-hand-holding-dollar text-5xl text-primary mb-3"></i>
-                <h2 class="text-xl font-bold">Investimentos</h2>
-                <p class="text-sm text-gray-500 mt-2">Módulo em desenvolvimento...</p>
+            <div class="text-center py-16 bg-blue-deep border border-blue-navy rounded-2xl">
+                <i class="fa-solid fa-hand-holding-dollar text-5xl text-blue-soft mb-3"></i>
+                <h2 class="text-xl font-bold text-blue-light">Investimentos</h2>
+                <p class="text-sm text-blue-soft mt-2">Módulo em desenvolvimento...</p>
             </div>
         </section>
 
-        <!-- ================= VIAGENS (PLACEHOLDER) ================= -->
+        <!-- ================= VIAGENS ================= -->
         <section id="tab-travel" class="tab-content">
-            <div class="text-center py-12">
-                <i class="fa-solid fa-plane-departure text-5xl text-primary mb-3"></i>
-                <h2 class="text-xl font-bold">Viagens</h2>
-                <p class="text-sm text-gray-500 mt-2">Módulo em desenvolvimento...</p>
+            <div class="text-center py-16 bg-blue-deep border border-blue-navy rounded-2xl">
+                <i class="fa-solid fa-plane-departure text-5xl text-blue-soft mb-3"></i>
+                <h2 class="text-xl font-bold text-blue-light">Viagens</h2>
+                <p class="text-sm text-blue-soft mt-2">Módulo em desenvolvimento...</p>
             </div>
         </section>
 
         <!-- ================= LISTA DE COMPRAS ================= -->
-        <section id="tab-shopping" class="tab-content">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold">Lista de Compras</h2>
-                <select id="s-month-filter" class="p-2 border rounded bg-white dark:bg-gray-800 dark:border-gray-600 text-sm font-bold text-primary" onchange="loadShopping()"></select>
+        <section id="tab-shopping" class="tab-content space-y-4">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-bold text-blue-light">Lista de Compras</h2>
+                <select id="s-month-filter" class="p-2 border border-blue-navy bg-blue-deep text-blue-light text-xs font-bold rounded-lg" onchange="loadShopping()"></select>
             </div>
 
-            <form id="form-shopping" class="flex flex-col gap-2 mb-4 bg-white dark:bg-gray-800 p-4 rounded-xl shadow">
+            <form id="form-shopping" class="flex flex-col gap-2 bg-blue-deep border border-blue-navy p-4 rounded-xl shadow">
                 <div class="flex gap-2">
-                    <input type="text" id="s-item" placeholder="Nome do item..." required class="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
-                    <input type="text" id="s-qtd" placeholder="Qtd" required class="w-20 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+                    <input type="text" id="s-item" placeholder="Nome do item..." required class="flex-1 p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg text-xs">
+                    <input type="text" id="s-qtd" placeholder="Qtd" required class="w-20 p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg text-xs">
                 </div>
                 <div class="flex gap-2">
-                    <select id="s-category" class="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+                    <select id="s-category" class="flex-1 p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg text-xs">
                         <option value="Mercearia">🍝 Mercearia</option>
                         <option value="Hortifruti">🥦 Hortifruti</option>
                         <option value="Proteínas">🥩 Proteínas</option>
@@ -308,42 +327,42 @@
                         <option value="Limpeza">🧼 Limpeza</option>
                         <option value="Outras despesas">📦 Outras despesas</option>
                     </select>
-                    <button type="submit" class="bg-primary text-white px-4 rounded font-bold"><i class="fa-solid fa-plus mr-1"></i> Add</button>
+                    <button type="submit" class="bg-blue-navy text-blue-light px-4 rounded-lg font-bold text-xs"><i class="fa-solid fa-plus mr-1"></i> Add</button>
                 </div>
             </form>
 
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden" id="shopping-list-container"></div>
+            <div class="bg-blue-deep border border-blue-navy rounded-xl shadow overflow-hidden" id="shopping-list-container"></div>
             
-            <div class="flex gap-2 mt-4">
-                <button onclick="shareWhatsApp()" class="w-1/2 bg-green-600 text-white p-2 rounded font-bold"><i class="fa-brands fa-whatsapp mr-1"></i> Compartilhar</button>
-                <button onclick="clearShopping()" class="w-1/2 text-red-500 border border-red-500 p-2 rounded font-bold"><i class="fa-solid fa-trash mr-1"></i> Limpar Mês</button>
+            <div class="flex gap-2">
+                <button onclick="shareWhatsApp()" class="w-1/2 bg-emerald-600 text-white p-2.5 rounded-lg font-bold text-xs"><i class="fa-brands fa-whatsapp mr-1"></i> Compartilhar</button>
+                <button onclick="clearShopping()" class="w-1/2 text-rose-400 border border-rose-500/50 p-2.5 rounded-lg font-bold text-xs"><i class="fa-solid fa-trash mr-1"></i> Limpar Mês</button>
             </div>
         </section>
 
         <!-- ================= CARDÁPIO SEMANAL ================= -->
-        <section id="tab-menu" class="tab-content">
-            <h2 class="text-xl font-bold mb-2">Cardápio Semanal</h2>
+        <section id="tab-menu" class="tab-content space-y-4">
+            <h2 class="text-xl font-bold text-blue-light">Cardápio Semanal</h2>
             
-            <div class="flex justify-between items-center mb-3 px-1">
-                <button onclick="changeWeek(-1)" class="text-primary text-lg p-2 font-bold"><i class="fa-solid fa-chevron-left"></i></button>
-                <span id="menu-month-year" class="font-bold text-sm uppercase tracking-wide text-gray-600 dark:text-gray-300"></span>
-                <button onclick="changeWeek(1)" class="text-primary text-lg p-2 font-bold"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="flex justify-between items-center px-1">
+                <button onclick="changeWeek(-1)" class="text-blue-light text-lg p-2 font-bold"><i class="fa-solid fa-chevron-left"></i></button>
+                <span id="menu-month-year" class="font-bold text-xs uppercase tracking-wider text-blue-soft"></span>
+                <button onclick="changeWeek(1)" class="text-blue-light text-lg p-2 font-bold"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-2 mb-4 flex justify-between text-center overflow-x-auto gap-1" id="week-calendar"></div>
+            <div class="bg-blue-deep border border-blue-navy rounded-xl p-2 flex justify-between text-center overflow-x-auto gap-1 no-scrollbar" id="week-calendar"></div>
 
-            <form id="form-menu" class="flex flex-col gap-2 mb-4 bg-white dark:bg-gray-800 p-4 rounded-xl shadow">
+            <form id="form-menu" class="flex flex-col gap-2 bg-blue-deep border border-blue-navy p-4 rounded-xl shadow">
                 <div class="flex gap-2">
-                    <input type="text" id="m-dish" placeholder="Nome do prato/refeição..." required class="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
-                    <select id="m-type" class="w-1/3 p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+                    <input type="text" id="m-dish" placeholder="Nome do prato/refeição..." required class="flex-1 p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg text-xs">
+                    <select id="m-type" class="w-1/3 p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg text-xs">
                         <option value="Café da Manhã">Café da Manhã</option>
                         <option value="Almoço">Almoço</option>
                         <option value="Snack">Snack</option>
                         <option value="Jantar">Jantar</option>
                     </select>
                 </div>
-                <textarea id="m-desc" placeholder="Ingredientes / Modo de preparo (opcional)..." class="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 h-16 text-sm"></textarea>
-                <button type="submit" class="bg-primary text-white p-2 rounded font-bold"><i class="fa-solid fa-utensils mr-1"></i> Adicionar ao Cardápio</button>
+                <textarea id="m-desc" placeholder="Ingredientes / Modo de preparo (opcional)..." class="p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg h-16 text-xs"></textarea>
+                <button type="submit" class="bg-blue-navy text-blue-light p-2.5 rounded-lg font-bold text-xs"><i class="fa-solid fa-utensils mr-1"></i> Adicionar ao Cardápio</button>
             </form>
 
             <div class="space-y-3" id="menu-list"></div>
@@ -351,74 +370,100 @@
 
         <!-- ================= CONFIGURAÇÕES ================= -->
         <section id="tab-settings" class="tab-content">
-            <h2 class="text-xl font-bold mb-4">Configurações & Dados</h2>
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 space-y-4">
+            <h2 class="text-xl font-bold mb-4 text-blue-light">Configurações & Dados</h2>
+            <div class="bg-blue-deep border border-blue-navy rounded-2xl shadow p-5 space-y-4">
                 <div>
-                    <h3 class="font-bold mb-2 text-primary"><i class="fa-solid fa-download mr-2"></i>Exportar Dados</h3>
-                    <p class="text-sm mb-2 text-gray-500">Salve um backup de todas as suas transações, compras e cardápio.</p>
-                    <button onclick="exportData()" class="w-full bg-gray-200 dark:bg-gray-700 p-2 rounded">Exportar JSON</button>
+                    <h3 class="font-bold mb-2 text-blue-light text-sm"><i class="fa-solid fa-download mr-2 text-blue-soft"></i>Exportar Dados</h3>
+                    <p class="text-xs mb-3 text-blue-soft">Salve um backup de todas as suas transações, compras e cardápio.</p>
+                    <button onclick="exportData()" class="w-full bg-blue-navy text-blue-light p-2.5 rounded-lg font-bold text-xs">Exportar JSON</button>
                 </div>
-                <hr class="dark:border-gray-700">
+                <hr class="border-blue-navy">
                 <div>
-                    <h3 class="font-bold mb-2 text-primary"><i class="fa-solid fa-upload mr-2"></i>Importar Dados</h3>
-                    <p class="text-sm mb-2 text-gray-500">Restaure um backup. Isso substituirá os dados atuais!</p>
-                    <input type="file" id="importFile" accept=".json" class="block w-full text-sm mb-2">
-                    <button onclick="importData()" class="w-full bg-red-500 text-white p-2 rounded">Importar e Substituir</button>
+                    <h3 class="font-bold mb-2 text-blue-light text-sm"><i class="fa-solid fa-upload mr-2 text-blue-soft"></i>Importar Dados</h3>
+                    <p class="text-xs mb-3 text-blue-soft">Restaure um backup. Isso substituirá os dados atuais!</p>
+                    <input type="file" id="importFile" accept=".json" class="block w-full text-xs text-blue-soft mb-3">
+                    <button onclick="importData()" class="w-full bg-rose-600 text-white p-2.5 rounded-lg font-bold text-xs">Importar e Substituir</button>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- NAVEGAÇÃO INFERIOR -->
-    <nav class="fixed bottom-0 w-full bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg flex justify-around p-2 pb-safe z-50 text-[10px]">
-        <button onclick="nav('dashboard')" class="nav-btn text-primary flex flex-col items-center w-1/7" data-target="dashboard">
-            <i class="fa-solid fa-history text-base"></i><span class="mt-1">Resumo</span>
-        </button>
-        <button onclick="nav('history')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/7" data-target="history">
-            <i class="fa-solid fa-chart-line text-base"></i><span class="mt-1">Histórico</span>
-        </button>
-        <button onclick="nav('investments')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/7" data-target="investments">
-            <i class="fa-solid fa-dollar-sign text-base"></i><span class="mt-1">Invest.</span>
-        </button>
-        <button onclick="nav('shopping')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/7" data-target="shopping">
-            <i class="fa-solid fa-cart-shopping text-base"></i><span class="mt-1">Compras</span></button>
-        <button onclick="nav('menu')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/7" data-target="menu">
-            <i class="fa-solid fa-utensils text-base"></i><span class="mt-1">Cardápio</span>
-        </button>
-        <button onclick="nav('travel')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/7" data-target="travel">
-            <i class="fa-solid fa-plane text-base"></i><span class="mt-1">Viagens</span>
-        </button>
-        <button onclick="nav('settings')" class="nav-btn text-gray-400 hover:text-primary flex flex-col items-center w-1/7" data-target="settings">
-            <i class="fa-solid fa-gear text-base"></i><span class="mt-1">Ajustes</span>
-        </button>
-    </nav>
+    <!-- NAVEGAÇÃO INFERIOR ESTILO 6 (BUBBLE) - FLUTUANTE E ARRASTÁVEL -->
+    <div class="fixed bottom-3 left-0 right-0 z-50 flex justify-center px-4">
+        <nav class="bg-blue-deep/95 border border-blue-navy/80 backdrop-blur-md rounded-full shadow-2xl p-1.5 max-w-md sm:max-w-xl md:max-w-2xl w-full">
+            <div class="flex items-center overflow-x-auto no-scrollbar gap-1 px-1">
+                
+                <button onclick="nav('dashboard')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="dashboard">
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <i class="fa-solid fa-history text-base transition-transform group-hover:scale-110"></i>
+                    <span class="text-[9px] mt-0.5 font-semibold">Resumo</span>
+                </button>
 
+                <button onclick="nav('history')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="history">
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <i class="fa-solid fa-chart-line text-base transition-transform group-hover:scale-110"></i>
+                    <span class="text-[9px] mt-0.5 font-semibold">Histórico</span>
+                </button>
+
+                <button onclick="nav('investments')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="investments">
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <i class="fa-solid fa-dollar-sign text-base transition-transform group-hover:scale-110"></i>
+                    <span class="text-[9px] mt-0.5 font-semibold">Invest.</span>
+                </button>
+
+                <button onclick="nav('shopping')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="shopping">
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <i class="fa-solid fa-cart-shopping text-base transition-transform group-hover:scale-110"></i>
+                    <span class="text-[9px] mt-0.5 font-semibold">Compras</span>
+                </button>
+
+                <button onclick="nav('menu')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="menu">
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <i class="fa-solid fa-utensils text-base transition-transform group-hover:scale-110"></i>
+                    <span class="text-[9px] mt-0.5 font-semibold">Cardápio</span>
+                </button>
+
+                <button onclick="nav('travel')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="travel">
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <i class="fa-solid fa-plane text-base transition-transform group-hover:scale-110"></i>
+                    <span class="text-[9px] mt-0.5 font-semibold">Viagens</span>
+                </button>
+
+                <button onclick="nav('settings')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="settings">
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <i class="fa-solid fa-gear text-base transition-transform group-hover:scale-110"></i>
+                    <span class="text-[9px] mt-0.5 font-semibold">Ajustes</span>
+                </button>
+
+            </div>
+        </nav>
+    </div>
+
+    <!-- SCRIPT DE LÓGICA & NAVEGAÇÃO -->
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
-        const html = document.documentElement;
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-        if(localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            html.classList.add('dark'); themeIcon.classList.replace('fa-moon', 'fa-sun');
-        }
-        themeToggle.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            const isDark = html.classList.contains('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            themeIcon.classList.replace(isDark ? 'fa-moon' : 'fa-sun', isDark ? 'fa-sun' : 'fa-moon');
-            updateChart();
-        });
-
+        // NAVEGAÇÃO BUBBLE ESTILIZADA
         function nav(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             const targetEl = document.getElementById(`tab-${tabId}`);
             if(targetEl) targetEl.classList.add('active');
             
-            document.querySelectorAll('.nav-btn').forEach(btn => { btn.classList.remove('text-primary'); btn.classList.add('text-gray-400'); });
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-navy', 'text-blue-light');
+                btn.classList.add('text-blue-soft');
+                const dot = btn.querySelector('.bubble-dot');
+                if(dot) dot.classList.add('opacity-0');
+            });
+
             const activeBtn = document.querySelector(`.nav-btn[data-target="${tabId}"]`);
-            if(activeBtn) { activeBtn.classList.remove('text-gray-400'); activeBtn.classList.add('text-primary'); }
+            if(activeBtn) {
+                activeBtn.classList.remove('text-blue-soft');
+                activeBtn.classList.add('bg-blue-navy', 'text-blue-light');
+                const dot = activeBtn.querySelector('.bubble-dot');
+                if(dot) dot.classList.remove('opacity-0');
+            }
             
             if(tabId === 'dashboard') updateDashboard();
             if(tabId === 'history') updateHistory();
@@ -438,7 +483,6 @@
         document.getElementById('b-date').value = currentMonthStr;
         document.getElementById('history-month-filter').value = currentMonthStr;
 
-        /* ======== CONTROLE DE SUB-CAMPO ======== */
         function toggleFoodSub() {
             const cat = document.getElementById('t-category').value;
             const panel = document.getElementById('food-sub-panel');
@@ -446,9 +490,8 @@
             else panel.classList.add('hidden');
         }
 
-        /* ======== ESTADOS DOS FILTROS COMBINADOS DA ROSCA ======== */
-        let categoryViewFilter = 'Geral';     // 'Geral', 'Alimentacao', 'Basicos'
-        let categoryPersonFilter = 'Todos';   // 'Todos', 'Larissa', 'Pedro'
+        let categoryViewFilter = 'Geral';
+        let categoryPersonFilter = 'Todos';
         let historyChartFilterState = 'Geral';
 
         function setCategoryView(view) {
@@ -456,8 +499,8 @@
             ['Geral', 'Alimentacao', 'Basicos'].forEach(v => {
                 const btn = document.getElementById(`cv-${v}`);
                 if(btn) {
-                    if(v === view) btn.className = "px-2 py-1 rounded bg-primary text-white font-bold";
-                    else btn.className = "px-2 py-1 rounded bg-gray-200 dark:bg-gray-700";
+                    if(v === view) btn.className = "px-2.5 py-1 rounded-lg bg-blue-navy text-blue-light font-bold";
+                    else btn.className = "px-2.5 py-1 rounded-lg bg-black/40 text-blue-soft border border-blue-navy";
                 }
             });
             updateDashboard();
@@ -468,8 +511,8 @@
             ['Todos', 'Larissa', 'Pedro'].forEach(p => {
                 const btn = document.getElementById(`cp-${p}`);
                 if(btn) {
-                    if(p === person) btn.className = "px-2 py-1 rounded bg-primary text-white font-bold";
-                    else btn.className = "px-2 py-1 rounded bg-gray-200 dark:bg-gray-700";
+                    if(p === person) btn.className = "px-2.5 py-1 rounded-lg bg-blue-navy text-blue-light font-bold";
+                    else btn.className = "px-2.5 py-1 rounded-lg bg-black/40 text-blue-soft border border-blue-navy";
                 }
             });
             updateDashboard();
@@ -480,14 +523,13 @@
             ['Geral', 'Larissa', 'Pedro'].forEach(p => {
                 const btn = document.getElementById(`hf-${p}`);
                 if(btn) {
-                    if(p === person) btn.className = "px-2 py-0.5 rounded bg-primary text-white font-bold";
-                    else btn.className = "px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700";
+                    if(p === person) btn.className = "px-2 py-0.5 rounded bg-blue-navy text-blue-light font-bold";
+                    else btn.className = "px-2 py-0.5 rounded bg-black/40 text-blue-soft border border-blue-navy";
                 }
             });
             updateHistory();
         }
 
-        /* ======== LANÇAR TRANSAÇÃO ======== */
         document.getElementById('form-transaction').addEventListener('submit', async (e) => {
             e.preventDefault();
             const category = document.getElementById('t-category').value;
@@ -519,7 +561,6 @@
             alert('Transação salva com sucesso!');
         });
 
-        /* ======== LANÇAR BÁSICOS ======== */
         document.getElementById('form-basics').addEventListener('submit', async (e) => {
             e.preventDefault();
             const item = document.getElementById('b-item').value;
@@ -548,7 +589,6 @@
             alert(`Conta de ${item} salva! Divisão de 50/50 calculada.`);
         });
 
-        /* ======== CALCULADORA DE AJUSTES ======== */
         function toggleAdjustments() {
             const panel = document.getElementById('adjustments-panel');
             const icon = document.getElementById('adj-icon');
@@ -618,7 +658,6 @@
             alert(`Conta de ${item} salva com divisão proporcional!`);
         }
 
-        /* ======== RESUMO ======== */
         async function updateDashboard() {
             const txs = await db.transactions.toArray();
             let income = 0, expense = 0;
@@ -629,7 +668,6 @@
             const expensesByCategory = {};
             const prevMonthExpensesByCategory = {};
 
-            // Mês anterior para MoM
             const d = new Date(currentMonth + '-02');
             d.setMonth(d.getMonth() - 1);
             const prevMonthStr = d.toISOString().slice(0,7);
@@ -644,10 +682,7 @@
                         if(t.payer === 'Larissa') larissaBal += effectiveAmount;
                         if(t.payer === 'Pedro') pedroBal += effectiveAmount;
                     } else {
-                        // REGRA: Alimentação NÃO desconta do Saldo Geral
-                        if(!isFood) {
-                            expense += t.amount;
-                        }
+                        if(!isFood) { expense += t.amount; }
 
                         if(t.payer === 'Larissa') {
                             if(!isFood) larissaBal -= effectiveAmount;
@@ -657,22 +692,15 @@
                             if(!isFood) pedroBal -= effectiveAmount;
                         }
 
-                        // APLICAÇÃO DOS FILTROS COMBINADOS NO GRÁFICO DE ROSCA
                         const matchesPerson = (categoryPersonFilter === 'Todos' || t.payer === categoryPersonFilter);
 
                         if(matchesPerson) {
                             let key = null;
-                            if(categoryViewFilter === 'Geral') {
-                                key = t.category;
-                            } else if(categoryViewFilter === 'Alimentacao') {
-                                if(isFood) key = t.subcategory || t.category;
-                            } else if(categoryViewFilter === 'Basicos') {
-                                if(t.category === 'Básicos') key = t.subcategory || t.description;
-                            }
+                            if(categoryViewFilter === 'Geral') key = t.category;
+                            else if(categoryViewFilter === 'Alimentacao') { if(isFood) key = t.subcategory || t.category; }
+                            else if(categoryViewFilter === 'Basicos') { if(t.category === 'Básicos') key = t.subcategory || t.description; }
 
-                            if(key) {
-                                expensesByCategory[key] = (expensesByCategory[key] || 0) + t.amount;
-                            }
+                            if(key) expensesByCategory[key] = (expensesByCategory[key] || 0) + t.amount;
                         }
                     }
                 } else if(t.date === prevMonthStr && t.type === 'expense') {
@@ -680,17 +708,11 @@
 
                     if(matchesPerson) {
                         let key = null;
-                        if(categoryViewFilter === 'Geral') {
-                            key = t.category;
-                        } else if(categoryViewFilter === 'Alimentacao') {
-                            if(isFood) key = t.subcategory || t.category;
-                        } else if(categoryViewFilter === 'Basicos') {
-                            if(t.category === 'Básicos') key = t.subcategory || t.description;
-                        }
+                        if(categoryViewFilter === 'Geral') key = t.category;
+                        else if(categoryViewFilter === 'Alimentacao') { if(isFood) key = t.subcategory || t.category; }
+                        else if(categoryViewFilter === 'Basicos') { if(t.category === 'Básicos') key = t.subcategory || t.description; }
 
-                        if(key) {
-                            prevMonthExpensesByCategory[key] = (prevMonthExpensesByCategory[key] || 0) + t.amount;
-                        }
+                        if(key) prevMonthExpensesByCategory[key] = (prevMonthExpensesByCategory[key] || 0) + t.amount;
                     }
                 }
             });
@@ -701,7 +723,6 @@
             document.getElementById('dash-larissa').innerText = formatCurrency(larissaBal);
             document.getElementById('dash-pedro').innerText = formatCurrency(pedroBal);
 
-            // Teto de Gastos Larissa (R$ 3.000,00)
             const tetoMax = 3000;
             const tetoLivre = tetoMax - larissaExpensesMonth;
             const pctSpent = Math.min(100, Math.max(0, (larissaExpensesMonth / tetoMax) * 100));
@@ -711,21 +732,20 @@
             document.getElementById('teto-progress-bar').style.width = `${pctSpent}%`;
 
             if(tetoLivre < 0) {
-                document.getElementById('teto-free').className = 'text-red-600 font-bold';
-                document.getElementById('teto-progress-bar').className = 'bg-red-600 h-full transition-all duration-300';
+                document.getElementById('teto-free').className = 'text-rose-500 font-bold';
+                document.getElementById('teto-progress-bar').className = 'bg-rose-500 h-full transition-all duration-300';
             } else {
-                document.getElementById('teto-free').className = 'text-green-500';
-                document.getElementById('teto-progress-bar').className = 'bg-purple-600 h-full transition-all duration-300';
+                document.getElementById('teto-free').className = 'text-emerald-400';
+                document.getElementById('teto-progress-bar').className = 'bg-blue-light h-full transition-all duration-300';
             }
 
-            // MoM Individual por Item
             const momContainer = document.getElementById('mom-list-container');
             momContainer.innerHTML = '';
             
             const totalCurr = Object.values(expensesByCategory).reduce((a,b)=>a+b, 0);
 
             if(Object.keys(expensesByCategory).length === 0) {
-                momContainer.innerHTML = `<p class="text-gray-400 italic text-center py-2">Sem despesas registradas para este filtro.</p>`;
+                momContainer.innerHTML = `<p class="text-blue-soft italic text-center py-2">Sem despesas registradas para este filtro.</p>`;
             } else {
                 Object.keys(expensesByCategory).forEach(catKey => {
                     const currVal = expensesByCategory[catKey];
@@ -733,20 +753,20 @@
                     const pctOfTotal = totalCurr > 0 ? ((currVal / totalCurr) * 100).toFixed(1) : '0.0';
                     
                     let momBadge = 'N/A';
-                    let badgeClass = 'bg-gray-100 text-gray-600';
+                    let badgeClass = 'bg-blue-navy/50 text-blue-soft';
 
                     if(prevVal > 0) {
                         const diff = ((currVal - prevVal) / prevVal) * 100;
                         const isUp = diff > 0;
                         momBadge = `${isUp ? '+' : ''}${diff.toFixed(1)}%`;
-                        badgeClass = isUp ? 'bg-red-100 text-red-700 font-bold' : 'bg-green-100 text-green-700 font-bold';
+                        badgeClass = isUp ? 'bg-rose-950 text-rose-300 border border-rose-800' : 'bg-emerald-950 text-emerald-300 border border-emerald-800';
                     }
 
                     momContainer.innerHTML += `
-                        <div class="flex justify-between items-center py-1 border-b dark:border-gray-700 last:border-0">
-                            <span class="font-bold text-gray-700 dark:text-gray-300">${catKey} <span class="text-[10px] font-normal text-gray-400">(${pctOfTotal}%)</span></span>
+                        <div class="flex justify-between items-center py-1.5 border-b border-blue-navy/50 last:border-0">
+                            <span class="font-bold text-blue-light">${catKey} <span class="text-[10px] font-normal text-blue-soft">(${pctOfTotal}%)</span></span>
                             <div class="flex items-center gap-2">
-                                <span class="font-semibold">${formatCurrency(currVal)}</span>
+                                <span class="font-semibold text-blue-light">${formatCurrency(currVal)}</span>
                                 <span class="px-1.5 py-0.5 rounded text-[10px] ${badgeClass}">${momBadge} MoM</span>
                             </div>
                         </div>
@@ -757,7 +777,6 @@
             renderChart(expensesByCategory);
         }
 
-        /* ======== HISTÓRICO ======== */
         async function updateHistory() {
             const txs = await db.transactions.orderBy('date').reverse().toArray();
             const list = document.getElementById('history-list'); list.innerHTML = '';
@@ -770,14 +789,12 @@
             txs.forEach(t => {
                 const effectiveAmount = t.userAmount !== undefined ? t.userAmount : t.amount;
 
-                // Gráfico de Barras por Mês
                 if(historyChartFilterState === 'Geral' || t.payer === historyChartFilterState) {
                     if(!monthlyIncExp[t.date]) monthlyIncExp[t.date] = { inc: 0, exp: 0 };
                     if(t.type === 'income') monthlyIncExp[t.date].inc += effectiveAmount;
                     else monthlyIncExp[t.date].exp += effectiveAmount;
                 }
 
-                // Lista do Histórico
                 if((selectedMonthFilter === "" || t.date === selectedMonthFilter) &&
                    (listFilter === 'Geral' || t.payer === listFilter)) {
                     
@@ -787,24 +804,24 @@
                     const displayCategory = t.subcategory ? `${t.category} (${t.subcategory})` : t.category;
 
                     list.innerHTML += `
-                        <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow border-l-4 ${isInc ? 'border-green-500' : 'border-red-500'} cursor-pointer" onclick="toggleTxDetails(${t.id})">
+                        <div class="bg-blue-deep border border-blue-navy p-3 rounded-xl shadow border-l-4 ${isInc ? 'border-emerald-400' : 'border-rose-500'} cursor-pointer" onclick="toggleTxDetails(${t.id})">
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <p class="font-bold text-sm">${t.description}</p>
-                                    <p class="text-xs text-gray-500">${monthDisplay} • ${displayCategory} • <span class="font-bold text-gray-700 dark:text-gray-300">${t.payer || 'Geral'}</span></p>
+                                    <p class="font-bold text-sm text-blue-light">${t.description}</p>
+                                    <p class="text-xs text-blue-soft">${monthDisplay} • ${displayCategory} • <span class="font-bold text-blue-soft">${t.payer || 'Geral'}</span></p>
                                 </div>
                                 <div class="text-right">
-                                    <p class="font-bold ${isInc ? 'text-green-500' : 'text-red-500'}">${isInc ? '+' : '-'}${formatCurrency(effectiveAmount)}</p>
-                                    <button onclick="event.stopPropagation(); deleteTransaction(${t.id})" class="text-red-500 text-xs mt-1 p-1"><i class="fa-solid fa-trash"></i></button>
+                                    <p class="font-bold ${isInc ? 'text-emerald-400' : 'text-rose-400'}">${isInc ? '+' : '-'}${formatCurrency(effectiveAmount)}</p>
+                                    <button onclick="event.stopPropagation(); deleteTransaction(${t.id})" class="text-rose-400 text-xs mt-1 p-1"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </div>
-                            ${t.details ? `<div id="tx-det-${t.id}" class="hidden mt-2 pt-2 border-t dark:border-gray-700 text-xs text-purple-600 dark:text-purple-300 font-bold">${t.details}</div>` : ''}
+                            ${t.details ? `<div id="tx-det-${t.id}" class="hidden mt-2 pt-2 border-t border-blue-navy text-xs text-blue-soft font-bold">${t.details}</div>` : ''}
                         </div>
                     `;
                 }
             });
 
-            if(list.innerHTML === '') list.innerHTML = '<p class="text-center text-gray-500 py-4 text-sm">Nenhuma transação encontrada no período.</p>';
+            if(list.innerHTML === '') list.innerHTML = '<p class="text-center text-blue-soft py-6 text-sm">Nenhuma transação encontrada no período.</p>';
 
             renderHistoryChart(monthlyIncExp);
         }
@@ -820,12 +837,9 @@
             }
         }
 
-        /* ======== GRÁFICOS ======== */
         let chartInstance = null;
         function renderChart(dataObj) {
             const ctx = document.getElementById('expenseChart').getContext('2d');
-            const isDark = document.documentElement.classList.contains('dark');
-            const textColor = isDark ? '#fff' : '#000';
             if(chartInstance) chartInstance.destroy();
             
             const labels = Object.keys(dataObj); 
@@ -834,8 +848,8 @@
             if(labels.length === 0) {
                 chartInstance = new Chart(ctx, { 
                     type: 'doughnut', 
-                    data: { labels: ['Sem despesas'], datasets: [{ data: [1], backgroundColor: ['#ccc'] }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: textColor, boxWidth: 12 } } } } 
+                    data: { labels: ['Sem despesas'], datasets: [{ data: [1], backgroundColor: ['#052659'] }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: '#7DA0CA', boxWidth: 12 } } } } 
                 }); 
                 return; 
             }
@@ -846,7 +860,7 @@
                 type: 'doughnut', 
                 data: { 
                     labels, 
-                    datasets: [{ data, backgroundColor: ['#ef4444', '#f97316', '#f59e0b', '#84cc16', '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899'] }] 
+                    datasets: [{ data, backgroundColor: ['#C1E8FF', '#7DA0CA', '#5483B3', '#052659', '#38bdf8', '#818cf8', '#c084fc', '#f472b6'] }] 
                 }, 
                 options: { 
                     responsive: true,
@@ -854,7 +868,7 @@
                     plugins: { 
                         legend: { 
                             position: 'right', 
-                            labels: { color: textColor, boxWidth: 10, font: { size: 9 } } 
+                            labels: { color: '#C1E8FF', boxWidth: 10, font: { size: 10 } } 
                         },
                         tooltip: {
                             callbacks: {
@@ -873,8 +887,6 @@
         let historyChartInstance = null;
         function renderHistoryChart(dataObj) {
             const ctx = document.getElementById('historyChart').getContext('2d');
-            const isDark = document.documentElement.classList.contains('dark');
-            const textColor = isDark ? '#fff' : '#000';
             
             if(historyChartInstance) historyChartInstance.destroy();
             
@@ -892,15 +904,15 @@
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: 'Entradas', data: incomeData, backgroundColor: '#10b981', borderRadius: 4 },
-                        { label: 'Saídas', data: expenseData, backgroundColor: '#ef4444', borderRadius: 4 }
+                        { label: 'Entradas', data: incomeData, backgroundColor: '#34d399', borderRadius: 4 },
+                        { label: 'Saídas', data: expenseData, backgroundColor: '#f87171', borderRadius: 4 }
                     ]
                 },
                 options: {
-                    plugins: { legend: { labels: { color: textColor } } },
+                    plugins: { legend: { labels: { color: '#C1E8FF' } } },
                     scales: {
-                        x: { ticks: { color: textColor } },
-                        y: { ticks: { color: textColor } }
+                        x: { ticks: { color: '#7DA0CA' }, grid: { color: '#052659' } },
+                        y: { ticks: { color: '#7DA0CA' }, grid: { color: '#052659' } }
                     }
                 }
             });
@@ -908,7 +920,6 @@
 
         function updateChart() { updateDashboard(); }
 
-        /* ======== LISTA DE COMPRAS ======== */
         function generateMonthOptions() {
             const select = document.getElementById('s-month-filter'); select.innerHTML = '';
             const startDate = new Date(2026, 7); let currentDate = new Date();
@@ -944,7 +955,7 @@
             const container = document.getElementById('shopping-list-container');
             container.innerHTML = '';
             
-            if(items.length === 0) { container.innerHTML = '<p class="text-center text-gray-500 py-4 text-sm">Lista vazia neste mês.</p>'; return; }
+            if(items.length === 0) { container.innerHTML = '<p class="text-center text-blue-soft py-6 text-sm">Lista vazia neste mês.</p>'; return; }
 
             const order = ["Mercearia", "Hortifruti", "Proteínas", "Higiene", "Limpeza", "Outras despesas"];
             const grouped = { "Mercearia": [], "Hortifruti": [], "Proteínas": [], "Higiene": [], "Limpeza": [], "Outras despesas": [] };
@@ -956,20 +967,20 @@
 
             order.forEach(cat => {
                 if(grouped[cat] && grouped[cat].length > 0) {
-                    container.innerHTML += `<div class="bg-gray-200 dark:bg-gray-700 px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-widest border-b dark:border-gray-600">${cat}</div>`;
+                    container.innerHTML += `<div class="bg-blue-navy/60 px-3 py-1.5 text-[10px] font-bold text-blue-soft uppercase tracking-widest border-b border-blue-navy">${cat}</div>`;
                     grouped[cat].forEach(i => {
                         container.innerHTML += `
-                            <div class="flex items-center justify-between p-3 border-b dark:border-gray-700 last:border-0 bg-white dark:bg-gray-800">
+                            <div class="flex items-center justify-between p-3 border-b border-blue-navy/50 last:border-0 bg-blue-deep">
                                 <label class="flex items-center cursor-pointer flex-1 overflow-hidden">
                                     <input type="checkbox" ${i.done ? 'checked' : ''} onchange="toggleShopping(${i.id}, this.checked)" class="round-cb flex-shrink-0">
-                                    <div class="${i.done ? 'line-through text-gray-400' : ''} flex items-baseline truncate pr-2">
-                                        <span class="font-bold text-base truncate">${i.text}</span>
-                                        <span class="text-gray-500 font-normal ml-2 text-sm flex-shrink-0">${i.quantity}</span>
+                                    <div class="${i.done ? 'line-through text-blue-soft/50' : 'text-blue-light'} flex items-baseline truncate pr-2">
+                                        <span class="font-bold text-sm truncate">${i.text}</span>
+                                        <span class="text-blue-soft font-normal ml-2 text-xs flex-shrink-0">${i.quantity}</span>
                                     </div>
                                 </label>
                                 <div class="flex items-center gap-3 ml-2">
-                                    <button onclick="editShopping(${i.id})" class="text-blue-500 p-1"><i class="fa-solid fa-pen"></i></button>
-                                    <button onclick="deleteShopping(${i.id})" class="text-red-500 font-bold p-1"><i class="fa-solid fa-xmark text-xl"></i></button>
+                                    <button onclick="editShopping(${i.id})" class="text-blue-soft p-1"><i class="fa-solid fa-pen"></i></button>
+                                    <button onclick="deleteShopping(${i.id})" class="text-rose-400 font-bold p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
                                 </div>
                             </div>
                         `;
@@ -1020,7 +1031,6 @@
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        /* ======== CARDÁPIO SEMANAL ======== */
         let currentWeekOffset = 0;
         let selectedMenuDateStr = new Date().toISOString().slice(0, 10);
 
@@ -1069,9 +1079,9 @@
                 const isSel = dStr === selectedMenuDateStr;
 
                 cal.innerHTML += `
-                    <button onclick="selectMenuDate('${dStr}')" class="flex-1 py-2 px-1 rounded-xl flex flex-col items-center transition-all ${isSel ? 'bg-primary text-white shadow-md font-bold' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700'}">
-                        <span class="text-[10px] uppercase font-normal">${daysShort[i]}</span>
-                        <span class="text-sm mt-0.5">${dayNum}</span>
+                    <button onclick="selectMenuDate('${dStr}')" class="flex-1 py-2 px-1 rounded-xl flex flex-col items-center transition-all ${isSel ? 'bg-blue-navy text-blue-light font-bold shadow border border-blue-mid' : 'text-blue-soft hover:bg-blue-navy/40'}">
+                        <span class="text-[9px] uppercase font-normal">${daysShort[i]}</span>
+                        <span class="text-xs mt-0.5">${dayNum}</span>
                     </button>
                 `;
             }
@@ -1100,11 +1110,10 @@
             const displayDate = `${d}/${m}/${y}`;
 
             if(items.length === 0) {
-                container.innerHTML = `<p class="text-center text-gray-500 py-6 text-sm">Nenhuma refeição cadastrada para ${displayDate}.</p>`;
+                container.innerHTML = `<p class="text-center text-blue-soft py-6 text-sm">Nenhuma refeição cadastrada para ${displayDate}.</p>`;
                 return;
             }
 
-            // ORDENAÇÃO CRONOLÓGICA FIXA DAS REFEIÇÕES
             const mealOrder = {
                 'Café da Manhã': 1,
                 'Almoço': 2,
@@ -1115,27 +1124,27 @@
             items.sort((a, b) => (mealOrder[a.type] || 99) - (mealOrder[b.type] || 99));
 
             const tagColors = {
-                'Café da Manhã': 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300',
-                'Almoço': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300',
-                'Snack': 'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300',
-                'Jantar': 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300'
+                'Café da Manhã': 'bg-amber-950/80 text-amber-300 border border-amber-800',
+                'Almoço': 'bg-emerald-950/80 text-emerald-300 border border-emerald-800',
+                'Snack': 'bg-purple-950/80 text-purple-300 border border-purple-800',
+                'Jantar': 'bg-blue-navy text-blue-light border border-blue-mid'
             };
 
             items.forEach(i => {
                 container.innerHTML += `
-                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-4 border-l-4 border-primary">
+                    <div class="bg-blue-deep border border-blue-navy rounded-xl shadow p-4 border-l-4 border-l-blue-light">
                         <div class="flex justify-between items-start cursor-pointer" onclick="toggleMenuDesc(${i.id})">
                             <div>
-                                <h3 class="font-bold text-base leading-snug">${i.dish}</h3>
-                                <span class="inline-block mt-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full ${tagColors[i.type] || 'bg-gray-100 text-gray-700'}">${i.type}</span>
+                                <h3 class="font-bold text-sm text-blue-light leading-snug">${i.dish}</h3>
+                                <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${tagColors[i.type] || 'bg-blue-navy text-blue-light'}">${i.type}</span>
                             </div>
                             <div class="flex items-center gap-3">
-                                <button onclick="event.stopPropagation(); editMenu(${i.id})" class="text-blue-500 p-1"><i class="fa-solid fa-pen"></i></button>
-                                <button onclick="event.stopPropagation(); deleteMenu(${i.id})" class="text-red-500 font-bold p-1"><i class="fa-solid fa-xmark text-xl"></i></button>
+                                <button onclick="event.stopPropagation(); editMenu(${i.id})" class="text-blue-soft p-1"><i class="fa-solid fa-pen text-xs"></i></button>
+                                <button onclick="event.stopPropagation(); deleteMenu(${i.id})" class="text-rose-400 font-bold p-1"><i class="fa-solid fa-xmark text-base"></i></button>
                             </div>
                         </div>
-                        <div id="m-desc-${i.id}" class="hidden mt-3 pt-3 border-t dark:border-gray-700 text-xs text-gray-600 dark:text-gray-300 whitespace-pre-line">
-                            ${i.desc ? i.desc : '<span class="italic text-gray-400">Sem descrição/ingredientes cadastrados.</span>'}
+                        <div id="m-desc-${i.id}" class="hidden mt-3 pt-3 border-t border-blue-navy text-xs text-blue-soft whitespace-pre-line">
+                            ${i.desc ? i.desc : '<span class="italic text-blue-soft/50">Sem descrição/ingredientes cadastrados.</span>'}
                         </div>
                     </div>
                 `;
@@ -1165,7 +1174,6 @@
             }
         }
 
-        /* ======== IMPORTAR/EXPORTAR ======== */
         async function exportData() {
             const txs = await db.transactions.toArray();
             const shop = await db.shopping.toArray();
@@ -1173,9 +1181,10 @@
             const data = { transactions: txs, shopping: shop, menu: menuData };
             const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
             const url = URL.createObjectURL(blob); const a = document.createElement('a');
-            a.href = url; a.download = `backup_finpwa_${new Date().toISOString().slice(0,10)}.json`;
+            a.href = url; a.download = `backup_casinha_${new Date().toISOString().slice(0,10)}.json`;
             a.click(); URL.revokeObjectURL(url);
         }
+
         async function importData() {
             const fileInput = document.getElementById('importFile');
             if (!fileInput.files.length) return alert('Selecione um arquivo JSON.');
@@ -1198,7 +1207,7 @@
         // INIT
         generateMonthOptions(); 
         document.getElementById('s-qtd').value = '1';
-        updateDashboard(); 
+        nav('dashboard');
         loadShopping();
     </script>
 </body>
