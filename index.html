@@ -63,7 +63,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* DROPDOWNS E INPUTS ESTILO FOSCO (INSPIRAÇÃO IMAGEM 379) */
+        /* INPUTS E BORDAS MAIS FINAS (1px) */
         .ui-field-group {
             position: relative;
             margin-top: 6px;
@@ -86,7 +86,7 @@
             background-color: #FFFFFF;
         }
 
-        .ui-input, .ui-select {
+        .ui-input {
             width: 100%;
             background-color: #111827;
             color: inherit;
@@ -94,37 +94,97 @@
             font-weight: 500;
             padding: 11px 14px;
             border-radius: 12px;
-            border: 1.5px solid #5274FF;
+            border: 1px solid rgba(82, 116, 255, 0.4);
             outline: none;
             transition: all 0.2s ease;
-            appearance: none;
         }
 
-        html.light .ui-input, html.light .ui-select {
+        html.light .ui-input {
             background-color: #F8FAFC;
-            border-color: #5274FF;
+            border-color: rgba(82, 116, 255, 0.4);
         }
 
-        .ui-input:focus, .ui-select:focus {
+        .ui-input:focus {
             border-color: #16D6FA;
-            box-shadow: 0 0 10px rgba(22, 214, 250, 0.2);
+            box-shadow: 0 0 8px rgba(22, 214, 250, 0.2);
         }
 
-        .ui-select-wrapper {
+        /* CUSTOM DROPDOWN SYSTEM (COMPLETAMENTE ESTILIZADO) */
+        .custom-select-container {
             position: relative;
+            width: 100%;
         }
 
-        .ui-select-wrapper::after {
-            content: "\f078";
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            font-size: 10px;
-            color: #16D6FA;
+        .custom-select-trigger {
+            width: 100%;
+            background-color: #111827;
+            color: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 11px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(82, 116, 255, 0.4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        html.light .custom-select-trigger {
+            background-color: #F8FAFC;
+        }
+
+        .custom-select-trigger:focus, .custom-select-container.open .custom-select-trigger {
+            border-color: #16D6FA;
+            box-shadow: 0 0 8px rgba(22, 214, 250, 0.2);
+        }
+
+        .custom-select-options {
             position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background-color: #111827;
+            border: 1px solid rgba(82, 116, 255, 0.5);
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+            z-index: 50;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            padding: 4px;
+        }
+
+        html.light .custom-select-options {
+            background-color: #FFFFFF;
+            border-color: rgba(82, 116, 255, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .custom-select-container.open .custom-select-options {
+            display: block;
+            animation: fadeIn 0.15s ease-out;
+        }
+
+        .custom-option {
+            padding: 10px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .custom-option:hover, .custom-option.selected {
+            background-color: #1F293D;
+            color: #16D6FA;
+        }
+
+        html.light .custom-option:hover, html.light .custom-option.selected {
+            background-color: #F1F5F9;
+            color: #5274FF;
         }
 
         .round-cb {
@@ -201,11 +261,16 @@
                     <div class="flex gap-2">
                         <div class="ui-field-group w-1/3">
                             <span class="ui-field-label">Tipo</span>
-                            <div class="ui-select-wrapper">
-                                <select id="t-type" class="ui-select">
-                                    <option value="income">Entrada</option>
-                                    <option value="expense" selected>Despesa</option>
-                                </select>
+                            <div class="custom-select-container" data-id="t-type">
+                                <div class="custom-select-trigger" tabindex="0">
+                                    <span class="trigger-label">Despesa</span>
+                                    <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                                </div>
+                                <div class="custom-select-options">
+                                    <div class="custom-option" data-value="income">Entrada</div>
+                                    <div class="custom-option selected" data-value="expense">Despesa</div>
+                                </div>
+                                <input type="hidden" id="t-type" value="expense">
                             </div>
                         </div>
                         <div class="ui-field-group w-2/3">
@@ -222,11 +287,16 @@
                     <div class="flex gap-2">
                         <div class="ui-field-group w-1/2">
                             <span class="ui-field-label">Pagador</span>
-                            <div class="ui-select-wrapper">
-                                <select id="t-payer" class="ui-select">
-                                    <option value="Larissa">Larissa</option>
-                                    <option value="Pedro">Pedro</option>
-                                </select>
+                            <div class="custom-select-container" data-id="t-payer">
+                                <div class="custom-select-trigger" tabindex="0">
+                                    <span class="trigger-label">Larissa</span>
+                                    <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                                </div>
+                                <div class="custom-select-options">
+                                    <div class="custom-option selected" data-value="Larissa">Larissa</div>
+                                    <div class="custom-option" data-value="Pedro">Pedro</div>
+                                </div>
+                                <input type="hidden" id="t-payer" value="Larissa">
                             </div>
                         </div>
                         <div class="ui-field-group w-1/2">
@@ -237,16 +307,21 @@
 
                     <div class="ui-field-group">
                         <span class="ui-field-label">Categoria</span>
-                        <div class="ui-select-wrapper">
-                            <select id="t-category" onchange="toggleFoodSub()" class="ui-select">
-                                <option value="Salário">Salário</option>
-                                <option value="Aluguel">Aluguel</option>
-                                <option value="Alimentação">Alimentação (Benefício)</option>
-                                <option value="Transporte">Transporte</option>
-                                <option value="Lazer">Lazer</option>
-                                <option value="Outras entradas">Outras entradas</option>
-                                <option value="Outras despesas">Outras despesas</option>
-                            </select>
+                        <div class="custom-select-container" data-id="t-category" data-onchange="toggleFoodSub">
+                            <div class="custom-select-trigger" tabindex="0">
+                                <span class="trigger-label">Salário</span>
+                                <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                            </div>
+                            <div class="custom-select-options">
+                                <div class="custom-option selected" data-value="Salário">Salário</div>
+                                <div class="custom-option" data-value="Aluguel">Aluguel</div>
+                                <div class="custom-option" data-value="Alimentação">Alimentação (Benefício)</div>
+                                <div class="custom-option" data-value="Transporte">Transporte</div>
+                                <div class="custom-option" data-value="Lazer">Lazer</div>
+                                <div class="custom-option" data-value="Outras entradas">Outras entradas</div>
+                                <div class="custom-option" data-value="Outras despesas">Outras despesas</div>
+                            </div>
+                            <input type="hidden" id="t-category" value="Salário">
                         </div>
                     </div>
 
@@ -274,14 +349,19 @@
                     <div class="flex gap-2">
                         <div class="ui-field-group w-1/2">
                             <span class="ui-field-label">Conta</span>
-                            <div class="ui-select-wrapper">
-                                <select id="b-item" class="ui-select">
-                                    <option value="Água">Água</option>
-                                    <option value="Energia">Energia</option>
-                                    <option value="Seguro">Seguro</option>
-                                    <option value="Gás">Gás</option>
-                                    <option value="Internet">Internet</option>
-                                </select>
+                            <div class="custom-select-container" data-id="b-item">
+                                <div class="custom-select-trigger" tabindex="0">
+                                    <span class="trigger-label">Água</span>
+                                    <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                                </div>
+                                <div class="custom-select-options">
+                                    <div class="custom-option selected" data-value="Água">Água</div>
+                                    <div class="custom-option" data-value="Energia">Energia</div>
+                                    <div class="custom-option" data-value="Seguro">Seguro</div>
+                                    <div class="custom-option" data-value="Gás">Gás</div>
+                                    <div class="custom-option" data-value="Internet">Internet</div>
+                                </div>
+                                <input type="hidden" id="b-item" value="Água">
                             </div>
                         </div>
                         <div class="ui-field-group w-1/2">
@@ -292,11 +372,16 @@
                     <div class="flex gap-2">
                         <div class="ui-field-group w-1/2">
                             <span class="ui-field-label">Quem Pagou</span>
-                            <div class="ui-select-wrapper">
-                                <select id="b-payer" class="ui-select">
-                                    <option value="Larissa">Larissa</option>
-                                    <option value="Pedro">Pedro</option>
-                                </select>
+                            <div class="custom-select-container" data-id="b-payer">
+                                <div class="custom-select-trigger" tabindex="0">
+                                    <span class="trigger-label">Larissa</span>
+                                    <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                                </div>
+                                <div class="custom-select-options">
+                                    <div class="custom-option selected" data-value="Larissa">Larissa</div>
+                                    <div class="custom-option" data-value="Pedro">Pedro</div>
+                                </div>
+                                <input type="hidden" id="b-payer" value="Larissa">
                             </div>
                         </div>
                         <div class="ui-field-group w-1/2">
@@ -429,12 +514,17 @@
                 </div>
                 <div class="ui-field-group">
                     <span class="ui-field-label">Filtrar por Pessoa</span>
-                    <div class="ui-select-wrapper">
-                        <select id="history-list-filter" onchange="updateHistory()" class="ui-select">
-                            <option value="Geral">Todas as Pessoas</option>
-                            <option value="Larissa">Apenas Larissa</option>
-                            <option value="Pedro">Apenas Pedro</option>
-                        </select>
+                    <div class="custom-select-container" data-id="history-list-filter" data-onchange="updateHistory">
+                        <div class="custom-select-trigger" tabindex="0">
+                            <span class="trigger-label">Todas as Pessoas</span>
+                            <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                        </div>
+                        <div class="custom-select-options">
+                            <div class="custom-option selected" data-value="Geral">Todas as Pessoas</div>
+                            <div class="custom-option" data-value="Larissa">Apenas Larissa</div>
+                            <div class="custom-option" data-value="Pedro">Apenas Pedro</div>
+                        </div>
+                        <input type="hidden" id="history-list-filter" value="Geral">
                     </div>
                 </div>
             </div>
@@ -465,8 +555,13 @@
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-white">Lista de Compras</h2>
                 <div class="w-36 ui-field-group !mt-0">
-                    <div class="ui-select-wrapper">
-                        <select id="s-month-filter" class="ui-select !py-1.5 !text-xs font-bold text-app-accent" onchange="loadShopping()"></select>
+                    <div class="custom-select-container" data-id="s-month-filter" data-onchange="loadShopping">
+                        <div class="custom-select-trigger" tabindex="0">
+                            <span class="trigger-label">Selecione</span>
+                            <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                        </div>
+                        <div class="custom-select-options" id="s-month-options"></div>
+                        <input type="hidden" id="s-month-filter" value="">
                     </div>
                 </div>
             </div>
@@ -484,37 +579,46 @@
                     </div>
                     <div class="ui-field-group">
                         <span class="ui-field-label">Unidade</span>
-                        <div class="ui-select-wrapper">
-                            <select id="s-unit" class="ui-select">
-                                <option value="unidades">unidades</option>
-                                <option value="kg">kg</option>
-                                <option value="g">g</option>
-                                <option value="l">l</option>
-                                <option value="ml">ml</option>
-                                <option value="pacote">pacote</option>
-                                <option value="caixa">caixa</option>
-                                <option value="dúzia">dúzia</option>
-                            </select>
+                        <div class="custom-select-container" data-id="s-unit">
+                            <div class="custom-select-trigger" tabindex="0">
+                                <span class="trigger-label">unidades</span>
+                                <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                            </div>
+                            <div class="custom-select-options">
+                                <div class="custom-option selected" data-value="unidades">unidades</div>
+                                <div class="custom-option" data-value="kg">kg</div>
+                                <div class="custom-option" data-value="g">g</div>
+                                <div class="custom-option" data-value="l">l</div>
+                                <div class="custom-option" data-value="ml">ml</div>
+                                <div class="custom-option" data-value="pacote">pacote</div>
+                                <div class="custom-option" data-value="caixa">caixa</div>
+                                <div class="custom-option" data-value="dúzia">dúzia</div>
+                            </div>
+                            <input type="hidden" id="s-unit" value="unidades">
                         </div>
                     </div>
                 </div>
 
-                <!-- DROPDOWN SEM EMOJIS -->
                 <div class="ui-field-group">
                     <span class="ui-field-label">Categoria</span>
-                    <div class="ui-select-wrapper">
-                        <select id="s-category" class="ui-select">
-                            <option value="Mercearia">Mercearia</option>
-                            <option value="Hortifruti">Hortifruti</option>
-                            <option value="Proteínas">Proteínas</option>
-                            <option value="Higiene">Higiene</option>
-                            <option value="Limpeza">Limpeza</option>
-                            <option value="Outros">Outros</option>
-                        </select>
+                    <div class="custom-select-container" data-id="s-category">
+                        <div class="custom-select-trigger" tabindex="0">
+                            <span class="trigger-label">Mercearia</span>
+                            <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                        </div>
+                        <div class="custom-select-options">
+                            <div class="custom-option selected" data-value="Mercearia">Mercearia</div>
+                            <div class="custom-option" data-value="Hortifruti">Hortifruti</div>
+                            <div class="custom-option" data-value="Proteínas">Proteínas</div>
+                            <div class="custom-option" data-value="Higiene">Higiene</div>
+                            <div class="custom-option" data-value="Limpeza">Limpeza</div>
+                            <div class="custom-option" data-value="Outros">Outros</div>
+                        </div>
+                        <input type="hidden" id="s-category" value="Mercearia">
                     </div>
                 </div>
 
-                <button type="submit" class="bg-color-vidaloca hover:opacity-90 text-white font-bold py-2.5 rounded-xl text-xs transition duration-200 mt-1">
+                <button type="submit" id="btn-add-shopping" class="w-full bg-color-vidaloca hover:opacity-90 text-white font-bold py-3 rounded-xl text-xs transition duration-200 mt-1 cursor-pointer">
                     <i class="fa-solid fa-plus mr-1"></i> Adicionar Item
                 </button>
             </form>
@@ -547,13 +651,18 @@
                     </div>
                     <div class="ui-field-group w-1/3">
                         <span class="ui-field-label">Refeição</span>
-                        <div class="ui-select-wrapper">
-                            <select id="m-type" class="ui-select">
-                                <option value="Café da Manhã">Café da Manhã</option>
-                                <option value="Almoço">Almoço</option>
-                                <option value="Snack">Snack</option>
-                                <option value="Jantar">Jantar</option>
-                            </select>
+                        <div class="custom-select-container" data-id="m-type">
+                            <div class="custom-select-trigger" tabindex="0">
+                                <span class="trigger-label">Café da Manhã</span>
+                                <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                            </div>
+                            <div class="custom-select-options">
+                                <div class="custom-option selected" data-value="Café da Manhã">Café da Manhã</div>
+                                <div class="custom-option" data-value="Almoço">Almoço</div>
+                                <div class="custom-option" data-value="Snack">Snack</div>
+                                <div class="custom-option" data-value="Jantar">Jantar</div>
+                            </div>
+                            <input type="hidden" id="m-type" value="Café da Manhã">
                         </div>
                     </div>
                 </div>
@@ -663,6 +772,49 @@
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
+        // INITIALIZE CUSTOM DROPDOWNS
+        function initCustomDropdowns() {
+            document.querySelectorAll('.custom-select-container').forEach(container => {
+                const trigger = container.querySelector('.custom-select-trigger');
+                const options = container.querySelectorAll('.custom-option');
+                const hiddenInputId = container.getAttribute('data-id');
+                const hiddenInput = document.getElementById(hiddenInputId);
+                const onChangeFuncName = container.getAttribute('data-onchange');
+
+                trigger.onclick = (e) => {
+                    e.stopPropagation();
+                    document.querySelectorAll('.custom-select-container').forEach(c => {
+                        if (c !== container) c.classList.remove('open');
+                    });
+                    container.classList.toggle('open');
+                };
+
+                options.forEach(option => {
+                    option.onclick = (e) => {
+                        e.stopPropagation();
+                        options.forEach(o => o.classList.remove('selected'));
+                        option.classList.add('selected');
+                        
+                        const val = option.getAttribute('data-value');
+                        const labelText = option.innerText;
+                        
+                        trigger.querySelector('.trigger-label').innerText = labelText;
+                        if (hiddenInput) hiddenInput.value = val;
+                        
+                        container.classList.remove('open');
+
+                        if (onChangeFuncName && typeof window[onChangeFuncName] === 'function') {
+                            window[onChangeFuncName]();
+                        }
+                    };
+                });
+            });
+        }
+
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.custom-select-container').forEach(c => c.classList.remove('open'));
+        });
+
         // MODO CLARO / MODO ESCURO
         const html = document.documentElement;
         const themeToggle = document.getElementById('themeToggle');
@@ -703,7 +855,6 @@
             document.getElementById('custom-modal').classList.add('hidden');
         }
 
-        // PALETA VIBRANTE PARA O GRÁFICO DE ROSCA
         const VIBRANT_PALETTE = [
             '#FF7C17', '#16D6FA', '#5274FF', '#EA1A7F', '#9AF357', 
             '#AF64E8', '#FEC003', '#3ABABF', '#D62424', '#C65927'
@@ -735,7 +886,7 @@
         }
 
         const db = new Dexie("FinPWA_DB");
-        db.version(9).stores({
+        db.version(10).stores({
             transactions: '++id, type, amount, description, category, subcategory, date, payer, details, sharedPayer, userAmount',
             shopping: '++id, text, quantity, category, done, dateMonth',
             menu: '++id, dish, type, desc, dateStr'
@@ -952,7 +1103,6 @@
                 const isFood = (t.category === 'Alimentação' || t.category.includes('VR') || t.category.includes('VA'));
                 const effectiveAmount = t.userAmount !== undefined ? t.userAmount : t.amount;
 
-                // SALDO GERAL & TETO DE GASTOS
                 if(t.date === currentMonth) {
                     if (t.type === 'income') {
                         income += t.amount;
@@ -971,7 +1121,6 @@
                     }
                 }
 
-                // GRÁFICO DE ROSCA
                 if(t.date === chartSelectedMonth && t.type === 'expense') {
                     const matchesPerson = (categoryPersonFilter === 'Todos' || t.payer === categoryPersonFilter);
 
@@ -1011,7 +1160,6 @@
             document.getElementById('dash-larissa').innerText = formatCurrency(larissaBal);
             document.getElementById('dash-pedro').innerText = formatCurrency(pedroBal);
 
-            // TETO DE GASTOS LARISSA (R$ 3.000,00)
             const tetoMax = 3000;
             const tetoLivre = tetoMax - larissaExpensesMonth;
             const pctSpent = Math.min(100, Math.max(0, (larissaExpensesMonth / tetoMax) * 100));
@@ -1028,7 +1176,6 @@
                 document.getElementById('teto-progress-bar').className = 'bg-app-accent h-full transition-all duration-300';
             }
 
-            // MoM INDIVIDUAL
             const momContainer = document.getElementById('mom-list-container');
             momContainer.innerHTML = '';
             
@@ -1231,36 +1378,62 @@
         }
 
         function generateMonthOptions() {
-            const select = document.getElementById('s-month-filter'); select.innerHTML = '';
-            const startDate = new Date(2026, 7); let currentDate = new Date();
+            const optionsContainer = document.getElementById('s-month-options'); 
+            const hiddenInput = document.getElementById('s-month-filter');
+            const triggerLabel = document.querySelector('[data-id="s-month-filter"] .trigger-label');
+            
+            optionsContainer.innerHTML = '';
+            
+            const startDate = new Date(2026, 7); 
+            let currentDate = new Date();
             if(currentDate < startDate) currentDate = new Date(2026, 7);
+            
             let d = new Date(currentDate.getFullYear(), currentDate.getMonth() + 6, 1);
+            let firstVal = '', firstDisplay = '';
+
+            let isFirst = true;
             while (d >= startDate) {
                 let monthStr = String(d.getMonth() + 1).padStart(2, '0');
                 let val = `${d.getFullYear()}-${monthStr}`;
                 let display = d.toLocaleDateString('pt-BR', {month: 'short', year: 'numeric'}).replace('.', '');
                 display = display.charAt(0).toUpperCase() + display.slice(1);
-                select.innerHTML += `<option value="${val}">${display}</option>`;
+                
+                if (isFirst) {
+                    firstVal = val;
+                    firstDisplay = display;
+                    isFirst = false;
+                }
+
+                optionsContainer.innerHTML += `<div class="custom-option ${val === firstVal ? 'selected' : ''}" data-value="${val}">${display}</div>`;
                 d.setMonth(d.getMonth() - 1);
             }
-            select.value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
+
+            hiddenInput.value = firstVal;
+            if (triggerLabel) triggerLabel.innerText = firstDisplay;
         }
 
         document.getElementById('form-shopping').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const q = document.getElementById('s-qtd-num').value;
-            const u = document.getElementById('s-unit').value;
-            const qtdStr = `${q} ${u}`;
+            const itemInput = document.getElementById('s-item');
+            const qtdNumInput = document.getElementById('s-qtd-num');
+            const unitInput = document.getElementById('s-unit');
+            const categoryInput = document.getElementById('s-category');
+            const monthFilterInput = document.getElementById('s-month-filter');
+
+            if (!itemInput.value || !qtdNumInput.value) return;
+
+            const qtdStr = `${qtdNumInput.value} ${unitInput.value}`;
 
             await db.shopping.add({
-                text: document.getElementById('s-item').value,
+                text: itemInput.value,
                 quantity: qtdStr,
-                category: document.getElementById('s-category').value,
+                category: categoryInput.value,
                 done: false,
-                dateMonth: document.getElementById('s-month-filter').value
+                dateMonth: monthFilterInput.value
             });
-            document.getElementById('s-item').value = ''; 
-            document.getElementById('s-qtd-num').value = '';
+
+            itemInput.value = ''; 
+            qtdNumInput.value = '';
             loadShopping();
         });
 
@@ -1556,6 +1729,7 @@
 
         // INIT
         generateMonthOptions(); 
+        initCustomDropdowns();
         nav('dashboard');
         loadShopping();
     </script>
