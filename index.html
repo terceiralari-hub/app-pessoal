@@ -6,7 +6,7 @@
     <title>Casinha</title>
     
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#021024">
+    <meta name="theme-color" content="#0B1528">
     <link rel="icon" href="355.png">
     <link rel="apple-touch-icon" href="355.png">
 
@@ -17,11 +17,14 @@
             theme: {
                 extend: {
                     colors: {
-                        'blue-deep': '#021024',
-                        'blue-navy': '#052659',
-                        'blue-mid': '#5483B3',
-                        'blue-soft': '#7DA0CA',
-                        'blue-light': '#C1E8FF'
+                        'app-bg': '#000000',
+                        'app-card': '#0B1528',
+                        'app-card-hover': '#111F38',
+                        'app-accent': '#16D6FA',
+                        'app-accent-blue': '#5274FF',
+                        'app-text': '#FFFFFF',
+                        'app-subtext': '#8A99AD',
+                        'input-bg': '#14223B'
                     }
                 }
             }
@@ -42,247 +45,355 @@
         }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Custom Scrollbar escondido para o menu horizontal */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+        /* DESIGN SYSTEM - VARIANT 6 INPUTS & DROPDOWNS */
+        .ui-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #8A99AD;
+            margin-bottom: 4px;
+            padding-left: 2px;
+        }
+
+        .ui-input, .ui-select {
+            width: 100%;
+            background-color: #14223B;
+            color: #FFFFFF;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            outline: none;
+            transition: all 0.2s ease;
+            appearance: none;
+        }
+
+        .ui-input:focus, .ui-select:focus {
+            border-color: #5274FF;
+            background-color: #182845;
+        }
+
+        .ui-select-wrapper {
+            position: relative;
+        }
+
+        .ui-select-wrapper::after {
+            content: "\f078";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 10px;
+            color: #8A99AD;
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
         .round-cb {
             appearance: none;
-            width: 1.5rem; height: 1.5rem;
-            border: 2px solid #5483B3;
+            width: 1.4rem; height: 1.4rem;
+            border: 2px solid #5274FF;
             border-radius: 50%;
             display: grid; place-content: center;
             cursor: pointer; transition: all 0.2s;
             margin-right: 0.5rem;
         }
         .round-cb::before {
-            content: ""; width: 0.8rem; height: 0.8rem;
+            content: ""; width: 0.7rem; height: 0.7rem;
             border-radius: 50%; transform: scale(0);
             transition: 0.2s transform ease-in-out;
-            box-shadow: inset 1em 1em #C1E8FF;
+            box-shadow: inset 1em 1em #16D6FA;
         }
-        .round-cb:checked { border-color: #C1E8FF; }
+        .round-cb:checked { border-color: #16D6FA; }
         .round-cb:checked::before { transform: scale(1); }
     </style>
 </head>
-<body class="bg-black text-gray-200 min-h-screen pb-28">
+<body class="bg-black text-white min-h-screen pb-28">
 
     <!-- HEADER -->
-    <header class="bg-blue-deep/90 backdrop-blur border-b border-blue-navy text-blue-light p-4 sticky top-0 z-40 shadow-lg flex justify-between items-center">
+    <header class="bg-app-card/90 backdrop-blur border-b border-app-card-hover text-white p-4 sticky top-0 z-40 shadow-xl flex justify-between items-center">
         <div class="flex items-center gap-3">
-            <img src="355.png" onerror="this.style.display='none'" class="w-8 h-8 rounded-full object-cover border border-blue-soft">
-            <h1 class="text-xl font-bold tracking-wide flex items-center gap-2">
-                <i class="fa-solid fa-house text-blue-light"></i> Casinha
+            <img src="355.png" onerror="this.style.display='none'" class="w-8 h-8 rounded-full object-cover border border-app-accent-blue">
+            <h1 class="text-lg font-bold tracking-wide flex items-center gap-2">
+                <i class="fa-solid fa-house text-app-accent"></i> Casinha
             </h1>
         </div>
-        <button id="themeToggle" class="p-2 rounded-full hover:bg-blue-navy/50 transition text-blue-soft">
-            <i class="fa-solid fa-moon text-xl" id="themeIcon"></i>
+        <button id="themeToggle" class="p-2 rounded-full hover:bg-app-card-hover transition text-app-subtext">
+            <i class="fa-solid fa-moon text-lg" id="themeIcon"></i>
         </button>
     </header>
 
-    <!-- MAIN CONTAINER (Ajustável para Tablet e Celular) -->
-    <main class="p-4 max-w-md sm:max-w-xl md:max-w-2xl mx-auto space-y-6">
+    <!-- MAIN CONTAINER -->
+    <main class="p-4 max-w-md sm:max-w-xl md:max-w-2xl mx-auto space-y-5">
         
         <!-- ================= RESUMO ================= -->
-        <section id="tab-dashboard" class="tab-content active space-y-6">
+        <section id="tab-dashboard" class="tab-content active space-y-5">
             <!-- Saldo Geral -->
-            <div class="bg-blue-deep border border-blue-navy/80 rounded-2xl shadow-xl p-6 text-center">
-                <p class="text-xs uppercase tracking-wider text-blue-soft font-medium">Saldo Geral</p>
-                <h2 class="text-3xl font-extrabold text-blue-light mt-1" id="dash-balance">R$ 0,00</h2>
-                <div class="flex justify-between mt-5 border-t border-blue-navy/60 pt-4 text-sm font-semibold">
-                    <div class="text-emerald-400 flex items-center gap-1">
-                        <i class="fa-solid fa-arrow-up text-xs"></i> <span id="dash-income">R$ 0,00</span>
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-2xl p-5 text-center">
+                <p class="text-[11px] uppercase tracking-wider text-app-subtext font-semibold">Saldo Geral</p>
+                <h2 class="text-3xl font-extrabold text-white mt-1" id="dash-balance">R$ 0,00</h2>
+                <div class="flex justify-between mt-4 border-t border-app-card-hover/80 pt-3 text-xs font-semibold">
+                    <div class="text-emerald-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-up text-[10px]"></i> <span id="dash-income">R$ 0,00</span>
                     </div>
-                    <div class="text-rose-400 flex items-center gap-1">
-                        <i class="fa-solid fa-arrow-down text-xs"></i> <span id="dash-expense">R$ 0,00</span>
+                    <div class="text-rose-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-down text-[10px]"></i> <span id="dash-expense">R$ 0,00</span>
                     </div>
                 </div>
             </div>
 
             <!-- Saldo Individual -->
             <div class="grid grid-cols-2 gap-3">
-                <div class="bg-blue-deep/80 p-4 rounded-xl border border-blue-navy text-center">
-                    <p class="text-[11px] text-blue-soft font-bold uppercase tracking-wider">Larissa (Saldo)</p>
-                    <p class="text-lg font-bold text-blue-light mt-1" id="dash-larissa">R$ 0,00</p>
+                <div class="bg-app-card p-4 rounded-2xl border border-app-card-hover text-center">
+                    <p class="text-[10px] text-app-subtext font-bold uppercase tracking-wider">Larissa (Saldo)</p>
+                    <p class="text-base font-bold text-app-accent mt-0.5" id="dash-larissa">R$ 0,00</p>
                 </div>
-                <div class="bg-blue-deep/80 p-4 rounded-xl border border-blue-navy text-center">
-                    <p class="text-[11px] text-blue-soft font-bold uppercase tracking-wider">Pedro (Saldo)</p>
-                    <p class="text-lg font-bold text-blue-light mt-1" id="dash-pedro">R$ 0,00</p>
+                <div class="bg-app-card p-4 rounded-2xl border border-app-card-hover text-center">
+                    <p class="text-[10px] text-app-subtext font-bold uppercase tracking-wider">Pedro (Saldo)</p>
+                    <p class="text-base font-bold text-app-accent-blue mt-0.5" id="dash-pedro">R$ 0,00</p>
                 </div>
             </div>
 
             <!-- Nova Transação -->
-            <div class="bg-blue-deep border border-blue-navy rounded-2xl shadow-lg p-5">
-                <h3 class="font-bold mb-3 text-blue-light text-sm flex items-center gap-2"><i class="fa-solid fa-plus-circle text-blue-soft"></i> Nova Transação</h3>
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5">
+                <h3 class="font-bold mb-4 text-white text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-plus-circle text-app-accent"></i> Nova Transação
+                </h3>
                 <form id="form-transaction" class="space-y-3">
                     <div class="flex gap-2">
-                        <select id="t-type" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/3 text-xs font-semibold focus:outline-none focus:border-blue-mid">
-                            <option value="income">Entrada</option>
-                            <option value="expense" selected>Despesa</option>
-                        </select>
-                        <input type="number" id="t-amount" step="0.01" placeholder="Valor (R$)" required class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-2/3 text-xs focus:outline-none focus:border-blue-mid">
+                        <div class="w-1/3">
+                            <label class="ui-label">Tipo</label>
+                            <div class="ui-select-wrapper">
+                                <select id="t-type" class="ui-select">
+                                    <option value="income">Entrada</option>
+                                    <option value="expense" selected>Despesa</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="w-2/3">
+                            <label class="ui-label">Valor (R$)</label>
+                            <input type="number" id="t-amount" step="0.01" placeholder="0,00" required class="ui-input">
+                        </div>
                     </div>
                     
-                    <input type="text" id="t-desc" placeholder="Descrição" required class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-full text-xs focus:outline-none focus:border-blue-mid">
+                    <div>
+                        <label class="ui-label">Descrição</label>
+                        <input type="text" id="t-desc" placeholder="Ex: Supermercado, Aluguel..." required class="ui-input">
+                    </div>
                     
                     <div class="flex gap-2">
-                        <select id="t-payer" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/2 text-xs focus:outline-none focus:border-blue-mid">
-                            <option value="Larissa">Larissa</option>
-                            <option value="Pedro">Pedro</option>
-                        </select>
-                        <input type="month" id="t-date" required onchange="updateDashboard()" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/2 text-xs focus:outline-none focus:border-blue-mid">
-                    </div>
-
-                    <select id="t-category" onchange="toggleFoodSub()" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-full text-xs focus:outline-none focus:border-blue-mid">
-                        <option value="Salário">Salário</option>
-                        <option value="Aluguel">Aluguel</option>
-                        <option value="Alimentação">Alimentação (Benefício)</option>
-                        <option value="Transporte">Transporte</option>
-                        <option value="Lazer">Lazer</option>
-                        <option value="Outras entradas">Outras entradas</option>
-                        <option value="Outras despesas">Outras despesas</option>
-                    </select>
-
-                    <div id="food-sub-panel" class="hidden p-3 bg-blue-navy/30 rounded-xl border border-blue-navy space-y-2">
-                        <p class="text-xs font-bold text-blue-soft">Tipo de Benefício de Alimentação:</p>
-                        <div class="flex items-center gap-4 text-xs font-semibold text-blue-light">
-                            <label class="flex items-center cursor-pointer"><input type="radio" name="foodSub" value="VR Larissa" checked class="mr-1 accent-blue-light"> VR Larissa</label>
-                            <label class="flex items-center cursor-pointer"><input type="radio" name="foodSub" value="VA Larissa" class="mr-1 accent-blue-light"> VA Larissa</label>
-                            <label class="flex items-center cursor-pointer"><input type="radio" name="foodSub" value="VR Pedro" class="mr-1 accent-blue-light"> VR Pedro</label>
+                        <div class="w-1/2">
+                            <label class="ui-label">Pagador</label>
+                            <div class="ui-select-wrapper">
+                                <select id="t-payer" class="ui-select">
+                                    <option value="Larissa">Larissa</option>
+                                    <option value="Pedro">Pedro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="w-1/2">
+                            <label class="ui-label">Mês de Referência</label>
+                            <input type="month" id="t-date" required onchange="updateDashboard()" class="ui-input">
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-blue-navy hover:bg-blue-mid text-blue-light hover:text-white p-2.5 rounded-lg font-bold text-xs transition duration-200">Salvar Transação</button>
+                    <div>
+                        <label class="ui-label">Categoria</label>
+                        <div class="ui-select-wrapper">
+                            <select id="t-category" onchange="toggleFoodSub()" class="ui-select">
+                                <option value="Salário">Salário</option>
+                                <option value="Aluguel">Aluguel</option>
+                                <option value="Alimentação">Alimentação (Benefício)</option>
+                                <option value="Transporte">Transporte</option>
+                                <option value="Lazer">Lazer</option>
+                                <option value="Outras entradas">Outras entradas</option>
+                                <option value="Outras despesas">Outras despesas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="food-sub-panel" class="hidden p-3 bg-input-bg rounded-xl border border-app-card-hover space-y-2">
+                        <p class="text-xs font-bold text-app-accent">Subcategoria de Benefício:</p>
+                        <div class="flex items-center gap-4 text-xs font-semibold text-white">
+                            <label class="flex items-center cursor-pointer"><input type="radio" name="foodSub" value="VR Larissa" checked class="mr-1.5 accent-app-accent"> VR Larissa</label>
+                            <label class="flex items-center cursor-pointer"><input type="radio" name="foodSub" value="VA Larissa" class="mr-1.5 accent-app-accent"> VA Larissa</label>
+                            <label class="flex items-center cursor-pointer"><input type="radio" name="foodSub" value="VR Pedro" class="mr-1.5 accent-app-accent"> VR Pedro</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-app-accent-blue hover:bg-blue-600 text-white p-2.5 rounded-xl font-bold text-xs transition duration-200 mt-2">Salvar Transação</button>
                 </form>
             </div>
 
             <!-- CONTAS BÁSICAS -->
-            <div class="bg-blue-deep border border-blue-navy rounded-2xl shadow-lg p-5">
-                <h3 class="font-bold mb-1 text-blue-light text-sm flex items-center gap-2"><i class="fa-solid fa-bolt text-blue-soft"></i> Contas Básicas</h3>
-                <p class="text-xs text-blue-soft mb-3">Água, Energia, Seguro, Gás ou Internet.</p>
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5">
+                <h3 class="font-bold mb-1 text-white text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-bolt text-app-accent"></i> Contas Básicas
+                </h3>
+                <p class="text-xs text-app-subtext mb-4">Divisão rápida de despesas fixas da casa.</p>
                 
                 <form id="form-basics" class="space-y-3">
                     <div class="flex gap-2">
-                        <select id="b-item" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/2 text-xs focus:outline-none">
-                            <option value="Água">💧 Água</option>
-                            <option value="Energia">⚡ Energia</option>
-                            <option value="Seguro">🛡️ Seguro</option>
-                            <option value="Gás">🔥 Gás</option>
-                            <option value="Internet">🌐 Internet</option>
-                        </select>
-                        <input type="number" id="b-amount" step="0.01" placeholder="Valor Total (R$)" required oninput="calcAdjustments()" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/2 text-xs focus:outline-none">
+                        <div class="w-1/2">
+                            <label class="ui-label">Conta</label>
+                            <div class="ui-select-wrapper">
+                                <select id="b-item" class="ui-select">
+                                    <option value="Água">🚿 Água</option>
+                                    <option value="Energia">🔌 Energia</option>
+                                    <option value="Seguro">🛡️ Seguro</option>
+                                    <option value="Gás">🔥 Gás</option>
+                                    <option value="Internet">📶 Internet</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="w-1/2">
+                            <label class="ui-label">Valor Total (R$)</label>
+                            <input type="number" id="b-amount" step="0.01" placeholder="0,00" required oninput="calcAdjustments()" class="ui-input">
+                        </div>
                     </div>
                     <div class="flex gap-2">
-                        <select id="b-payer" class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/2 text-xs focus:outline-none">
-                            <option value="Larissa">Quem Pagou: Larissa</option>
-                            <option value="Pedro">Quem Pagou: Pedro</option>
-                        </select>
-                        <input type="month" id="b-date" required class="p-2.5 border border-blue-navy bg-black/50 text-blue-light rounded-lg w-1/2 text-xs focus:outline-none">
+                        <div class="w-1/2">
+                            <label class="ui-label">Quem Pagou</label>
+                            <div class="ui-select-wrapper">
+                                <select id="b-payer" class="ui-select">
+                                    <option value="Larissa">Larissa</option>
+                                    <option value="Pedro">Pedro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="w-1/2">
+                            <label class="ui-label">Mês</label>
+                            <input type="month" id="b-date" required class="ui-input">
+                        </div>
                     </div>
                     
-                    <button type="submit" class="w-full bg-blue-navy hover:bg-blue-mid text-blue-light hover:text-white p-2.5 rounded-lg font-bold text-xs transition">Divide 50%</button>
+                    <button type="submit" class="w-full bg-app-card-hover hover:bg-input-bg text-app-accent border border-app-accent/30 p-2.5 rounded-xl font-bold text-xs transition">Dividir 50%</button>
                 </form>
 
-                <div class="mt-4 pt-4 border-t border-blue-navy/60">
-                    <button onclick="toggleAdjustments()" class="w-full text-left font-bold text-xs text-blue-soft flex justify-between items-center">
-                        <span><i class="fa-solid fa-sliders mr-1"></i> Ajustes Proporcionais (Calculadora)</span>
+                <div class="mt-4 pt-3 border-t border-app-card-hover/80">
+                    <button onclick="toggleAdjustments()" class="w-full text-left font-bold text-xs text-app-subtext flex justify-between items-center">
+                        <span><i class="fa-solid fa-sliders mr-1.5"></i> Ajustes Proporcionais (Calculadora)</span>
                         <i class="fa-solid fa-chevron-down" id="adj-icon"></i>
                     </button>
 
-                    <div id="adjustments-panel" class="hidden mt-3 p-3 bg-black/40 rounded-xl border border-blue-navy space-y-3">
-                        <p class="text-[11px] text-blue-soft">Ajuste quando a divisão não for 50/50:</p>
+                    <div id="adjustments-panel" class="hidden mt-3 p-3 bg-black/40 rounded-xl border border-app-card-hover space-y-3">
+                        <p class="text-[11px] text-app-subtext">Defina a porcentagem de cada um:</p>
                         
                         <div class="grid grid-cols-2 gap-2 text-xs">
                             <div>
-                                <label class="font-bold block mb-1 text-blue-light">Larissa (%)</label>
-                                <input type="number" id="adj-l-pct" value="50" min="0" max="100" oninput="onPctChange('Larissa')" class="w-full p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg">
-                                <span id="adj-l-val" class="text-[10px] text-blue-soft font-bold block mt-1">R$ 0,00</span>
+                                <label class="ui-label">Larissa (%)</label>
+                                <input type="number" id="adj-l-pct" value="50" min="0" max="100" oninput="onPctChange('Larissa')" class="ui-input">
+                                <span id="adj-l-val" class="text-[10px] text-app-accent font-bold block mt-1">R$ 0,00</span>
                             </div>
                             <div>
-                                <label class="font-bold block mb-1 text-blue-light">Pedro (%)</label>
-                                <input type="number" id="adj-p-pct" value="50" min="0" max="100" oninput="onPctChange('Pedro')" class="w-full p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg">
-                                <span id="adj-p-val" class="text-[10px] text-blue-soft font-bold block mt-1">R$ 0,00</span>
+                                <label class="ui-label">Pedro (%)</label>
+                                <input type="number" id="adj-p-pct" value="50" min="0" max="100" oninput="onPctChange('Pedro')" class="ui-input">
+                                <span id="adj-p-val" class="text-[10px] text-app-accent-blue font-bold block mt-1">R$ 0,00</span>
                             </div>
                         </div>
 
-                        <button onclick="submitAdjustedBasics()" class="w-full bg-blue-mid text-white p-2 rounded-lg font-bold text-xs">Lançar com Ajuste Personalizado</button>
+                        <button onclick="submitAdjustedBasics()" class="w-full bg-app-accent-blue text-white p-2 rounded-xl font-bold text-xs">Lançar com Ajuste Personalizado</button>
                     </div>
                 </div>
             </div>
 
             <!-- PENÚLTIMO BLOCO: TETO DE GASTOS LARISSA -->
-            <div class="bg-blue-deep border-l-4 border-blue-light border border-blue-navy rounded-2xl shadow-lg p-5">
+            <div class="bg-app-card border-l-4 border-l-app-accent border border-app-card-hover rounded-2xl shadow-xl p-5">
                 <div class="flex justify-between items-center mb-2">
-                    <h3 class="font-bold text-sm text-blue-light flex items-center gap-2"><i class="fa-solid fa-bullseye text-blue-soft"></i> Teto de Gastos (Larissa)</h3>
-                    <span class="text-xs font-bold text-blue-soft">Teto: R$ 3.000,00</span>
+                    <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                        <i class="fa-solid fa-bullseye text-app-accent"></i> Teto de Gastos (Larissa)
+                    </h3>
+                    <span class="text-xs font-bold text-app-subtext">Teto: R$ 3.000,00</span>
                 </div>
                 
-                <div class="w-full bg-black/50 border border-blue-navy h-3 rounded-full overflow-hidden mb-2">
-                    <div id="teto-progress-bar" class="bg-blue-light h-full transition-all duration-300" style="width: 0%"></div>
+                <div class="w-full bg-input-bg h-2.5 rounded-full overflow-hidden mb-2">
+                    <div id="teto-progress-bar" class="bg-app-accent h-full transition-all duration-300" style="width: 0%"></div>
                 </div>
                 
                 <div class="flex justify-between text-xs font-bold mt-1">
-                    <span class="text-blue-soft">Gasto: <span id="teto-spent" class="text-rose-400">R$ 0,00</span></span>
-                    <span class="text-blue-soft">Livre: <span id="teto-free" class="text-emerald-400">R$ 3.000,00</span></span>
+                    <span class="text-app-subtext">Gasto (sem aliment.): <span id="teto-spent" class="text-rose-400">R$ 0,00</span></span>
+                    <span class="text-app-subtext">Livre: <span id="teto-free" class="text-emerald-400">R$ 3.000,00</span></span>
                 </div>
             </div>
 
-            <!-- ÚLTIMO BLOCO: GRÁFICO DE ROSCA -->
-            <div class="bg-blue-deep border border-blue-navy rounded-2xl shadow-lg p-5">
-                <h3 class="font-bold text-sm mb-3 text-blue-light">Distribuição de Custos</h3>
+            <!-- ÚLTIMO BLOCO: GRÁFICO DE ROSCA MELHORADO SEM BORDAS -->
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-sm text-white">Distribuição de Custos</h3>
+                    <div class="w-32">
+                        <input type="month" id="chart-month-filter" onchange="updateDashboard()" class="ui-input !py-1 !px-2 !text-[11px]">
+                    </div>
+                </div>
                 
                 <div class="space-y-2 mb-4">
                     <div class="flex items-center justify-between text-xs">
-                        <span class="text-blue-soft font-bold">Visão:</span>
+                        <span class="text-app-subtext font-semibold">Visão:</span>
                         <div class="flex gap-1">
-                            <button onclick="setCategoryView('Geral')" id="cv-Geral" class="px-2.5 py-1 rounded-lg bg-blue-navy text-blue-light font-bold">Geral</button>
-                            <button onclick="setCategoryView('Alimentacao')" id="cv-Alimentacao" class="px-2.5 py-1 rounded-lg bg-black/40 text-blue-soft border border-blue-navy">Alimentação</button>
-                            <button onclick="setCategoryView('Basicos')" id="cv-Basicos" class="px-2.5 py-1 rounded-lg bg-black/40 text-blue-soft border border-blue-navy">Básico</button>
+                            <button onclick="setCategoryView('Geral')" id="cv-Geral" class="px-2.5 py-1 rounded-lg bg-app-accent-blue text-white font-bold text-[11px]">Geral</button>
+                            <button onclick="setCategoryView('Alimentacao')" id="cv-Alimentacao" class="px-2.5 py-1 rounded-lg bg-input-bg text-app-subtext text-[11px]">Alimentação</button>
+                            <button onclick="setCategoryView('Basicos')" id="cv-Basicos" class="px-2.5 py-1 rounded-lg bg-input-bg text-app-subtext text-[11px]">Básico</button>
                         </div>
                     </div>
                     <div class="flex items-center justify-between text-xs">
-                        <span class="text-blue-soft font-bold">Pessoa:</span>
+                        <span class="text-app-subtext font-semibold">Pessoa:</span>
                         <div class="flex gap-1">
-                            <button onclick="setCategoryPerson('Todos')" id="cp-Todos" class="px-2.5 py-1 rounded-lg bg-blue-navy text-blue-light font-bold">Todos</button>
-                            <button onclick="setCategoryPerson('Larissa')" id="cp-Larissa" class="px-2.5 py-1 rounded-lg bg-black/40 text-blue-soft border border-blue-navy">Larissa</button>
-                            <button onclick="setCategoryPerson('Pedro')" id="cp-Pedro" class="px-2.5 py-1 rounded-lg bg-black/40 text-blue-soft border border-blue-navy">Pedro</button>
+                            <button onclick="setCategoryPerson('Todos')" id="cp-Todos" class="px-2.5 py-1 rounded-lg bg-app-accent-blue text-white font-bold text-[11px]">Todos</button>
+                            <button onclick="setCategoryPerson('Larissa')" id="cp-Larissa" class="px-2.5 py-1 rounded-lg bg-input-bg text-app-subtext text-[11px]">Larissa</button>
+                            <button onclick="setCategoryPerson('Pedro')" id="cp-Pedro" class="px-2.5 py-1 rounded-lg bg-input-bg text-app-subtext text-[11px]">Pedro</button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="h-48 relative">
+                <div class="h-52 relative flex items-center justify-center">
                     <canvas id="expenseChart"></canvas>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                        <span class="text-[10px] uppercase font-semibold text-app-subtext">Total</span>
+                        <span id="chart-center-total" class="text-base font-extrabold text-white">R$ 0,00</span>
+                    </div>
                 </div>
 
-                <div id="mom-list-container" class="mt-4 pt-3 border-t border-blue-navy space-y-1 text-xs"></div>
+                <div id="mom-list-container" class="mt-4 pt-3 border-t border-app-card-hover space-y-1 text-xs"></div>
             </div>
         </section>
 
         <!-- ================= HISTÓRICO ================= -->
         <section id="tab-history" class="tab-content space-y-4">
-            <h2 class="text-xl font-bold text-blue-light">Histórico de Transações</h2>
+            <h2 class="text-xl font-bold text-white">Histórico de Transações</h2>
             
-            <div class="bg-blue-deep border border-blue-navy rounded-2xl shadow p-4">
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow p-4">
                 <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-xs text-blue-soft">Entradas vs Saídas</h3>
+                    <h3 class="font-bold text-xs text-app-subtext">Entradas vs Saídas (Sem Alimentação)</h3>
                     <div class="flex gap-1 text-xs">
-                        <button onclick="setHistoryChartFilter('Geral')" id="hf-Geral" class="px-2 py-0.5 rounded bg-blue-navy text-blue-light font-bold">Geral</button>
-                        <button onclick="setHistoryChartFilter('Larissa')" id="hf-Larissa" class="px-2 py-0.5 rounded bg-black/40 text-blue-soft border border-blue-navy">Larissa</button>
-                        <button onclick="setHistoryChartFilter('Pedro')" id="hf-Pedro" class="px-2 py-0.5 rounded bg-black/40 text-blue-soft border border-blue-navy">Pedro</button>
+                        <button onclick="setHistoryChartFilter('Geral')" id="hf-Geral" class="px-2 py-0.5 rounded bg-app-accent-blue text-white font-bold">Geral</button>
+                        <button onclick="setHistoryChartFilter('Larissa')" id="hf-Larissa" class="px-2 py-0.5 rounded bg-input-bg text-app-subtext">Larissa</button>
+                        <button onclick="setHistoryChartFilter('Pedro')" id="hf-Pedro" class="px-2 py-0.5 rounded bg-input-bg text-app-subtext">Pedro</button>
                     </div>
                 </div>
                 <canvas id="historyChart" height="180"></canvas>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
-                <input type="month" id="history-month-filter" onchange="updateHistory()" class="p-2.5 border border-blue-navy bg-blue-deep text-blue-light rounded-lg text-xs font-bold">
-                <select id="history-list-filter" onchange="updateHistory()" class="p-2.5 border border-blue-navy bg-blue-deep text-blue-light rounded-lg text-xs font-bold">
-                    <option value="Geral">Todas as Pessoas</option>
-                    <option value="Larissa">Apenas Larissa</option>
-                    <option value="Pedro">Apenas Pedro</option>
-                </select>
+                <div>
+                    <label class="ui-label">Mês</label>
+                    <input type="month" id="history-month-filter" onchange="updateHistory()" class="ui-input">
+                </div>
+                <div>
+                    <label class="ui-label">Pessoa</label>
+                    <div class="ui-select-wrapper">
+                        <select id="history-list-filter" onchange="updateHistory()" class="ui-select">
+                            <option value="Geral">Todas as Pessoas</option>
+                            <option value="Larissa">Apenas Larissa</option>
+                            <option value="Pedro">Apenas Pedro</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div id="history-list" class="space-y-3"></div>
@@ -290,79 +401,87 @@
 
         <!-- ================= INVESTIMENTOS ================= -->
         <section id="tab-investments" class="tab-content">
-            <div class="text-center py-16 bg-blue-deep border border-blue-navy rounded-2xl">
-                <i class="fa-solid fa-hand-holding-dollar text-5xl text-blue-soft mb-3"></i>
-                <h2 class="text-xl font-bold text-blue-light">Investimentos</h2>
-                <p class="text-sm text-blue-soft mt-2">Módulo em desenvolvimento...</p>
+            <div class="text-center py-16 bg-app-card border border-app-card-hover rounded-2xl">
+                <i class="fa-solid fa-hand-holding-dollar text-5xl text-app-subtext mb-3"></i>
+                <h2 class="text-xl font-bold text-white">Investimentos</h2>
+                <p class="text-sm text-app-subtext mt-2">Módulo em desenvolvimento...</p>
             </div>
         </section>
 
         <!-- ================= VIAGENS ================= -->
         <section id="tab-travel" class="tab-content">
-            <div class="text-center py-16 bg-blue-deep border border-blue-navy rounded-2xl">
-                <i class="fa-solid fa-plane-departure text-5xl text-blue-soft mb-3"></i>
-                <h2 class="text-xl font-bold text-blue-light">Viagens</h2>
-                <p class="text-sm text-blue-soft mt-2">Módulo em desenvolvimento...</p>
+            <div class="text-center py-16 bg-app-card border border-app-card-hover rounded-2xl">
+                <i class="fa-solid fa-plane-departure text-5xl text-app-subtext mb-3"></i>
+                <h2 class="text-xl font-bold text-white">Viagens</h2>
+                <p class="text-sm text-app-subtext mt-2">Módulo em desenvolvimento...</p>
             </div>
         </section>
 
         <!-- ================= LISTA DE COMPRAS ================= -->
         <section id="tab-shopping" class="tab-content space-y-4">
             <div class="flex justify-between items-center">
-                <h2 class="text-xl font-bold text-blue-light">Lista de Compras</h2>
-                <select id="s-month-filter" class="p-2 border border-blue-navy bg-blue-deep text-blue-light text-xs font-bold rounded-lg" onchange="loadShopping()"></select>
+                <h2 class="text-xl font-bold text-white">Lista de Compras</h2>
+                <div class="w-36">
+                    <div class="ui-select-wrapper">
+                        <select id="s-month-filter" class="ui-select !py-1.5 !text-xs font-bold text-app-accent" onchange="loadShopping()"></select>
+                    </div>
+                </div>
             </div>
 
-            <form id="form-shopping" class="flex flex-col gap-2 bg-blue-deep border border-blue-navy p-4 rounded-xl shadow">
+            <form id="form-shopping" class="flex flex-col gap-2 bg-app-card border border-app-card-hover p-4 rounded-2xl shadow">
                 <div class="flex gap-2">
-                    <input type="text" id="s-item" placeholder="Nome do item..." required class="flex-1 p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg text-xs">
-                    <input type="text" id="s-qtd" placeholder="Qtd" required class="w-20 p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg text-xs">
+                    <input type="text" id="s-item" placeholder="Nome do item..." required class="ui-input flex-1">
+                    <input type="text" id="s-qtd" placeholder="Qtd" required class="ui-input w-20">
                 </div>
                 <div class="flex gap-2">
-                    <select id="s-category" class="flex-1 p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg text-xs">
-                        <option value="Mercearia">🍝 Mercearia</option>
-                        <option value="Hortifruti">🥦 Hortifruti</option>
-                        <option value="Proteínas">🥩 Proteínas</option>
-                        <option value="Higiene">🪥 Higiene</option>
-                        <option value="Limpeza">🧼 Limpeza</option>
-                        <option value="Outras despesas">📦 Outras despesas</option>
-                    </select>
-                    <button type="submit" class="bg-blue-navy text-blue-light px-4 rounded-lg font-bold text-xs"><i class="fa-solid fa-plus mr-1"></i> Add</button>
+                    <div class="ui-select-wrapper flex-1">
+                        <select id="s-category" class="ui-select">
+                            <option value="Mercearia">🍝 Mercearia</option>
+                            <option value="Hortifruti">🥦 Hortifruti</option>
+                            <option value="Proteínas">🥩 Proteínas</option>
+                            <option value="Higiene">🪥 Higiene</option>
+                            <option value="Limpeza">🧼 Limpeza</option>
+                            <option value="Outras despesas">📦 Outras despesas</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="bg-app-accent-blue text-white px-4 rounded-xl font-bold text-xs"><i class="fa-solid fa-plus mr-1"></i> Add</button>
                 </div>
             </form>
 
-            <div class="bg-blue-deep border border-blue-navy rounded-xl shadow overflow-hidden" id="shopping-list-container"></div>
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow overflow-hidden" id="shopping-list-container"></div>
             
             <div class="flex gap-2">
-                <button onclick="shareWhatsApp()" class="w-1/2 bg-emerald-600 text-white p-2.5 rounded-lg font-bold text-xs"><i class="fa-brands fa-whatsapp mr-1"></i> Compartilhar</button>
-                <button onclick="clearShopping()" class="w-1/2 text-rose-400 border border-rose-500/50 p-2.5 rounded-lg font-bold text-xs"><i class="fa-solid fa-trash mr-1"></i> Limpar Mês</button>
+                <button onclick="shareWhatsApp()" class="w-1/2 bg-emerald-600 text-white p-2.5 rounded-xl font-bold text-xs"><i class="fa-brands fa-whatsapp mr-1"></i> Compartilhar</button>
+                <button onclick="clearShopping()" class="w-1/2 text-rose-400 border border-rose-500/40 p-2.5 rounded-xl font-bold text-xs"><i class="fa-solid fa-trash mr-1"></i> Limpar Mês</button>
             </div>
         </section>
 
         <!-- ================= CARDÁPIO SEMANAL ================= -->
         <section id="tab-menu" class="tab-content space-y-4">
-            <h2 class="text-xl font-bold text-blue-light">Cardápio Semanal</h2>
+            <h2 class="text-xl font-bold text-white">Cardápio Semanal</h2>
             
             <div class="flex justify-between items-center px-1">
-                <button onclick="changeWeek(-1)" class="text-blue-light text-lg p-2 font-bold"><i class="fa-solid fa-chevron-left"></i></button>
-                <span id="menu-month-year" class="font-bold text-xs uppercase tracking-wider text-blue-soft"></span>
-                <button onclick="changeWeek(1)" class="text-blue-light text-lg p-2 font-bold"><i class="fa-solid fa-chevron-right"></i></button>
+                <button onclick="changeWeek(-1)" class="text-app-accent text-lg p-2 font-bold"><i class="fa-solid fa-chevron-left"></i></button>
+                <span id="menu-month-year" class="font-bold text-xs uppercase tracking-wider text-app-subtext"></span>
+                <button onclick="changeWeek(1)" class="text-app-accent text-lg p-2 font-bold"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
-            <div class="bg-blue-deep border border-blue-navy rounded-xl p-2 flex justify-between text-center overflow-x-auto gap-1 no-scrollbar" id="week-calendar"></div>
+            <div class="bg-app-card border border-app-card-hover rounded-2xl p-2 flex justify-between text-center overflow-x-auto gap-1 no-scrollbar" id="week-calendar"></div>
 
-            <form id="form-menu" class="flex flex-col gap-2 bg-blue-deep border border-blue-navy p-4 rounded-xl shadow">
+            <form id="form-menu" class="flex flex-col gap-2 bg-app-card border border-app-card-hover p-4 rounded-2xl shadow">
                 <div class="flex gap-2">
-                    <input type="text" id="m-dish" placeholder="Nome do prato/refeição..." required class="flex-1 p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg text-xs">
-                    <select id="m-type" class="w-1/3 p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg text-xs">
-                        <option value="Café da Manhã">Café da Manhã</option>
-                        <option value="Almoço">Almoço</option>
-                        <option value="Snack">Snack</option>
-                        <option value="Jantar">Jantar</option>
-                    </select>
+                    <input type="text" id="m-dish" placeholder="Nome do prato/refeição..." required class="ui-input flex-1">
+                    <div class="ui-select-wrapper w-1/3">
+                        <select id="m-type" class="ui-select">
+                            <option value="Café da Manhã">Café da Manhã</option>
+                            <option value="Almoço">Almoço</option>
+                            <option value="Snack">Snack</option>
+                            <option value="Jantar">Jantar</option>
+                        </select>
+                    </div>
                 </div>
-                <textarea id="m-desc" placeholder="Ingredientes / Modo de preparo (opcional)..." class="p-2 border border-blue-navy bg-black/50 text-blue-light rounded-lg h-16 text-xs"></textarea>
-                <button type="submit" class="bg-blue-navy text-blue-light p-2.5 rounded-lg font-bold text-xs"><i class="fa-solid fa-utensils mr-1"></i> Adicionar ao Cardápio</button>
+                <textarea id="m-desc" placeholder="Ingredientes / Modo de preparo (opcional)..." class="ui-input h-16 resize-none"></textarea>
+                <button type="submit" class="bg-app-accent-blue text-white p-2.5 rounded-xl font-bold text-xs"><i class="fa-solid fa-utensils mr-1"></i> Adicionar ao Cardápio</button>
             </form>
 
             <div class="space-y-3" id="menu-list"></div>
@@ -370,68 +489,68 @@
 
         <!-- ================= CONFIGURAÇÕES ================= -->
         <section id="tab-settings" class="tab-content">
-            <h2 class="text-xl font-bold mb-4 text-blue-light">Configurações & Dados</h2>
-            <div class="bg-blue-deep border border-blue-navy rounded-2xl shadow p-5 space-y-4">
+            <h2 class="text-xl font-bold mb-4 text-white">Configurações & Dados</h2>
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow p-5 space-y-4">
                 <div>
-                    <h3 class="font-bold mb-2 text-blue-light text-sm"><i class="fa-solid fa-download mr-2 text-blue-soft"></i>Exportar Dados</h3>
-                    <p class="text-xs mb-3 text-blue-soft">Salve um backup de todas as suas transações, compras e cardápio.</p>
-                    <button onclick="exportData()" class="w-full bg-blue-navy text-blue-light p-2.5 rounded-lg font-bold text-xs">Exportar JSON</button>
+                    <h3 class="font-bold mb-1 text-white text-sm"><i class="fa-solid fa-download mr-2 text-app-accent"></i>Exportar Dados</h3>
+                    <p class="text-xs mb-3 text-app-subtext">Salve um backup de todas as suas transações, compras e cardápio.</p>
+                    <button onclick="exportData()" class="w-full bg-input-bg text-white p-2.5 rounded-xl font-bold text-xs hover:bg-app-card-hover">Exportar JSON</button>
                 </div>
-                <hr class="border-blue-navy">
+                <hr class="border-app-card-hover">
                 <div>
-                    <h3 class="font-bold mb-2 text-blue-light text-sm"><i class="fa-solid fa-upload mr-2 text-blue-soft"></i>Importar Dados</h3>
-                    <p class="text-xs mb-3 text-blue-soft">Restaure um backup. Isso substituirá os dados atuais!</p>
-                    <input type="file" id="importFile" accept=".json" class="block w-full text-xs text-blue-soft mb-3">
-                    <button onclick="importData()" class="w-full bg-rose-600 text-white p-2.5 rounded-lg font-bold text-xs">Importar e Substituir</button>
+                    <h3 class="font-bold mb-1 text-white text-sm"><i class="fa-solid fa-upload mr-2 text-app-accent"></i>Importar Dados</h3>
+                    <p class="text-xs mb-3 text-app-subtext">Restaure um backup. Isso substituirá os dados atuais!</p>
+                    <input type="file" id="importFile" accept=".json" class="block w-full text-xs text-app-subtext mb-3">
+                    <button onclick="importData()" class="w-full bg-rose-600 text-white p-2.5 rounded-xl font-bold text-xs">Importar e Substituir</button>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- NAVEGAÇÃO INFERIOR ESTILO 6 (BUBBLE) - FLUTUANTE E ARRASTÁVEL -->
+    <!-- NAVEGAÇÃO INFERIOR ESTILO BUBBLE -->
     <div class="fixed bottom-3 left-0 right-0 z-50 flex justify-center px-4">
-        <nav class="bg-blue-deep/95 border border-blue-navy/80 backdrop-blur-md rounded-full shadow-2xl p-1.5 max-w-md sm:max-w-xl md:max-w-2xl w-full">
+        <nav class="bg-app-card/95 border border-app-card-hover/90 backdrop-blur-md rounded-full shadow-2xl p-1.5 max-w-md sm:max-w-xl md:max-w-2xl w-full">
             <div class="flex items-center overflow-x-auto no-scrollbar gap-1 px-1">
                 
                 <button onclick="nav('dashboard')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="dashboard">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-history text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Resumo</span>
                 </button>
 
                 <button onclick="nav('history')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="history">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-chart-line text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Histórico</span>
                 </button>
 
                 <button onclick="nav('investments')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="investments">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-dollar-sign text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Invest.</span>
                 </button>
 
                 <button onclick="nav('shopping')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="shopping">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-cart-shopping text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Compras</span>
                 </button>
 
                 <button onclick="nav('menu')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="menu">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-utensils text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Cardápio</span>
                 </button>
 
                 <button onclick="nav('travel')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="travel">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-plane text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Viagens</span>
                 </button>
 
                 <button onclick="nav('settings')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="settings">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-blue-light opacity-0 transition-all"></span>
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-gear text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Ajustes</span>
                 </button>
@@ -440,27 +559,32 @@
         </nav>
     </div>
 
-    <!-- SCRIPT DE LÓGICA & NAVEGAÇÃO -->
+    <!-- JAVASCRIPT & LÓGICA COMPLETA -->
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
-        // NAVEGAÇÃO BUBBLE ESTILIZADA
+        // PALETA VIBRANTE PARA O GRÁFICO DE ROSCA
+        const VIBRANT_PALETTE = [
+            '#FF7C17', '#16D6FA', '#5274FF', '#EA1A7F', '#9AF357', 
+            '#AF64E8', '#FEC003', '#3ABABF', '#D62424', '#C65927'
+        ];
+
         function nav(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             const targetEl = document.getElementById(`tab-${tabId}`);
             if(targetEl) targetEl.classList.add('active');
             
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-navy', 'text-blue-light');
-                btn.classList.add('text-blue-soft');
+                btn.classList.remove('bg-app-card-hover', 'text-app-accent');
+                btn.classList.add('text-app-subtext');
                 const dot = btn.querySelector('.bubble-dot');
                 if(dot) dot.classList.add('opacity-0');
             });
 
             const activeBtn = document.querySelector(`.nav-btn[data-target="${tabId}"]`);
             if(activeBtn) {
-                activeBtn.classList.remove('text-blue-soft');
-                activeBtn.classList.add('bg-blue-navy', 'text-blue-light');
+                activeBtn.classList.remove('text-app-subtext');
+                activeBtn.classList.add('bg-app-card-hover', 'text-app-accent');
                 const dot = activeBtn.querySelector('.bubble-dot');
                 if(dot) dot.classList.remove('opacity-0');
             }
@@ -482,6 +606,7 @@
         document.getElementById('t-date').value = currentMonthStr;
         document.getElementById('b-date').value = currentMonthStr;
         document.getElementById('history-month-filter').value = currentMonthStr;
+        document.getElementById('chart-month-filter').value = currentMonthStr;
 
         function toggleFoodSub() {
             const cat = document.getElementById('t-category').value;
@@ -499,8 +624,8 @@
             ['Geral', 'Alimentacao', 'Basicos'].forEach(v => {
                 const btn = document.getElementById(`cv-${v}`);
                 if(btn) {
-                    if(v === view) btn.className = "px-2.5 py-1 rounded-lg bg-blue-navy text-blue-light font-bold";
-                    else btn.className = "px-2.5 py-1 rounded-lg bg-black/40 text-blue-soft border border-blue-navy";
+                    if(v === view) btn.className = "px-2.5 py-1 rounded-lg bg-app-accent-blue text-white font-bold text-[11px]";
+                    else btn.className = "px-2.5 py-1 rounded-lg bg-input-bg text-app-subtext text-[11px]";
                 }
             });
             updateDashboard();
@@ -511,8 +636,8 @@
             ['Todos', 'Larissa', 'Pedro'].forEach(p => {
                 const btn = document.getElementById(`cp-${p}`);
                 if(btn) {
-                    if(p === person) btn.className = "px-2.5 py-1 rounded-lg bg-blue-navy text-blue-light font-bold";
-                    else btn.className = "px-2.5 py-1 rounded-lg bg-black/40 text-blue-soft border border-blue-navy";
+                    if(p === person) btn.className = "px-2.5 py-1 rounded-lg bg-app-accent-blue text-white font-bold text-[11px]";
+                    else btn.className = "px-2.5 py-1 rounded-lg bg-input-bg text-app-subtext text-[11px]";
                 }
             });
             updateDashboard();
@@ -523,8 +648,8 @@
             ['Geral', 'Larissa', 'Pedro'].forEach(p => {
                 const btn = document.getElementById(`hf-${p}`);
                 if(btn) {
-                    if(p === person) btn.className = "px-2 py-0.5 rounded bg-blue-navy text-blue-light font-bold";
-                    else btn.className = "px-2 py-0.5 rounded bg-black/40 text-blue-soft border border-blue-navy";
+                    if(p === person) btn.className = "px-2 py-0.5 rounded bg-app-accent-blue text-white font-bold";
+                    else btn.className = "px-2 py-0.5 rounded bg-input-bg text-app-subtext";
                 }
             });
             updateHistory();
@@ -665,10 +790,12 @@
             let larissaExpensesMonth = 0;
 
             const currentMonth = document.getElementById('t-date').value || currentMonthStr;
+            const chartSelectedMonth = document.getElementById('chart-month-filter').value || currentMonthStr;
+
             const expensesByCategory = {};
             const prevMonthExpensesByCategory = {};
 
-            const d = new Date(currentMonth + '-02');
+            const d = new Date(chartSelectedMonth + '-02');
             d.setMonth(d.getMonth() - 1);
             const prevMonthStr = d.toISOString().slice(0,7);
 
@@ -676,41 +803,57 @@
                 const isFood = (t.category === 'Alimentação' || t.category.includes('VR') || t.category.includes('VA'));
                 const effectiveAmount = t.userAmount !== undefined ? t.userAmount : t.amount;
 
+                // LÓGICA DO SALDO GERAL & TETO DE GASTOS
                 if(t.date === currentMonth) {
                     if (t.type === 'income') {
                         income += t.amount;
                         if(t.payer === 'Larissa') larissaBal += effectiveAmount;
                         if(t.payer === 'Pedro') pedroBal += effectiveAmount;
                     } else {
-                        if(!isFood) { expense += t.amount; }
+                        // ALIMENTAÇÃO NÃO DESCONTA DO SALDO GERAL
+                        if(!isFood) {
+                            expense += t.amount;
+                            if(t.payer === 'Larissa') larissaBal -= effectiveAmount;
+                            if(t.payer === 'Pedro') pedroBal -= effectiveAmount;
+                        }
 
-                        if(t.payer === 'Larissa') {
-                            if(!isFood) larissaBal -= effectiveAmount;
+                        // ALIMENTAÇÃO NÃO ENTRA NO TETO DE GASTOS LARISSA
+                        if(t.payer === 'Larissa' && !isFood) {
                             larissaExpensesMonth += effectiveAmount;
                         }
-                        if(t.payer === 'Pedro') {
-                            if(!isFood) pedroBal -= effectiveAmount;
+                    }
+                }
+
+                // LÓGICA DO GRÁFICO DE ROSCA
+                if(t.date === chartSelectedMonth && t.type === 'expense') {
+                    const matchesPerson = (categoryPersonFilter === 'Todos' || t.payer === categoryPersonFilter);
+
+                    if(matchesPerson) {
+                        let key = null;
+                        if(categoryViewFilter === 'Geral') {
+                            // ALIMENTAÇÃO SAI DO GRÁFICO GERAL
+                            if(!isFood) key = t.category;
+                        } else if(categoryViewFilter === 'Alimentacao') {
+                            // ALIMENTAÇÃO APARECE AQUI EXCLUSIVAMENTE
+                            if(isFood) key = t.subcategory || t.category;
+                        } else if(categoryViewFilter === 'Basicos') {
+                            if(t.category === 'Básicos') key = t.subcategory || t.description;
                         }
 
-                        const matchesPerson = (categoryPersonFilter === 'Todos' || t.payer === categoryPersonFilter);
-
-                        if(matchesPerson) {
-                            let key = null;
-                            if(categoryViewFilter === 'Geral') key = t.category;
-                            else if(categoryViewFilter === 'Alimentacao') { if(isFood) key = t.subcategory || t.category; }
-                            else if(categoryViewFilter === 'Basicos') { if(t.category === 'Básicos') key = t.subcategory || t.description; }
-
-                            if(key) expensesByCategory[key] = (expensesByCategory[key] || 0) + t.amount;
-                        }
+                        if(key) expensesByCategory[key] = (expensesByCategory[key] || 0) + t.amount;
                     }
                 } else if(t.date === prevMonthStr && t.type === 'expense') {
                     const matchesPerson = (categoryPersonFilter === 'Todos' || t.payer === categoryPersonFilter);
 
                     if(matchesPerson) {
                         let key = null;
-                        if(categoryViewFilter === 'Geral') key = t.category;
-                        else if(categoryViewFilter === 'Alimentacao') { if(isFood) key = t.subcategory || t.category; }
-                        else if(categoryViewFilter === 'Basicos') { if(t.category === 'Básicos') key = t.subcategory || t.description; }
+                        if(categoryViewFilter === 'Geral') {
+                            if(!isFood) key = t.category;
+                        } else if(categoryViewFilter === 'Alimentacao') {
+                            if(isFood) key = t.subcategory || t.category;
+                        } else if(categoryViewFilter === 'Basicos') {
+                            if(t.category === 'Básicos') key = t.subcategory || t.description;
+                        }
 
                         if(key) prevMonthExpensesByCategory[key] = (prevMonthExpensesByCategory[key] || 0) + t.amount;
                     }
@@ -723,6 +866,7 @@
             document.getElementById('dash-larissa').innerText = formatCurrency(larissaBal);
             document.getElementById('dash-pedro').innerText = formatCurrency(pedroBal);
 
+            // TETO DE GASTOS LARISSA (3.000,00)
             const tetoMax = 3000;
             const tetoLivre = tetoMax - larissaExpensesMonth;
             const pctSpent = Math.min(100, Math.max(0, (larissaExpensesMonth / tetoMax) * 100));
@@ -736,37 +880,43 @@
                 document.getElementById('teto-progress-bar').className = 'bg-rose-500 h-full transition-all duration-300';
             } else {
                 document.getElementById('teto-free').className = 'text-emerald-400';
-                document.getElementById('teto-progress-bar').className = 'bg-blue-light h-full transition-all duration-300';
+                document.getElementById('teto-progress-bar').className = 'bg-app-accent h-full transition-all duration-300';
             }
 
+            // MoM INDIVIDUAL POR ITEM
             const momContainer = document.getElementById('mom-list-container');
             momContainer.innerHTML = '';
             
             const totalCurr = Object.values(expensesByCategory).reduce((a,b)=>a+b, 0);
+            document.getElementById('chart-center-total').innerText = formatCurrency(totalCurr);
 
             if(Object.keys(expensesByCategory).length === 0) {
-                momContainer.innerHTML = `<p class="text-blue-soft italic text-center py-2">Sem despesas registradas para este filtro.</p>`;
+                momContainer.innerHTML = `<p class="text-app-subtext italic text-center py-2">Sem despesas registradas para este filtro.</p>`;
             } else {
-                Object.keys(expensesByCategory).forEach(catKey => {
+                Object.keys(expensesByCategory).forEach((catKey, index) => {
                     const currVal = expensesByCategory[catKey];
                     const prevVal = prevMonthExpensesByCategory[catKey] || 0;
                     const pctOfTotal = totalCurr > 0 ? ((currVal / totalCurr) * 100).toFixed(1) : '0.0';
+                    const colorHex = VIBRANT_PALETTE[index % VIBRANT_PALETTE.length];
                     
                     let momBadge = 'N/A';
-                    let badgeClass = 'bg-blue-navy/50 text-blue-soft';
+                    let badgeClass = 'bg-input-bg text-app-subtext';
 
                     if(prevVal > 0) {
                         const diff = ((currVal - prevVal) / prevVal) * 100;
                         const isUp = diff > 0;
                         momBadge = `${isUp ? '+' : ''}${diff.toFixed(1)}%`;
-                        badgeClass = isUp ? 'bg-rose-950 text-rose-300 border border-rose-800' : 'bg-emerald-950 text-emerald-300 border border-emerald-800';
+                        badgeClass = isUp ? 'bg-rose-950/80 text-rose-300 border border-rose-800' : 'bg-emerald-950/80 text-emerald-300 border border-emerald-800';
                     }
 
                     momContainer.innerHTML += `
-                        <div class="flex justify-between items-center py-1.5 border-b border-blue-navy/50 last:border-0">
-                            <span class="font-bold text-blue-light">${catKey} <span class="text-[10px] font-normal text-blue-soft">(${pctOfTotal}%)</span></span>
+                        <div class="flex justify-between items-center py-1.5 border-b border-app-card-hover/50 last:border-0">
                             <div class="flex items-center gap-2">
-                                <span class="font-semibold text-blue-light">${formatCurrency(currVal)}</span>
+                                <span class="w-2.5 h-2.5 rounded-full inline-block" style="background-color: ${colorHex}"></span>
+                                <span class="font-semibold text-white">${catKey} <span class="text-[10px] text-app-subtext">(${pctOfTotal}%)</span></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-white">${formatCurrency(currVal)}</span>
                                 <span class="px-1.5 py-0.5 rounded text-[10px] ${badgeClass}">${momBadge} MoM</span>
                             </div>
                         </div>
@@ -788,11 +938,16 @@
 
             txs.forEach(t => {
                 const effectiveAmount = t.userAmount !== undefined ? t.userAmount : t.amount;
+                const isFood = (t.category === 'Alimentação' || t.category.includes('VR') || t.category.includes('VA'));
 
+                // SAÍDAS DE ALIMENTAÇÃO EXCLUÍDAS DO GRÁFICO DE BARRAS DO HISTÓRICO
                 if(historyChartFilterState === 'Geral' || t.payer === historyChartFilterState) {
                     if(!monthlyIncExp[t.date]) monthlyIncExp[t.date] = { inc: 0, exp: 0 };
-                    if(t.type === 'income') monthlyIncExp[t.date].inc += effectiveAmount;
-                    else monthlyIncExp[t.date].exp += effectiveAmount;
+                    if(t.type === 'income') {
+                        monthlyIncExp[t.date].inc += effectiveAmount;
+                    } else if(!isFood) {
+                        monthlyIncExp[t.date].exp += effectiveAmount;
+                    }
                 }
 
                 if((selectedMonthFilter === "" || t.date === selectedMonthFilter) &&
@@ -804,24 +959,24 @@
                     const displayCategory = t.subcategory ? `${t.category} (${t.subcategory})` : t.category;
 
                     list.innerHTML += `
-                        <div class="bg-blue-deep border border-blue-navy p-3 rounded-xl shadow border-l-4 ${isInc ? 'border-emerald-400' : 'border-rose-500'} cursor-pointer" onclick="toggleTxDetails(${t.id})">
+                        <div class="bg-app-card border border-app-card-hover p-3.5 rounded-2xl shadow border-l-4 ${isInc ? 'border-l-emerald-400' : 'border-l-rose-500'} cursor-pointer" onclick="toggleTxDetails(${t.id})">
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <p class="font-bold text-sm text-blue-light">${t.description}</p>
-                                    <p class="text-xs text-blue-soft">${monthDisplay} • ${displayCategory} • <span class="font-bold text-blue-soft">${t.payer || 'Geral'}</span></p>
+                                    <p class="font-bold text-sm text-white">${t.description}</p>
+                                    <p class="text-xs text-app-subtext">${monthDisplay} • ${displayCategory} • <span class="font-semibold text-white">${t.payer || 'Geral'}</span></p>
                                 </div>
                                 <div class="text-right">
                                     <p class="font-bold ${isInc ? 'text-emerald-400' : 'text-rose-400'}">${isInc ? '+' : '-'}${formatCurrency(effectiveAmount)}</p>
                                     <button onclick="event.stopPropagation(); deleteTransaction(${t.id})" class="text-rose-400 text-xs mt-1 p-1"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </div>
-                            ${t.details ? `<div id="tx-det-${t.id}" class="hidden mt-2 pt-2 border-t border-blue-navy text-xs text-blue-soft font-bold">${t.details}</div>` : ''}
+                            ${t.details ? `<div id="tx-det-${t.id}" class="hidden mt-2 pt-2 border-t border-app-card-hover text-xs text-app-subtext font-semibold">${t.details}</div>` : ''}
                         </div>
                     `;
                 }
             });
 
-            if(list.innerHTML === '') list.innerHTML = '<p class="text-center text-blue-soft py-6 text-sm">Nenhuma transação encontrada no período.</p>';
+            if(list.innerHTML === '') list.innerHTML = '<p class="text-center text-app-subtext py-6 text-sm">Nenhuma transação encontrada no período.</p>';
 
             renderHistoryChart(monthlyIncExp);
         }
@@ -848,8 +1003,13 @@
             if(labels.length === 0) {
                 chartInstance = new Chart(ctx, { 
                     type: 'doughnut', 
-                    data: { labels: ['Sem despesas'], datasets: [{ data: [1], backgroundColor: ['#052659'] }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: '#7DA0CA', boxWidth: 12 } } } } 
+                    data: { labels: ['Sem despesas'], datasets: [{ data: [1], backgroundColor: ['#14223B'], borderWidth: 0 }] },
+                    options: { 
+                        responsive: true, 
+                        maintainAspectRatio: false, 
+                        cutout: '80%',
+                        plugins: { legend: { display: false } } 
+                    } 
                 }); 
                 return; 
             }
@@ -860,16 +1020,19 @@
                 type: 'doughnut', 
                 data: { 
                     labels, 
-                    datasets: [{ data, backgroundColor: ['#C1E8FF', '#7DA0CA', '#5483B3', '#052659', '#38bdf8', '#818cf8', '#c084fc', '#f472b6'] }] 
+                    datasets: [{ 
+                        data, 
+                        backgroundColor: VIBRANT_PALETTE,
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }] 
                 }, 
                 options: { 
                     responsive: true,
                     maintainAspectRatio: false,
+                    cutout: '78%',
                     plugins: { 
-                        legend: { 
-                            position: 'right', 
-                            labels: { color: '#C1E8FF', boxWidth: 10, font: { size: 10 } } 
-                        },
+                        legend: { display: false },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
@@ -887,7 +1050,6 @@
         let historyChartInstance = null;
         function renderHistoryChart(dataObj) {
             const ctx = document.getElementById('historyChart').getContext('2d');
-            
             if(historyChartInstance) historyChartInstance.destroy();
             
             const rawLabels = Object.keys(dataObj).reverse();
@@ -904,21 +1066,19 @@
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: 'Entradas', data: incomeData, backgroundColor: '#34d399', borderRadius: 4 },
-                        { label: 'Saídas', data: expenseData, backgroundColor: '#f87171', borderRadius: 4 }
+                        { label: 'Entradas', data: incomeData, backgroundColor: '#34d399', borderRadius: 6 },
+                        { label: 'Saídas', data: expenseData, backgroundColor: '#f87171', borderRadius: 6 }
                     ]
                 },
                 options: {
-                    plugins: { legend: { labels: { color: '#C1E8FF' } } },
+                    plugins: { legend: { labels: { color: '#FFFFFF', font: { size: 11 } } } },
                     scales: {
-                        x: { ticks: { color: '#7DA0CA' }, grid: { color: '#052659' } },
-                        y: { ticks: { color: '#7DA0CA' }, grid: { color: '#052659' } }
+                        x: { ticks: { color: '#8A99AD' }, grid: { color: '#14223B' } },
+                        y: { ticks: { color: '#8A99AD' }, grid: { color: '#14223B' } }
                     }
                 }
             });
         }
-
-        function updateChart() { updateDashboard(); }
 
         function generateMonthOptions() {
             const select = document.getElementById('s-month-filter'); select.innerHTML = '';
@@ -955,7 +1115,7 @@
             const container = document.getElementById('shopping-list-container');
             container.innerHTML = '';
             
-            if(items.length === 0) { container.innerHTML = '<p class="text-center text-blue-soft py-6 text-sm">Lista vazia neste mês.</p>'; return; }
+            if(items.length === 0) { container.innerHTML = '<p class="text-center text-app-subtext py-6 text-sm">Lista vazia neste mês.</p>'; return; }
 
             const order = ["Mercearia", "Hortifruti", "Proteínas", "Higiene", "Limpeza", "Outras despesas"];
             const grouped = { "Mercearia": [], "Hortifruti": [], "Proteínas": [], "Higiene": [], "Limpeza": [], "Outras despesas": [] };
@@ -967,19 +1127,19 @@
 
             order.forEach(cat => {
                 if(grouped[cat] && grouped[cat].length > 0) {
-                    container.innerHTML += `<div class="bg-blue-navy/60 px-3 py-1.5 text-[10px] font-bold text-blue-soft uppercase tracking-widest border-b border-blue-navy">${cat}</div>`;
+                    container.innerHTML += `<div class="bg-input-bg px-3.5 py-1.5 text-[10px] font-bold text-app-subtext uppercase tracking-wider border-b border-app-card-hover">${cat}</div>`;
                     grouped[cat].forEach(i => {
                         container.innerHTML += `
-                            <div class="flex items-center justify-between p-3 border-b border-blue-navy/50 last:border-0 bg-blue-deep">
+                            <div class="flex items-center justify-between p-3 border-b border-app-card-hover/50 last:border-0 bg-app-card">
                                 <label class="flex items-center cursor-pointer flex-1 overflow-hidden">
                                     <input type="checkbox" ${i.done ? 'checked' : ''} onchange="toggleShopping(${i.id}, this.checked)" class="round-cb flex-shrink-0">
-                                    <div class="${i.done ? 'line-through text-blue-soft/50' : 'text-blue-light'} flex items-baseline truncate pr-2">
+                                    <div class="${i.done ? 'line-through text-app-subtext/50' : 'text-white'} flex items-baseline truncate pr-2">
                                         <span class="font-bold text-sm truncate">${i.text}</span>
-                                        <span class="text-blue-soft font-normal ml-2 text-xs flex-shrink-0">${i.quantity}</span>
+                                        <span class="text-app-subtext font-normal ml-2 text-xs flex-shrink-0">${i.quantity}</span>
                                     </div>
                                 </label>
                                 <div class="flex items-center gap-3 ml-2">
-                                    <button onclick="editShopping(${i.id})" class="text-blue-soft p-1"><i class="fa-solid fa-pen"></i></button>
+                                    <button onclick="editShopping(${i.id})" class="text-app-subtext p-1"><i class="fa-solid fa-pen"></i></button>
                                     <button onclick="deleteShopping(${i.id})" class="text-rose-400 font-bold p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
                                 </div>
                             </div>
@@ -1079,7 +1239,7 @@
                 const isSel = dStr === selectedMenuDateStr;
 
                 cal.innerHTML += `
-                    <button onclick="selectMenuDate('${dStr}')" class="flex-1 py-2 px-1 rounded-xl flex flex-col items-center transition-all ${isSel ? 'bg-blue-navy text-blue-light font-bold shadow border border-blue-mid' : 'text-blue-soft hover:bg-blue-navy/40'}">
+                    <button onclick="selectMenuDate('${dStr}')" class="flex-1 py-2 px-1 rounded-xl flex flex-col items-center transition-all ${isSel ? 'bg-app-accent-blue text-white font-bold shadow' : 'text-app-subtext hover:bg-input-bg'}">
                         <span class="text-[9px] uppercase font-normal">${daysShort[i]}</span>
                         <span class="text-xs mt-0.5">${dayNum}</span>
                     </button>
@@ -1110,7 +1270,7 @@
             const displayDate = `${d}/${m}/${y}`;
 
             if(items.length === 0) {
-                container.innerHTML = `<p class="text-center text-blue-soft py-6 text-sm">Nenhuma refeição cadastrada para ${displayDate}.</p>`;
+                container.innerHTML = `<p class="text-center text-app-subtext py-6 text-sm">Nenhuma refeição cadastrada para ${displayDate}.</p>`;
                 return;
             }
 
@@ -1127,24 +1287,24 @@
                 'Café da Manhã': 'bg-amber-950/80 text-amber-300 border border-amber-800',
                 'Almoço': 'bg-emerald-950/80 text-emerald-300 border border-emerald-800',
                 'Snack': 'bg-purple-950/80 text-purple-300 border border-purple-800',
-                'Jantar': 'bg-blue-navy text-blue-light border border-blue-mid'
+                'Jantar': 'bg-input-bg text-app-accent border border-app-accent/30'
             };
 
             items.forEach(i => {
                 container.innerHTML += `
-                    <div class="bg-blue-deep border border-blue-navy rounded-xl shadow p-4 border-l-4 border-l-blue-light">
+                    <div class="bg-app-card border border-app-card-hover rounded-2xl shadow p-4 border-l-4 border-l-app-accent">
                         <div class="flex justify-between items-start cursor-pointer" onclick="toggleMenuDesc(${i.id})">
                             <div>
-                                <h3 class="font-bold text-sm text-blue-light leading-snug">${i.dish}</h3>
-                                <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${tagColors[i.type] || 'bg-blue-navy text-blue-light'}">${i.type}</span>
+                                <h3 class="font-bold text-sm text-white leading-snug">${i.dish}</h3>
+                                <span class="inline-block mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full ${tagColors[i.type] || 'bg-input-bg text-white'}">${i.type}</span>
                             </div>
                             <div class="flex items-center gap-3">
-                                <button onclick="event.stopPropagation(); editMenu(${i.id})" class="text-blue-soft p-1"><i class="fa-solid fa-pen text-xs"></i></button>
+                                <button onclick="event.stopPropagation(); editMenu(${i.id})" class="text-app-subtext p-1"><i class="fa-solid fa-pen text-xs"></i></button>
                                 <button onclick="event.stopPropagation(); deleteMenu(${i.id})" class="text-rose-400 font-bold p-1"><i class="fa-solid fa-xmark text-base"></i></button>
                             </div>
                         </div>
-                        <div id="m-desc-${i.id}" class="hidden mt-3 pt-3 border-t border-blue-navy text-xs text-blue-soft whitespace-pre-line">
-                            ${i.desc ? i.desc : '<span class="italic text-blue-soft/50">Sem descrição/ingredientes cadastrados.</span>'}
+                        <div id="m-desc-${i.id}" class="hidden mt-3 pt-3 border-t border-app-card-hover text-xs text-app-subtext whitespace-pre-line">
+                            ${i.desc ? i.desc : '<span class="italic text-app-subtext/50">Sem descrição/ingredientes cadastrados.</span>'}
                         </div>
                     </div>
                 `;
