@@ -23,7 +23,8 @@
                         'app-accent': '#16D6FA',
                         'app-accent-blue': '#5274FF',
                         'app-subtext': '#8A99AD',
-                        'input-bg': '#14223B',
+                        'input-bg': '#111827',
+                        'category-header-bg': '#080E1A',
                         'color-cardinal': '#C8183A',
                         'color-vidaloca': '#51821E',
                         'blue-medium-light': '#1A2B4C'
@@ -51,7 +52,7 @@
         html.light body { background-color: #F1F5F9; color: #0F172A; }
 
         html.light .bg-app-card { background-color: #FFFFFF; border-color: #E2E8F0; }
-        html.light .bg-input-bg { background-color: #F8FAFC; border-color: #CBD5E1; color: #0F172A; }
+        html.light .bg-input-bg { background-color: #F1F5F9; border-color: #CBD5E1; color: #0F172A; }
         html.light .text-app-subtext { color: #64748B; }
         html.light .text-white { color: #0F172A; }
 
@@ -62,7 +63,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* DROPDOWNS E INPUTS */
+        /* DROPDOWNS E INPUTS ESTILO FOSCO (INSPIRAÇÃO IMAGEM 379) */
         .ui-field-group {
             position: relative;
             margin-top: 6px;
@@ -87,24 +88,26 @@
 
         .ui-input, .ui-select {
             width: 100%;
-            background-color: transparent;
+            background-color: #111827;
             color: inherit;
             font-size: 13px;
             font-weight: 500;
             padding: 11px 14px;
             border-radius: 12px;
-            border: 1px solid #1D2D4A;
+            border: 1.5px solid #5274FF;
             outline: none;
             transition: all 0.2s ease;
             appearance: none;
         }
 
         html.light .ui-input, html.light .ui-select {
-            border-color: #CBD5E1;
+            background-color: #F8FAFC;
+            border-color: #5274FF;
         }
 
         .ui-input:focus, .ui-select:focus {
             border-color: #16D6FA;
+            box-shadow: 0 0 10px rgba(22, 214, 250, 0.2);
         }
 
         .ui-select-wrapper {
@@ -116,7 +119,7 @@
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
             font-size: 10px;
-            color: #8A99AD;
+            color: #16D6FA;
             position: absolute;
             right: 14px;
             top: 50%;
@@ -145,8 +148,8 @@
 </head>
 <body class="min-h-screen pb-28">
 
-    <!-- HEADER -->
-    <header class="bg-app-card/90 backdrop-blur border-b border-app-card-hover text-white p-4 sticky top-0 z-40 shadow-xl flex justify-between items-center">
+    <!-- HEADER (NÃO FIXO NO TOPO - ROLA COM A PÁGINA) -->
+    <header class="bg-app-card border-b border-app-card-hover text-white p-4 shadow-xl flex justify-between items-center">
         <div class="flex items-center gap-3">
             <img src="355.png" onerror="this.style.display='none'" class="w-8 h-8 rounded-full object-cover border border-app-accent-blue">
             <h1 class="text-lg font-bold tracking-wide flex items-center gap-2">
@@ -385,7 +388,6 @@
                     </div>
                 </div>
                 
-                <!-- ESPAÇAMENTO AUMENTADO DO GRÁFICO COM MARGEM SUPERIOR -->
                 <div class="h-56 relative flex items-center justify-center mt-6">
                     <canvas id="expenseChart"></canvas>
                     <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
@@ -469,7 +471,6 @@
                 </div>
             </div>
 
-            <!-- FORMULÁRIO DE COMPRAS (INSPIRADO NA REFERÊNCIA DE BORDA AMARELA) -->
             <form id="form-shopping" class="flex flex-col gap-3 bg-app-card border border-app-card-hover p-4 rounded-2xl shadow">
                 <div class="ui-field-group">
                     <span class="ui-field-label">Item</span>
@@ -498,16 +499,17 @@
                     </div>
                 </div>
 
+                <!-- DROPDOWN SEM EMOJIS -->
                 <div class="ui-field-group">
                     <span class="ui-field-label">Categoria</span>
                     <div class="ui-select-wrapper">
                         <select id="s-category" class="ui-select">
-                            <option value="Mercearia">🍝 Mercearia</option>
-                            <option value="Hortifruti">🥦 Hortifruti</option>
-                            <option value="Proteínas">🥩 Proteínas</option>
-                            <option value="Higiene">🪥 Higiene</option>
-                            <option value="Limpeza">🧼 Limpeza</option>
-                            <option value="Outras despesas">📦 Outras despesas</option>
+                            <option value="Mercearia">Mercearia</option>
+                            <option value="Hortifruti">Hortifruti</option>
+                            <option value="Proteínas">Proteínas</option>
+                            <option value="Higiene">Higiene</option>
+                            <option value="Limpeza">Limpeza</option>
+                            <option value="Outros">Outros</option>
                         </select>
                     </div>
                 </div>
@@ -517,7 +519,6 @@
                 </button>
             </form>
 
-            <!-- EXIBIÇÃO DOS ITENS DA LISTA (INSPIRADA NA IMAGEM DE CARDS POR CATEGORIA) -->
             <div class="space-y-3" id="shopping-list-container"></div>
             
             <div class="flex gap-2 pt-2">
@@ -734,7 +735,7 @@
         }
 
         const db = new Dexie("FinPWA_DB");
-        db.version(8).stores({
+        db.version(9).stores({
             transactions: '++id, type, amount, description, category, subcategory, date, payer, details, sharedPayer, userAmount',
             shopping: '++id, text, quantity, category, done, dateMonth',
             menu: '++id, dish, type, desc, dateStr'
@@ -1146,7 +1147,7 @@
             if(labels.length === 0) {
                 chartInstance = new Chart(ctx, { 
                     type: 'doughnut', 
-                    data: { labels: ['Sem despesas'], datasets: [{ data: [1], backgroundColor: ['#14223B'], borderWidth: 0 }] },
+                    data: { labels: ['Sem despesas'], datasets: [{ data: [1], backgroundColor: ['#111827'], borderWidth: 0 }] },
                     options: { 
                         responsive: true, 
                         maintainAspectRatio: false, 
@@ -1274,29 +1275,39 @@
                 return; 
             }
 
-            const order = ["Mercearia", "Hortifruti", "Proteínas", "Higiene", "Limpeza", "Outras despesas"];
-            const grouped = { "Mercearia": [], "Hortifruti": [], "Proteínas": [], "Higiene": [], "Limpeza": [], "Outras despesas": [] };
+            const categoryIcons = {
+                "Mercearia": "fa-solid fa-bowl-food",
+                "Hortifruti": "fa-solid fa-apple-whole",
+                "Proteínas": "fa-solid fa-drumstick-bite",
+                "Higiene": "fa-solid fa-toilet-paper",
+                "Limpeza": "fa-solid fa-jug-detergent",
+                "Outros": "fa-solid fa-box-archive"
+            };
+
+            const order = ["Mercearia", "Hortifruti", "Proteínas", "Higiene", "Limpeza", "Outros"];
+            const grouped = { "Mercearia": [], "Hortifruti": [], "Proteínas": [], "Higiene": [], "Limpeza": [], "Outros": [] };
 
             items.forEach(i => {
-                if(grouped[i.category]) grouped[i.category].push(i);
-                else grouped["Outras despesas"].push(i);
+                const catKey = (i.category === "Outras despesas" || !grouped[i.category]) ? "Outros" : i.category;
+                grouped[catKey].push(i);
             });
 
             order.forEach(cat => {
                 if(grouped[cat] && grouped[cat].length > 0) {
                     const count = grouped[cat].length;
+                    const iconClass = categoryIcons[cat] || "fa-solid fa-box-archive";
                     
                     let htmlCard = `
-                        <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 shadow">
-                            <div class="flex items-center justify-between mb-3 pb-2 border-b border-app-card-hover">
-                                <h3 class="font-bold text-xs uppercase tracking-wider text-white flex items-center gap-1.5">
-                                    ${cat}
+                        <div class="bg-app-card/60 border border-app-card-hover rounded-2xl overflow-hidden shadow">
+                            <div class="bg-category-header-bg border-b border-app-card-hover px-4 py-2.5 flex items-center justify-between">
+                                <h3 class="font-bold text-xs uppercase tracking-wider text-white flex items-center gap-2">
+                                    <i class="${iconClass} text-app-accent"></i> ${cat}
                                 </h3>
                                 <span class="bg-input-bg text-app-accent font-bold text-[10px] px-2.5 py-0.5 rounded-full border border-app-accent/20">
                                     ${count} ${count === 1 ? 'item' : 'itens'}
                                 </span>
                             </div>
-                            <div class="space-y-2.5">
+                            <div class="p-3 space-y-2">
                     `;
 
                     grouped[cat].forEach(i => {
@@ -1354,9 +1365,9 @@
             if(items.length === 0) return alert('A lista de compras está vazia!');
 
             let msg = `🛒 *Lista de Compras (${filterMonth})*\n\n`;
-            const order = ["Mercearia", "Hortifruti", "Proteínas", "Higiene", "Limpeza", "Outras despesas"];
+            const order = ["Mercearia", "Hortifruti", "Proteínas", "Higiene", "Limpeza", "Outros"];
             order.forEach(cat => {
-                const catItems = items.filter(i => i.category === cat);
+                const catItems = items.filter(i => (i.category === "Outras despesas" ? "Outros" : i.category) === cat);
                 if(catItems.length > 0) {
                     msg += `*${cat.toUpperCase()}*\n`;
                     catItems.forEach(i => {
