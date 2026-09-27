@@ -52,7 +52,7 @@
         html.light body { background-color: #F1F5F9; color: #0F172A; }
 
         html.light .bg-app-card { background-color: #FFFFFF; border-color: #E2E8F0; }
-        html.light .bg-input-bg { background-color: #F1F5F9; border-color: #CBD5E1; color: #0F172A; }
+        html.light .bg-input-bg { background-color: #F8FAFC; border-color: #CBD5E1; color: #0F172A; }
         html.light .text-app-subtext { color: #64748B; }
         html.light .text-white { color: #0F172A; }
 
@@ -63,7 +63,6 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* INPUTS E BORDAS MAIS FINAS (1px) */
         .ui-field-group {
             position: relative;
             margin-top: 6px;
@@ -109,7 +108,7 @@
             box-shadow: 0 0 8px rgba(22, 214, 250, 0.2);
         }
 
-        /* CUSTOM DROPDOWN SYSTEM (COMPLETAMENTE ESTILIZADO) */
+        /* CUSTOM DROPDOWN SYSTEM */
         .custom-select-container {
             position: relative;
             width: 100%;
@@ -204,11 +203,25 @@
         }
         .round-cb:checked { border-color: #16D6FA; }
         .round-cb:checked::before { transform: scale(1); }
+
+        /* ITEM COMPRADO (COMPRAS): 2 TONES MAIS CLAROS E RISCADO */
+        .shopping-item-done {
+            opacity: 0.45;
+            text-decoration: line-through;
+            transition: all 0.2s ease;
+        }
+
+        /* ESTILIZAÇÃO DO INPUT DATE/MONTH PARA COMPATIBILIDADE COM SELETORES */
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="month"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            filter: invert(0.8);
+        }
     </style>
 </head>
 <body class="min-h-screen pb-28">
 
-    <!-- HEADER (NÃO FIXO NO TOPO - ROLA COM A PÁGINA) -->
+    <!-- HEADER -->
     <header class="bg-app-card border-b border-app-card-hover text-white p-4 shadow-xl flex justify-between items-center">
         <div class="flex items-center gap-3">
             <img src="355.png" onerror="this.style.display='none'" class="w-8 h-8 rounded-full object-cover border border-app-accent-blue">
@@ -224,7 +237,7 @@
     <!-- MAIN CONTAINER -->
     <main class="p-4 max-w-md sm:max-w-xl md:max-w-2xl mx-auto space-y-5">
         
-        <!-- ================= RESUMO ================= -->
+        <!-- ================= FINANCEIRO (RESUMO + HISTÓRICO UNIFICADOS) ================= -->
         <section id="tab-dashboard" class="tab-content active space-y-5">
             <!-- Saldo Geral -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-2xl p-5 text-center">
@@ -334,7 +347,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-color-vidaloca hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs transition duration-200 mt-2">Salvar Transação</button>
+                    <button type="submit" class="w-full bg-color-vidaloca hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs transition duration-200 mt-2 cursor-pointer">Salvar Transação</button>
                 </form>
             </div>
 
@@ -390,11 +403,11 @@
                         </div>
                     </div>
                     
-                    <button type="submit" class="w-full bg-app-card-hover hover:bg-input-bg text-app-accent border border-app-accent/30 p-2.5 rounded-xl font-bold text-xs transition">Dividir 50%</button>
+                    <button type="submit" class="w-full bg-app-card-hover hover:bg-input-bg text-app-accent border border-app-accent/30 p-2.5 rounded-xl font-bold text-xs transition cursor-pointer">Dividir 50%</button>
                 </form>
 
                 <div class="mt-4 pt-3 border-t border-app-card-hover/80">
-                    <button onclick="toggleAdjustments()" class="w-full text-left font-bold text-xs text-app-subtext flex justify-between items-center">
+                    <button onclick="toggleAdjustments()" class="w-full text-left font-bold text-xs text-app-subtext flex justify-between items-center cursor-pointer">
                         <span><i class="fa-solid fa-sliders mr-1.5"></i> Ajustes Proporcionais (Calculadora)</span>
                         <i class="fa-solid fa-chevron-down" id="adj-icon"></i>
                     </button>
@@ -415,7 +428,7 @@
                             </div>
                         </div>
 
-                        <button onclick="submitAdjustedBasics()" class="w-full bg-app-accent-blue text-white p-2 rounded-xl font-bold text-xs">Lançar com Ajuste Personalizado</button>
+                        <button onclick="submitAdjustedBasics()" class="w-full bg-app-accent-blue text-white p-2 rounded-xl font-bold text-xs cursor-pointer">Lançar com Ajuste Personalizado</button>
                     </div>
                 </div>
             </div>
@@ -439,6 +452,38 @@
                 </div>
             </div>
 
+            <!-- NOVO: TETO DE GASTOS ALIMENTAÇÃO (SUBDIVIDIDO) -->
+            <div class="bg-app-card border-l-4 border-l-amber-500 border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                        <i class="fa-solid fa-utensils text-amber-500"></i> Teto Alimentação (Benefícios)
+                    </h3>
+                    <span class="text-xs font-bold text-app-subtext">Total Teto: R$ 2.800,00</span>
+                </div>
+
+                <!-- Larissa Alimentação -->
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs font-bold">
+                        <span class="text-white">Larissa (Teto R$ 2.000,00)</span>
+                        <span class="text-app-subtext">Gasto: <span id="teto-food-l-spent" class="text-color-cardinal">R$ 0,00</span> | Livre: <span id="teto-food-l-free" class="text-color-vidaloca">R$ 2.000,00</span></span>
+                    </div>
+                    <div class="w-full bg-input-bg h-2 rounded-full overflow-hidden">
+                        <div id="teto-food-l-bar" class="bg-amber-500 h-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Pedro Alimentação -->
+                <div class="space-y-1 pt-1">
+                    <div class="flex justify-between text-xs font-bold">
+                        <span class="text-white">Pedro (Teto R$ 800,00)</span>
+                        <span class="text-app-subtext">Gasto: <span id="teto-food-p-spent" class="text-color-cardinal">R$ 0,00</span> | Livre: <span id="teto-food-p-free" class="text-color-vidaloca">R$ 800,00</span></span>
+                    </div>
+                    <div class="w-full bg-input-bg h-2 rounded-full overflow-hidden">
+                        <div id="teto-food-p-bar" class="bg-app-accent-blue h-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
             <!-- GRÁFICO DE ROSCA -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5">
                 <div class="flex justify-between items-center mb-3">
@@ -452,21 +497,21 @@
                     <div class="flex items-center justify-between text-xs">
                         <span class="text-app-subtext font-semibold">Visão:</span>
                         <div class="flex gap-1">
-                            <button onclick="setCategoryView('Geral')" id="cv-Geral" class="px-2.5 py-1 rounded-lg bg-app-accent-blue text-white font-bold text-[11px]">Geral</button>
-                            <button onclick="setCategoryView('Alimentacao')" id="cv-Alimentacao" class="px-2.5 py-1 rounded-lg bg-input-bg text-app-subtext text-[11px]">Alimentação</button>
-                            <button onclick="setCategoryView('Basicos')" id="cv-Basicos" class="px-2.5 py-1 rounded-lg bg-input-bg text-app-subtext text-[11px]">Básico</button>
+                            <button onclick="setCategoryView('Geral')" id="cv-Geral" class="px-2.5 py-1 rounded-lg bg-app-accent-blue text-white font-bold text-[11px] cursor-pointer">Geral</button>
+                            <button onclick="setCategoryView('Alimentacao')" id="cv-Alimentacao" class="px-2.5 py-1 rounded-lg bg-input-bg text-app-subtext text-[11px] cursor-pointer">Alimentação</button>
+                            <button onclick="setCategoryView('Basicos')" id="cv-Basicos" class="px-2.5 py-1 rounded-lg bg-input-bg text-app-subtext text-[11px] cursor-pointer">Básico</button>
                         </div>
                     </div>
                     <div class="flex items-center justify-between text-xs">
                         <span class="text-app-subtext font-semibold">Pessoas:</span>
                         <div class="flex gap-2">
-                            <button onclick="setCategoryPerson('Todos')" id="cp-Todos" class="p-1.5 rounded-lg bg-app-accent-blue text-white font-bold text-xs transition" title="Todos">
+                            <button onclick="setCategoryPerson('Todos')" id="cp-Todos" class="p-1.5 rounded-lg bg-app-accent-blue text-white font-bold text-xs transition cursor-pointer" title="Todos">
                                 <i class="fa-solid fa-user-group"></i>
                             </button>
-                            <button onclick="setCategoryPerson('Larissa')" id="cp-Larissa" class="p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white text-xs transition" title="Larissa">
+                            <button onclick="setCategoryPerson('Larissa')" id="cp-Larissa" class="p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white text-xs transition cursor-pointer" title="Larissa">
                                 <i class="fa-solid fa-person-dress"></i>
                             </button>
-                            <button onclick="setCategoryPerson('Pedro')" id="cp-Pedro" class="p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white text-xs transition" title="Pedro">
+                            <button onclick="setCategoryPerson('Pedro')" id="cp-Pedro" class="p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white text-xs transition cursor-pointer" title="Pedro">
                                 <i class="fa-solid fa-person"></i>
                             </button>
                         </div>
@@ -483,61 +528,251 @@
 
                 <div id="mom-list-container" class="mt-4 pt-3 border-t border-app-card-hover space-y-1 text-xs"></div>
             </div>
-        </section>
 
-        <!-- ================= HISTÓRICO ================= -->
-        <section id="tab-history" class="tab-content space-y-4">
-            <h2 class="text-xl font-bold text-white">Histórico de Transações</h2>
-            
-            <div class="bg-blue-medium-light border border-app-card-hover rounded-2xl shadow p-4">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-xs text-white">Entradas vs Saídas</h3>
-                    <div class="flex gap-2 text-sm">
-                        <button onclick="setHistoryChartFilter('Geral')" id="hf-Geral" class="p-1.5 rounded-lg bg-app-accent-blue text-white font-bold transition" title="Geral">
-                            <i class="fa-solid fa-user-group"></i>
-                        </button>
-                        <button onclick="setHistoryChartFilter('Larissa')" id="hf-Larissa" class="p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white transition" title="Larissa">
-                            <i class="fa-solid fa-person-dress"></i>
-                        </button>
-                        <button onclick="setHistoryChartFilter('Pedro')" id="hf-Pedro" class="p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white transition" title="Pedro">
-                            <i class="fa-solid fa-person"></i>
-                        </button>
+            <!-- ================= PARTE TRANSFERIDA DO HISTÓRICO ================= -->
+            <div class="space-y-4 pt-2">
+                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left text-app-accent"></i> Histórico de Transações
+                </h2>
+                
+                <div class="bg-blue-medium-light border border-app-card-hover rounded-2xl shadow p-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-xs text-white">Entradas vs Saídas</h3>
+                        <div class="flex gap-2 text-sm">
+                            <button onclick="setHistoryChartFilter('Geral')" id="hf-Geral" class="p-1.5 rounded-lg bg-app-accent-blue text-white font-bold transition cursor-pointer" title="Geral">
+                                <i class="fa-solid fa-user-group"></i>
+                            </button>
+                            <button onclick="setHistoryChartFilter('Larissa')" id="hf-Larissa" class="p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white transition cursor-pointer" title="Larissa">
+                                <i class="fa-solid fa-person-dress"></i>
+                            </button>
+                            <button onclick="setHistoryChartFilter('Pedro')" id="hf-Pedro" class="p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white transition cursor-pointer" title="Pedro">
+                                <i class="fa-solid fa-person"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <canvas id="historyChart" height="180"></canvas>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="ui-field-group">
+                        <span class="ui-field-label">Mês</span>
+                        <input type="month" id="history-month-filter" onchange="updateHistory()" class="ui-input">
+                    </div>
+                    <div class="ui-field-group">
+                        <span class="ui-field-label">Filtrar por Pessoa</span>
+                        <div class="custom-select-container" data-id="history-list-filter" data-onchange="updateHistory">
+                            <div class="custom-select-trigger" tabindex="0">
+                                <span class="trigger-label">Todas as Pessoas</span>
+                                <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                            </div>
+                            <div class="custom-select-options">
+                                <div class="custom-option selected" data-value="Geral">Todas as Pessoas</div>
+                                <div class="custom-option" data-value="Larissa">Apenas Larissa</div>
+                                <div class="custom-option" data-value="Pedro">Apenas Pedro</div>
+                            </div>
+                            <input type="hidden" id="history-list-filter" value="Geral">
+                        </div>
                     </div>
                 </div>
-                <canvas id="historyChart" height="180"></canvas>
-            </div>
 
-            <div class="grid grid-cols-2 gap-2">
-                <div class="ui-field-group">
-                    <span class="ui-field-label">Mês</span>
-                    <input type="month" id="history-month-filter" onchange="updateHistory()" class="ui-input">
+                <div id="history-list" class="space-y-3"></div>
+            </div>
+        </section>
+
+        <!-- ================= INVESTIMENTOS (DESENVOLVIDO) ================= -->
+        <section id="tab-investments" class="tab-content space-y-5">
+            <!-- I. PATRIMÔNIO TOTAL -->
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-2xl p-5 relative overflow-hidden">
+                <div class="flex justify-between items-center">
+                    <span class="text-[11px] uppercase tracking-wider text-app-subtext font-semibold">Patrimônio Total</span>
+                    <button onclick="toggleVisibilityPatrimonio()" class="text-app-subtext hover:text-white p-1 text-sm cursor-pointer">
+                        <i id="eye-icon-patrimonio" class="fa-solid fa-eye"></i>
+                    </button>
                 </div>
-                <div class="ui-field-group">
-                    <span class="ui-field-label">Filtrar por Pessoa</span>
-                    <div class="custom-select-container" data-id="history-list-filter" data-onchange="updateHistory">
-                        <div class="custom-select-trigger" tabindex="0">
-                            <span class="trigger-label">Todas as Pessoas</span>
-                            <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
-                        </div>
-                        <div class="custom-select-options">
-                            <div class="custom-option selected" data-value="Geral">Todas as Pessoas</div>
-                            <div class="custom-option" data-value="Larissa">Apenas Larissa</div>
-                            <div class="custom-option" data-value="Pedro">Apenas Pedro</div>
-                        </div>
-                        <input type="hidden" id="history-list-filter" value="Geral">
+
+                <div class="mt-1 flex items-baseline gap-2">
+                    <h2 class="text-3xl font-extrabold text-white" id="inv-patrimonio-val">R$ 0,00</h2>
+                    <span id="inv-patrimonio-mom" class="text-xs font-bold text-emerald-400">+0.0% MoM</span>
+                </div>
+
+                <!-- Mini Menu Instituições -->
+                <div class="flex gap-1.5 mt-3 border-t border-app-card-hover/80 pt-3">
+                    <button onclick="setPatrimonioBank('Total')" id="inv-bank-Total" class="px-3 py-1 rounded-lg bg-app-accent-blue text-white text-xs font-bold cursor-pointer">Total</button>
+                    <button onclick="setPatrimonioBank('Bradesco')" id="inv-bank-Bradesco" class="px-3 py-1 rounded-lg bg-input-bg text-app-subtext text-xs font-semibold hover:text-white cursor-pointer">Bradesco</button>
+                    <button onclick="setPatrimonioBank('Itaú')" id="inv-bank-Itaú" class="px-3 py-1 rounded-lg bg-input-bg text-app-subtext text-xs font-semibold hover:text-white cursor-pointer">Itaú</button>
+                </div>
+
+                <!-- V. BARRA DE META DE PATRIMÔNIO -->
+                <div class="mt-4 pt-3 border-t border-app-card-hover/50">
+                    <div class="flex justify-between text-[10px] font-bold text-app-subtext mb-1">
+                        <span>Meta: R$ 500.000,00</span>
+                        <span id="inv-meta-pct" class="text-app-accent">0.0%</span>
+                    </div>
+                    <div class="w-full bg-input-bg h-1.5 rounded-full overflow-hidden">
+                        <div id="inv-meta-bar" class="bg-gradient-to-r from-app-accent-blue to-app-accent h-full transition-all duration-300" style="width: 0%"></div>
                     </div>
                 </div>
             </div>
 
-            <div id="history-list" class="space-y-3"></div>
-        </section>
+            <!-- II. ATIVOS NA CARTEIRA -->
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                        <i class="fa-solid fa-chart-pie text-app-accent"></i> Ativos na Carteira
+                    </h3>
+                    <label class="flex items-center text-xs font-semibold text-app-subtext cursor-pointer">
+                        <input type="checkbox" id="inv-fgc-filter" onchange="updateInvestmentsView()" class="round-cb !w-4 !h-4 mr-1"> Apenas FGC
+                    </label>
+                </div>
 
-        <!-- ================= INVESTIMENTOS ================= -->
-        <section id="tab-investments" class="tab-content">
-            <div class="text-center py-16 bg-app-card border border-app-card-hover rounded-2xl">
-                <i class="fa-solid fa-hand-holding-dollar text-5xl text-app-subtext mb-3"></i>
-                <h2 class="text-xl font-bold text-white">Investimentos</h2>
-                <p class="text-sm text-app-subtext mt-2">Módulo em desenvolvimento...</p>
+                <!-- Seletores por Tipo / por Ativo / por Banco -->
+                <div class="flex gap-1.5 bg-input-bg p-1 rounded-xl">
+                    <button onclick="setAssetsViewMode('tipo')" id="avm-tipo" class="flex-1 py-1 rounded-lg bg-app-accent-blue text-white text-[11px] font-bold cursor-pointer">Por Tipo</button>
+                    <button onclick="setAssetsViewMode('ativo')" id="avm-ativo" class="flex-1 py-1 rounded-lg text-app-subtext text-[11px] font-semibold hover:text-white cursor-pointer">Por Ativo</button>
+                    <button onclick="setAssetsViewMode('banco')" id="avm-banco" class="flex-1 py-1 rounded-lg text-app-subtext text-[11px] font-semibold hover:text-white cursor-pointer">Por Banco</button>
+                </div>
+
+                <!-- Gráfico de Ativos -->
+                <div class="h-48 relative flex items-center justify-center">
+                    <canvas id="assetsChart"></canvas>
+                </div>
+
+                <!-- Lista de Detalhamento de Ativos -->
+                <div id="assets-list-container" class="space-y-1 text-xs pt-2 border-t border-app-card-hover"></div>
+            </div>
+
+            <!-- III. GRÁFICO DE VENCIMENTO -->
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
+                <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-check text-app-accent"></i> Cronograma de Vencimento
+                </h3>
+
+                <div class="h-48 relative flex items-center justify-center">
+                    <canvas id="vencimentoChart"></canvas>
+                </div>
+
+                <div id="vencimento-list-container" class="space-y-1 text-xs pt-2 border-t border-app-card-hover"></div>
+            </div>
+
+            <!-- IV. EVOLUÇÃO DO PATRIMÔNIO -->
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
+                <div class="flex justify-between items-center flex-wrap gap-2">
+                    <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                        <i class="fa-solid fa-chart-column text-app-accent"></i> Evolução
+                    </h3>
+                    
+                    <div class="flex gap-2">
+                        <div class="w-24 ui-field-group !mt-0">
+                            <div class="custom-select-container" data-id="inv-evol-type" data-onchange="renderEvolucaoChart">
+                                <div class="custom-select-trigger !py-1 !px-2 !text-[11px]" tabindex="0">
+                                    <span class="trigger-label">Acumulado</span>
+                                    <i class="fa-solid fa-chevron-down text-app-accent text-[8px]"></i>
+                                </div>
+                                <div class="custom-select-options">
+                                    <div class="custom-option selected" data-value="acumulado">Acumulado</div>
+                                    <div class="custom-option" data-value="recebidos">Recebidos</div>
+                                </div>
+                                <input type="hidden" id="inv-evol-type" value="acumulado">
+                            </div>
+                        </div>
+
+                        <div class="w-20 ui-field-group !mt-0">
+                            <div class="custom-select-container" data-id="inv-evol-year" data-onchange="renderEvolucaoChart">
+                                <div class="custom-select-trigger !py-1 !px-2 !text-[11px]" tabindex="0">
+                                    <span class="trigger-label">2026</span>
+                                    <i class="fa-solid fa-chevron-down text-app-accent text-[8px]"></i>
+                                </div>
+                                <div class="custom-select-options">
+                                    <div class="custom-option" data-value="2025">2025</div>
+                                    <div class="custom-option selected" data-value="2026">2026</div>
+                                    <div class="custom-option" data-value="2027">2027</div>
+                                </div>
+                                <input type="hidden" id="inv-evol-year" value="2026">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <canvas id="evolucaoChart" height="180"></canvas>
+            </div>
+
+            <!-- PAINEL EXPANSÍVEL: GERENCIAR/ADICIONAR INVESTIMENTOS -->
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
+                <button onclick="toggleAddInvestPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
+                    <span><i class="fa-solid fa-plus-circle mr-1.5"></i> Adicionar / Gerenciar Dados de Investimento</span>
+                    <i class="fa-solid fa-chevron-down" id="add-inv-icon"></i>
+                </button>
+
+                <div id="add-inv-panel" class="hidden mt-4 pt-3 border-t border-app-card-hover space-y-4">
+                    <form id="form-investments" class="space-y-3">
+                        <div class="ui-field-group">
+                            <span class="ui-field-label">Nome do Ativo</span>
+                            <input type="text" id="inv-name" placeholder="Ex: CDB Liquidez Diária, LCI 90 Dias..." required class="ui-input">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Categoria</span>
+                                <div class="custom-select-container" data-id="inv-category">
+                                    <div class="custom-select-trigger" tabindex="0">
+                                        <span class="trigger-label">cdb</span>
+                                        <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                                    </div>
+                                    <div class="custom-select-options">
+                                        <div class="custom-option selected" data-value="cdb">CDB</div>
+                                        <div class="custom-option" data-value="cra/cri">CRA / CRI</div>
+                                        <div class="custom-option" data-value="lca/lci">LCA / LCI</div>
+                                        <div class="custom-option" data-value="cofrinhos">Cofrinhos</div>
+                                        <div class="custom-option" data-value="variavel">Variável</div>
+                                    </div>
+                                    <input type="hidden" id="inv-category" value="cdb">
+                                </div>
+                            </div>
+
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Banco</span>
+                                <div class="custom-select-container" data-id="inv-bank">
+                                    <div class="custom-select-trigger" tabindex="0">
+                                        <span class="trigger-label">Itaú</span>
+                                        <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                                    </div>
+                                    <div class="custom-select-options">
+                                        <div class="custom-option selected" data-value="Itaú">Itaú</div>
+                                        <div class="custom-option" data-value="Bradesco">Bradesco</div>
+                                    </div>
+                                    <input type="hidden" id="inv-bank" value="Itaú">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Valor (R$)</span>
+                                <input type="number" id="inv-amount" step="0.01" placeholder="0,00" required class="ui-input">
+                            </div>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Ano Vencimento</span>
+                                <div class="custom-select-container" data-id="inv-venc-year">
+                                    <div class="custom-select-trigger" tabindex="0">
+                                        <span class="trigger-label">2026</span>
+                                        <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                                    </div>
+                                    <div class="custom-select-options">
+                                        <div class="custom-option selected" data-value="2026">2026</div>
+                                        <div class="custom-option" data-value="2027">2027</div>
+                                        <div class="custom-option" data-value="2028">2028</div>
+                                        <div class="custom-option" data-value="2029">2029</div>
+                                    </div>
+                                    <input type="hidden" id="inv-venc-year" value="2026">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-color-vidaloca hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer">Salvar Ativo</button>
+                    </form>
+
+                    <div id="investments-crud-list" class="space-y-2 pt-2"></div>
+                </div>
             </div>
         </section>
 
@@ -626,8 +861,8 @@
             <div class="space-y-3" id="shopping-list-container"></div>
             
             <div class="flex gap-2 pt-2">
-                <button onclick="shareWhatsApp()" class="w-1/2 bg-color-vidaloca text-white p-2.5 rounded-xl font-bold text-xs"><i class="fa-brands fa-whatsapp mr-1"></i> Compartilhar</button>
-                <button onclick="clearShopping()" class="w-1/2 text-color-cardinal border border-color-cardinal/40 p-2.5 rounded-xl font-bold text-xs"><i class="fa-solid fa-trash mr-1"></i> Limpar Mês</button>
+                <button onclick="shareWhatsApp()" class="w-1/2 bg-color-vidaloca text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer"><i class="fa-brands fa-whatsapp mr-1"></i> Compartilhar</button>
+                <button onclick="clearShopping()" class="w-1/2 text-color-cardinal border border-color-cardinal/40 p-2.5 rounded-xl font-bold text-xs cursor-pointer"><i class="fa-solid fa-trash mr-1"></i> Limpar Mês</button>
             </div>
         </section>
 
@@ -636,9 +871,14 @@
             <h2 class="text-xl font-bold text-white">Cardápio Semanal</h2>
             
             <div class="flex justify-between items-center px-1">
-                <button onclick="changeWeek(-1)" class="text-app-accent text-lg p-2 font-bold"><i class="fa-solid fa-chevron-left"></i></button>
-                <span id="menu-month-year" class="font-bold text-xs uppercase tracking-wider text-app-subtext"></span>
-                <button onclick="changeWeek(1)" class="text-app-accent text-lg p-2 font-bold"><i class="fa-solid fa-chevron-right"></i></button>
+                <button onclick="changeWeek(-1)" class="text-app-accent text-lg p-2 font-bold cursor-pointer"><i class="fa-solid fa-chevron-left"></i></button>
+                <!-- 2. DATA / MÊS CUSTOMIZADO NO MESMO ESTILO DO SELETOR -->
+                <div id="menu-month-year-dropdown" class="ui-field-group !mt-0 min-w-[150px]">
+                    <div class="custom-select-trigger !py-1.5 !px-3 !text-xs font-bold text-app-accent text-center justify-center">
+                        <span id="menu-month-year" class="uppercase tracking-wider"></span>
+                    </div>
+                </div>
+                <button onclick="changeWeek(1)" class="text-app-accent text-lg p-2 font-bold cursor-pointer"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
             <div class="bg-app-card border border-app-card-hover rounded-2xl p-2 flex justify-between text-center overflow-x-auto gap-1 no-scrollbar" id="week-calendar"></div>
@@ -670,7 +910,8 @@
                     <span class="ui-field-label">Modo de preparo / Ingredientes</span>
                     <textarea id="m-desc" placeholder="Ingredientes (opcional)..." class="ui-input h-16 resize-none"></textarea>
                 </div>
-                <button type="submit" class="bg-app-accent-blue text-white p-2.5 rounded-xl font-bold text-xs"><i class="fa-solid fa-utensils mr-1"></i> Adicionar ao Cardápio</button>
+                <!-- 4. BOTÃO SEM ICONE/EMOJI -->
+                <button type="submit" class="bg-app-accent-blue hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs transition cursor-pointer">Adicionar ao Cardápio</button>
             </form>
 
             <div class="space-y-3" id="menu-list"></div>
@@ -683,24 +924,24 @@
                 <div>
                     <h3 class="font-bold mb-1 text-white text-sm"><i class="fa-solid fa-download mr-2 text-app-accent"></i>Exportar Dados</h3>
                     <p class="text-xs mb-3 text-app-subtext">Salve um backup de todas as suas transações, compras e cardápio.</p>
-                    <button onclick="exportData()" class="w-full bg-input-bg text-white p-2.5 rounded-xl font-bold text-xs hover:bg-app-card-hover">Exportar JSON</button>
+                    <button onclick="exportData()" class="w-full bg-input-bg text-white p-2.5 rounded-xl font-bold text-xs hover:bg-app-card-hover cursor-pointer">Exportar JSON</button>
                 </div>
                 <hr class="border-app-card-hover">
                 <div>
                     <h3 class="font-bold mb-1 text-white text-sm"><i class="fa-solid fa-upload mr-2 text-app-accent"></i>Importar Dados</h3>
                     <p class="text-xs mb-3 text-app-subtext">Restaure um backup. Isso substituirá os dados atuais!</p>
                     <input type="file" id="importFile" accept=".json" class="block w-full text-xs text-app-subtext mb-3">
-                    <button onclick="importData()" class="w-full bg-color-cardinal text-white p-2.5 rounded-xl font-bold text-xs">Importar e Substituir</button>
+                    <button onclick="importData()" class="w-full bg-color-cardinal text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer">Importar e Substituir</button>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- MODAL DE CONFIRMAÇÃO (MANTIDO APENAS PARA CONTAS BÁSICAS) -->
+    <!-- MODAL DE CONFIRMAÇÃO -->
     <div id="custom-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-[#0D192D] border border-app-card-hover rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative animate-fadeIn">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-app-subtext hover:text-white w-8 h-8 rounded-full bg-input-bg flex items-center justify-center">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-app-subtext hover:text-white w-8 h-8 rounded-full bg-input-bg flex items-center justify-center cursor-pointer">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
@@ -711,54 +952,48 @@
             <h3 id="modal-title" class="text-xl font-extrabold text-white mb-2">Com sucesso!</h3>
             <p id="modal-msg" class="text-xs text-app-subtext mb-6">Ação executada com sucesso.</p>
 
-            <button onclick="closeModal()" class="w-full bg-color-vidaloca hover:opacity-90 text-white font-bold py-3 rounded-2xl text-xs transition duration-200">
+            <button onclick="closeModal()" class="w-full bg-color-vidaloca hover:opacity-90 text-white font-bold py-3 rounded-2xl text-xs transition duration-200 cursor-pointer">
                 Concluído
             </button>
         </div>
     </div>
 
-    <!-- NAVEGAÇÃO INFERIOR -->
+    <!-- NAVEGAÇÃO INFERIOR UNIFICADA (3. "Resumo" + "Histórico" -> "Financeiro") -->
     <div class="fixed bottom-3 left-0 right-0 z-40 flex justify-center px-4">
         <nav class="bg-app-card/95 border border-app-card-hover/90 backdrop-blur-md rounded-full shadow-2xl p-1.5 max-w-md sm:max-w-xl md:max-w-2xl w-full">
-            <div class="flex items-center overflow-x-auto no-scrollbar gap-1 px-1">
+            <div class="flex items-center overflow-x-auto no-scrollbar gap-1 px-1 justify-between">
                 
-                <button onclick="nav('dashboard')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="dashboard">
+                <button onclick="nav('dashboard')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="dashboard">
                     <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
-                    <i class="fa-solid fa-history text-base transition-transform group-hover:scale-110"></i>
-                    <span class="text-[9px] mt-0.5 font-semibold">Resumo</span>
+                    <i class="fa-solid fa-wallet text-base transition-transform group-hover:scale-110"></i>
+                    <span class="text-[9px] mt-0.5 font-semibold">Financeiro</span>
                 </button>
 
-                <button onclick="nav('history')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="history">
+                <button onclick="nav('investments')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="investments">
                     <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-chart-line text-base transition-transform group-hover:scale-110"></i>
-                    <span class="text-[9px] mt-0.5 font-semibold">Histórico</span>
-                </button>
-
-                <button onclick="nav('investments')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="investments">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
-                    <i class="fa-solid fa-dollar-sign text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Invest.</span>
                 </button>
 
-                <button onclick="nav('shopping')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="shopping">
+                <button onclick="nav('shopping')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="shopping">
                     <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-cart-shopping text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Compras</span>
                 </button>
 
-                <button onclick="nav('menu')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="menu">
+                <button onclick="nav('menu')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="menu">
                     <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-utensils text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Cardápio</span>
                 </button>
 
-                <button onclick="nav('travel')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="travel">
+                <button onclick="nav('travel')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="travel">
                     <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-plane text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Viagens</span>
                 </button>
 
-                <button onclick="nav('settings')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300" data-target="settings">
+                <button onclick="nav('settings')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="settings">
                     <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-gear text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Ajustes</span>
@@ -845,7 +1080,6 @@
             updateDashboard();
         });
 
-        // MODAL CUSTOMIZADO (USADO APENAS EM CONTAS BÁSICAS)
         function showModal(title, msg) {
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-msg').innerText = msg;
@@ -880,16 +1114,18 @@
                 if(dot) dot.classList.remove('opacity-0');
             }
             
-            if(tabId === 'dashboard') updateDashboard();
-            if(tabId === 'history') updateHistory();
+            if(tabId === 'dashboard') { updateDashboard(); updateHistory(); }
+            if(tabId === 'investments') { updateInvestmentsView(); }
             if(tabId === 'menu') loadMenu();
         }
 
+        // BANCO DE DADOS DEXIE
         const db = new Dexie("FinPWA_DB");
-        db.version(10).stores({
+        db.version(11).stores({
             transactions: '++id, type, amount, description, category, subcategory, date, payer, details, sharedPayer, userAmount',
             shopping: '++id, text, quantity, category, done, dateMonth',
-            menu: '++id, dish, type, desc, dateStr'
+            menu: '++id, dish, type, desc, dateStr',
+            investments: '++id, name, category, bank, amount, vencYear'
         });
 
         const formatCurrency = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
@@ -915,8 +1151,8 @@
             ['Geral', 'Alimentacao', 'Basicos'].forEach(v => {
                 const btn = document.getElementById(`cv-${v}`);
                 if(btn) {
-                    if(v === view) btn.className = "px-2.5 py-1 rounded-lg bg-app-accent-blue text-white font-bold text-[11px]";
-                    else btn.className = "px-2.5 py-1 rounded-lg bg-input-bg text-app-subtext text-[11px]";
+                    if(v === view) btn.className = "px-2.5 py-1 rounded-lg bg-app-accent-blue text-white font-bold text-[11px] cursor-pointer";
+                    else btn.className = "px-2.5 py-1 rounded-lg bg-input-bg text-app-subtext text-[11px] cursor-pointer";
                 }
             });
             updateDashboard();
@@ -930,9 +1166,9 @@
                     if((p === 'Todos' && categoryPersonFilter === 'Todos') || 
                        (p === 'Larissa' && categoryPersonFilter === 'Larissa') || 
                        (p === 'Pedro' && categoryPersonFilter === 'Pedro')) {
-                        btn.className = "p-1.5 rounded-lg bg-app-accent-blue text-white font-bold text-xs transition";
+                        btn.className = "p-1.5 rounded-lg bg-app-accent-blue text-white font-bold text-xs transition cursor-pointer";
                     } else {
-                        btn.className = "p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white text-xs transition";
+                        btn.className = "p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white text-xs transition cursor-pointer";
                     }
                 }
             });
@@ -947,9 +1183,9 @@
                     if((p === 'Geral' && historyChartFilterState === 'Geral') || 
                        (p === 'Larissa' && historyChartFilterState === 'Larissa') || 
                        (p === 'Pedro' && historyChartFilterState === 'Pedro')) {
-                        btn.className = "p-1.5 rounded-lg bg-app-accent-blue text-white font-bold transition";
+                        btn.className = "p-1.5 rounded-lg bg-app-accent-blue text-white font-bold transition cursor-pointer";
                     } else {
-                        btn.className = "p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white transition";
+                        btn.className = "p-1.5 rounded-lg bg-input-bg text-app-subtext hover:text-white transition cursor-pointer";
                     }
                 }
             });
@@ -984,6 +1220,7 @@
             document.getElementById('t-date').value = currentMonthStr;
             toggleFoodSub();
             updateDashboard();
+            updateHistory();
         });
 
         document.getElementById('form-basics').addEventListener('submit', async (e) => {
@@ -1011,6 +1248,7 @@
             document.getElementById('b-date').value = currentMonthStr;
             calcAdjustments();
             updateDashboard();
+            updateHistory();
             showModal('Com sucesso!', `Conta de ${item} salva com divisão de 50/50.`);
         });
 
@@ -1080,6 +1318,7 @@
             document.getElementById('b-amount').value = '';
             calcAdjustments();
             updateDashboard();
+            updateHistory();
             showModal('Com sucesso!', `Conta de ${item} salva com divisão proporcional.`);
         }
 
@@ -1088,6 +1327,9 @@
             let income = 0, expense = 0;
             let larissaBal = 0, pedroBal = 0;
             let larissaExpensesMonth = 0;
+
+            let larissaFoodMonth = 0;
+            let pedroFoodMonth = 0;
 
             const currentMonth = document.getElementById('t-date').value || currentMonthStr;
             const chartSelectedMonth = document.getElementById('chart-month-filter').value || currentMonthStr;
@@ -1100,7 +1342,7 @@
             const prevMonthStr = d.toISOString().slice(0,7);
 
             txs.forEach(t => {
-                const isFood = (t.category === 'Alimentação' || t.category.includes('VR') || t.category.includes('VA'));
+                const isFood = (t.category === 'Alimentação' || t.category.includes('VR') || t.category.includes('VA') || (t.subcategory && (t.subcategory.includes('VR') || t.subcategory.includes('VA'))));
                 const effectiveAmount = t.userAmount !== undefined ? t.userAmount : t.amount;
 
                 if(t.date === currentMonth) {
@@ -1117,6 +1359,15 @@
 
                         if(t.payer === 'Larissa' && !isFood) {
                             larissaExpensesMonth += effectiveAmount;
+                        }
+
+                        // 5. LÓGICA DE DEDUÇÃO ALIMENTAÇÃO (BENEFÍCIO)
+                        if(isFood) {
+                            if(t.subcategory === 'VR Larissa' || t.subcategory === 'VA Larissa' || (t.payer === 'Larissa' && !t.subcategory)) {
+                                larissaFoodMonth += effectiveAmount;
+                            } else if(t.subcategory === 'VR Pedro' || (t.payer === 'Pedro' && !t.subcategory)) {
+                                pedroFoodMonth += effectiveAmount;
+                            }
                         }
                     }
                 }
@@ -1160,6 +1411,7 @@
             document.getElementById('dash-larissa').innerText = formatCurrency(larissaBal);
             document.getElementById('dash-pedro').innerText = formatCurrency(pedroBal);
 
+            // TETO GERAL LARISSA
             const tetoMax = 3000;
             const tetoLivre = tetoMax - larissaExpensesMonth;
             const pctSpent = Math.min(100, Math.max(0, (larissaExpensesMonth / tetoMax) * 100));
@@ -1175,6 +1427,23 @@
                 document.getElementById('teto-free').className = 'text-color-vidaloca';
                 document.getElementById('teto-progress-bar').className = 'bg-app-accent h-full transition-all duration-300';
             }
+
+            // 5. TETO ALIMENTAÇÃO LARISSA (2000) E PEDRO (800)
+            const foodLarissaMax = 2000;
+            const foodLarissaLivre = foodLarissaMax - larissaFoodMonth;
+            const foodLarissaPct = Math.min(100, Math.max(0, (larissaFoodMonth / foodLarissaMax) * 100));
+
+            document.getElementById('teto-food-l-spent').innerText = formatCurrency(larissaFoodMonth);
+            document.getElementById('teto-food-l-free').innerText = formatCurrency(foodLarissaLivre);
+            document.getElementById('teto-food-l-bar').style.width = `${foodLarissaPct}%`;
+
+            const foodPedroMax = 800;
+            const foodPedroLivre = foodPedroMax - pedroFoodMonth;
+            const foodPedroPct = Math.min(100, Math.max(0, (pedroFoodMonth / foodPedroMax) * 100));
+
+            document.getElementById('teto-food-p-spent').innerText = formatCurrency(pedroFoodMonth);
+            document.getElementById('teto-food-p-free').innerText = formatCurrency(foodPedroLivre);
+            document.getElementById('teto-food-p-bar').style.width = `${foodPedroPct}%`;
 
             const momContainer = document.getElementById('mom-list-container');
             momContainer.innerHTML = '';
@@ -1258,7 +1527,7 @@
                                 </div>
                                 <div class="text-right">
                                     <p class="font-bold ${isInc ? 'text-color-vidaloca' : 'text-color-cardinal'}">${isInc ? '+' : '-'}${formatCurrency(effectiveAmount)}</p>
-                                    <button onclick="event.stopPropagation(); deleteTransaction(${t.id})" class="text-color-cardinal text-xs mt-1 p-1"><i class="fa-solid fa-trash"></i></button>
+                                    <button onclick="event.stopPropagation(); deleteTransaction(${t.id})" class="text-color-cardinal text-xs mt-1 p-1 cursor-pointer"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </div>
                             ${t.details ? `<div id="tx-det-${t.id}" class="hidden mt-2 pt-2 border-t border-app-card-hover text-xs text-app-subtext font-semibold">${t.details}</div>` : ''}
@@ -1484,18 +1753,21 @@
                     `;
 
                     grouped[cat].forEach(i => {
+                        // 1. DEMAIS ELEMENTOS DA LINHA FICAM 2 TONS MAIS CLAROS / OPACOS QUANDO RISCADOS
+                        const doneClass = i.done ? 'shopping-item-done' : '';
+                        
                         htmlCard += `
-                            <div class="flex items-center justify-between py-1">
+                            <div class="flex items-center justify-between py-1 ${doneClass}">
                                 <label class="flex items-center cursor-pointer flex-1 overflow-hidden pr-2">
                                     <input type="checkbox" ${i.done ? 'checked' : ''} onchange="toggleShopping(${i.id}, this.checked)" class="round-cb flex-shrink-0">
-                                    <div class="${i.done ? 'line-through text-app-subtext/50' : 'text-white'} flex items-baseline truncate">
-                                        <span class="font-bold text-sm truncate">${i.text}</span>
+                                    <div class="flex items-baseline truncate">
+                                        <span class="font-bold text-sm truncate ${i.done ? 'line-through text-app-subtext' : 'text-white'}">${i.text}</span>
                                     </div>
                                 </label>
                                 <div class="flex items-center gap-3 flex-shrink-0">
                                     <span class="text-app-subtext text-xs font-medium">${i.quantity}</span>
-                                    <button onclick="editShopping(${i.id})" class="text-app-subtext hover:text-white p-1 text-xs"><i class="fa-solid fa-pen"></i></button>
-                                    <button onclick="deleteShopping(${i.id})" class="text-color-cardinal font-bold p-1 text-sm"><i class="fa-solid fa-xmark"></i></button>
+                                    <button onclick="editShopping(${i.id})" class="text-app-subtext hover:text-white p-1 text-xs cursor-pointer"><i class="fa-solid fa-pen"></i></button>
+                                    <button onclick="deleteShopping(${i.id})" class="text-color-cardinal font-bold p-1 text-sm cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
                                 </div>
                             </div>
                         `;
@@ -1601,7 +1873,7 @@
                 const isSel = dStr === selectedMenuDateStr;
 
                 cal.innerHTML += `
-                    <button onclick="selectMenuDate('${dStr}')" class="flex-1 py-2 px-1 rounded-xl flex flex-col items-center transition-all ${isSel ? 'bg-app-accent-blue text-white font-bold shadow' : 'text-app-subtext hover:bg-input-bg'}">
+                    <button onclick="selectMenuDate('${dStr}')" class="flex-1 py-2 px-1 rounded-xl flex flex-col items-center transition-all cursor-pointer ${isSel ? 'bg-app-accent-blue text-white font-bold shadow' : 'text-app-subtext hover:bg-input-bg'}">
                         <span class="text-[9px] uppercase font-normal">${daysShort[i]}</span>
                         <span class="text-xs mt-0.5">${dayNum}</span>
                     </button>
@@ -1661,8 +1933,8 @@
                                 <span class="inline-block mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full ${tagColors[i.type] || 'bg-input-bg text-white'}">${i.type}</span>
                             </div>
                             <div class="flex items-center gap-3">
-                                <button onclick="event.stopPropagation(); editMenu(${i.id})" class="text-app-subtext p-1"><i class="fa-solid fa-pen text-xs"></i></button>
-                                <button onclick="event.stopPropagation(); deleteMenu(${i.id})" class="text-color-cardinal font-bold p-1"><i class="fa-solid fa-xmark text-base"></i></button>
+                                <button onclick="event.stopPropagation(); editMenu(${i.id})" class="text-app-subtext p-1 cursor-pointer"><i class="fa-solid fa-pen text-xs"></i></button>
+                                <button onclick="event.stopPropagation(); deleteMenu(${i.id})" class="text-color-cardinal font-bold p-1 cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
                             </div>
                         </div>
                         <div id="m-desc-${i.id}" class="hidden mt-3 pt-3 border-t border-app-card-hover text-xs text-app-subtext whitespace-pre-line">
@@ -1696,11 +1968,304 @@
             }
         }
 
+        // ================= LÓGICA DO MÓDULO DE INVESTIMENTOS =================
+        let isPatrimonioVisible = true;
+        let selectedPatrimonioBank = 'Total';
+        let assetsViewMode = 'tipo';
+
+        // ATIVOS COM COBERTURA FGC (CDB, LCA/LCI, COFRINHOS RENDERAM EM CDB)
+        // CRA/CRI E RENDA VARIÁVEL NÃO POSSUEM FGC
+        const FGC_COVERED_CATEGORIES = ['cdb', 'lca/lci', 'cofrinhos'];
+
+        function toggleVisibilityPatrimonio() {
+            isPatrimonioVisible = !isPatrimonioVisible;
+            const icon = document.getElementById('eye-icon-patrimonio');
+            if(isPatrimonioVisible) icon.className = 'fa-solid fa-eye';
+            else icon.className = 'fa-solid fa-eye-slash';
+            updateInvestmentsView();
+        }
+
+        function setPatrimonioBank(bank) {
+            selectedPatrimonioBank = bank;
+            ['Total', 'Bradesco', 'Itaú'].forEach(b => {
+                const btn = document.getElementById(`inv-bank-${b}`);
+                if(btn) {
+                    if(b === bank) btn.className = "px-3 py-1 rounded-lg bg-app-accent-blue text-white text-xs font-bold cursor-pointer";
+                    else btn.className = "px-3 py-1 rounded-lg bg-input-bg text-app-subtext text-xs font-semibold hover:text-white cursor-pointer";
+                }
+            });
+            updateInvestmentsView();
+        }
+
+        function setAssetsViewMode(mode) {
+            assetsViewMode = mode;
+            ['tipo', 'ativo', 'banco'].forEach(m => {
+                const btn = document.getElementById(`avm-${m}`);
+                if(btn) {
+                    if(m === mode) btn.className = "flex-1 py-1 rounded-lg bg-app-accent-blue text-white text-[11px] font-bold cursor-pointer";
+                    else btn.className = "flex-1 py-1 rounded-lg text-app-subtext text-[11px] font-semibold hover:text-white cursor-pointer";
+                }
+            });
+            updateInvestmentsView();
+        }
+
+        function toggleAddInvestPanel() {
+            const panel = document.getElementById('add-inv-panel');
+            const icon = document.getElementById('add-inv-icon');
+            panel.classList.toggle('hidden');
+            icon.classList.toggle('fa-chevron-up');
+            icon.classList.toggle('fa-chevron-down');
+        }
+
+        document.getElementById('form-investments').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await db.investments.add({
+                name: document.getElementById('inv-name').value,
+                category: document.getElementById('inv-category').value,
+                bank: document.getElementById('inv-bank').value,
+                amount: parseFloat(document.getElementById('inv-amount').value),
+                vencYear: document.getElementById('inv-venc-year').value
+            });
+            document.getElementById('inv-name').value = '';
+            document.getElementById('inv-amount').value = '';
+            updateInvestmentsView();
+        });
+
+        async function updateInvestmentsView() {
+            const allInvestments = await db.investments.toArray();
+            const onlyFGC = document.getElementById('inv-fgc-filter').checked;
+
+            // FILTRAR POR FGC E BANCO SE SELECIONADO NO TOPO
+            let filtered = allInvestments;
+
+            if(onlyFGC) {
+                filtered = filtered.filter(i => FGC_COVERED_CATEGORIES.includes(i.category.toLowerCase()));
+            }
+
+            let patrimonioFiltered = filtered;
+            if(selectedPatrimonioBank !== 'Total') {
+                patrimonioFiltered = patrimonioFiltered.filter(i => i.bank === selectedPatrimonioBank);
+            }
+
+            const totalPatrimonio = patrimonioFiltered.reduce((a, b) => a + b.amount, 0);
+
+            // ATUALIZAR EXIBIÇÃO DE PATRIMÔNIO E META
+            const valEl = document.getElementById('inv-patrimonio-val');
+            if(isPatrimonioVisible) {
+                valEl.innerText = formatCurrency(totalPatrimonio);
+            } else {
+                valEl.innerText = 'R$ *******';
+            }
+
+            // V. META DE 500 MIL
+            const metaGoal = 500000;
+            const metaPct = Math.min(100, (totalPatrimonio / metaGoal) * 100);
+            document.getElementById('inv-meta-pct').innerText = `${metaPct.toFixed(1)}%`;
+            document.getElementById('inv-meta-bar').style.width = `${metaPct}%`;
+
+            renderAssetsChartAndList(filtered, totalPatrimonio);
+            renderVencimentoChartAndList(filtered, totalPatrimonio);
+            renderEvolucaoChart();
+            renderInvestmentsCrudList(allInvestments);
+        }
+
+        let assetsChartInstance = null;
+        function renderAssetsChartAndList(investments, totalVal) {
+            const ctx = document.getElementById('assetsChart').getContext('2d');
+            if(assetsChartInstance) assetsChartInstance.destroy();
+
+            const groupedData = {};
+
+            investments.forEach(item => {
+                let key = '';
+                if(assetsViewMode === 'tipo') key = item.category.toUpperCase();
+                else if(assetsViewMode === 'ativo') key = `${item.name} (${item.bank})`;
+                else if(assetsViewMode === 'banco') key = item.bank;
+
+                groupedData[key] = (groupedData[key] || 0) + item.amount;
+            });
+
+            const labels = Object.keys(groupedData);
+            const data = Object.values(groupedData);
+
+            const container = document.getElementById('assets-list-container');
+            container.innerHTML = '';
+
+            if(labels.length === 0) {
+                container.innerHTML = '<p class="text-app-subtext italic text-center py-2">Nenhum ativo cadastrado.</p>';
+                assetsChartInstance = new Chart(ctx, { 
+                    type: 'doughnut', 
+                    data: { labels: ['Sem ativos'], datasets: [{ data: [1], backgroundColor: ['#111827'], borderWidth: 0 }] },
+                    options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { display: false } } } 
+                });
+                return;
+            }
+
+            labels.forEach((lbl, idx) => {
+                const val = groupedData[lbl];
+                const pct = totalVal > 0 ? ((val / totalVal) * 100).toFixed(1) : '0.0';
+                const colorHex = VIBRANT_PALETTE[idx % VIBRANT_PALETTE.length];
+
+                container.innerHTML += `
+                    <div class="flex justify-between items-center py-1 border-b border-app-card-hover/40 last:border-0">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full inline-block" style="background-color: ${colorHex}"></span>
+                            <span class="font-semibold text-white">${lbl}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-white">${isPatrimonioVisible ? formatCurrency(val) : '***'}</span>
+                            <span class="text-app-accent font-semibold">${pct}%</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            assetsChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels,
+                    datasets: [{ data, backgroundColor: VIBRANT_PALETTE, borderWidth: 0, hoverOffset: 4 }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        let vencimentoChartInstance = null;
+        function renderVencimentoChartAndList(investments, totalVal) {
+            const ctx = document.getElementById('vencimentoChart').getContext('2d');
+            if(vencimentoChartInstance) vencimentoChartInstance.destroy();
+
+            // ANOS DE 2026 ATÉ 2029
+            const years = ['2026', '2027', '2028', '2029'];
+            const yearTotals = { '2026': 0, '2027': 0, '2028': 0, '2029': 0 };
+
+            investments.forEach(i => {
+                if(yearTotals[i.vencYear] !== undefined) {
+                    yearTotals[i.vencYear] += i.amount;
+                }
+            });
+
+            const data = years.map(y => yearTotals[y]);
+            const container = document.getElementById('vencimento-list-container');
+            container.innerHTML = '';
+
+            years.forEach((yr, idx) => {
+                const val = yearTotals[yr];
+                const pct = totalVal > 0 ? ((val / totalVal) * 100).toFixed(1) : '0.0';
+                const colorHex = VIBRANT_PALETTE[idx % VIBRANT_PALETTE.length];
+
+                container.innerHTML += `
+                    <div class="flex justify-between items-center py-1 border-b border-app-card-hover/40 last:border-0">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full inline-block" style="background-color: ${colorHex}"></span>
+                            <span class="font-semibold text-white">Vencimento ${yr}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-white">${isPatrimonioVisible ? formatCurrency(val) : '***'}</span>
+                            <span class="text-app-accent font-semibold">${pct}%</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            vencimentoChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: years.map(y => `Ano ${y}`),
+                    datasets: [{ data, backgroundColor: VIBRANT_PALETTE.slice(0, 4), borderWidth: 0, hoverOffset: 4 }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        let evolucaoChartInstance = null;
+        function renderEvolucaoChart() {
+            const ctx = document.getElementById('evolucaoChart').getContext('2d');
+            if(evolucaoChartInstance) evolucaoChartInstance.destroy();
+
+            const evolType = document.getElementById('inv-evol-type').value;
+            const evolYear = document.getElementById('inv-evol-year').value;
+
+            const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+            
+            // DADOS SIMULADOS PARA DEMONSTRAÇÃO
+            let mockData = [];
+            if(evolType === 'acumulado') {
+                let base = evolYear === '2025' ? 10000 : (evolYear === '2026' ? 25000 : 50000);
+                mockData = months.map((_, i) => base + (i * 1500));
+            } else {
+                mockData = months.map(() => Math.floor(Math.random() * 800) + 200);
+            }
+
+            evolucaoChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: evolType === 'acumulado' ? 'Patrimônio Acumulado' : 'Rendimentos Recebidos',
+                        data: mockData,
+                        backgroundColor: '#5274FF',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { ticks: { color: '#8A99AD', font: { size: 10 } }, grid: { display: false } },
+                        y: { ticks: { color: '#8A99AD', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    }
+                }
+            });
+        }
+
+        function renderInvestmentsCrudList(items) {
+            const container = document.getElementById('investments-crud-list');
+            container.innerHTML = '';
+
+            if(items.length === 0) {
+                container.innerHTML = '<p class="text-app-subtext text-center text-xs">Sem ativos cadastrados.</p>';
+                return;
+            }
+
+            items.forEach(i => {
+                container.innerHTML += `
+                    <div class="flex justify-between items-center bg-input-bg p-2 rounded-xl text-xs border border-app-card-hover">
+                        <div>
+                            <span class="font-bold text-white block">${i.name}</span>
+                            <span class="text-[10px] text-app-subtext">${i.bank} • ${i.category.toUpperCase()} • Venc: ${i.vencYear}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-app-accent">${formatCurrency(i.amount)}</span>
+                            <button onclick="deleteInvestment(${i.id})" class="text-color-cardinal p-1 cursor-pointer"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        async function deleteInvestment(id) {
+            if(confirm('Excluir este ativo?')) {
+                await db.investments.delete(id);
+                updateInvestmentsView();
+            }
+        }
+
         async function exportData() {
             const txs = await db.transactions.toArray();
             const shop = await db.shopping.toArray();
             const menuData = await db.menu.toArray();
-            const data = { transactions: txs, shopping: shop, menu: menuData };
+            const invData = await db.investments.toArray();
+            const data = { transactions: txs, shopping: shop, menu: menuData, investments: invData };
             const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
             const url = URL.createObjectURL(blob); const a = document.createElement('a');
             a.href = url; a.download = `backup_casinha_${new Date().toISOString().slice(0,10)}.json`;
@@ -1715,10 +2280,11 @@
                 try {
                     const data = JSON.parse(e.target.result);
                     if (confirm('Isso apagará os dados atuais. Continuar?')) {
-                        await db.transactions.clear(); await db.shopping.clear(); await db.menu.clear();
+                        await db.transactions.clear(); await db.shopping.clear(); await db.menu.clear(); await db.investments.clear();
                         if(data.transactions) await db.transactions.bulkAdd(data.transactions);
                         if(data.shopping) await db.shopping.bulkAdd(data.shopping);
                         if(data.menu) await db.menu.bulkAdd(data.menu);
+                        if(data.investments) await db.investments.bulkAdd(data.investments);
                         showModal('Com sucesso!', 'Dados importados com sucesso.');
                         setTimeout(() => window.location.reload(), 1200);
                     }
