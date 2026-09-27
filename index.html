@@ -443,7 +443,7 @@
                 </div>
             </div>
 
-            <!-- AJUSTE 1: TETO ALIMENTAÇÃO - NOME, ÍCONE DE PIZZA E BORDA AZUL CLARA -->
+            <!-- TETO ALIMENTAÇÃO -->
             <div class="bg-app-card border-l-4 border-l-app-accent border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -452,7 +452,6 @@
                     <span class="text-xs font-bold text-app-subtext">Total Teto: R$ 2.800,00</span>
                 </div>
 
-                <!-- Larissa Alimentação -->
                 <div class="space-y-1">
                     <div class="flex justify-between text-xs font-bold">
                         <span class="text-white">Larissa (Teto R$ 2.000,00)</span>
@@ -463,7 +462,6 @@
                     </div>
                 </div>
 
-                <!-- Pedro Alimentação -->
                 <div class="space-y-1 pt-1">
                     <div class="flex justify-between text-xs font-bold">
                         <span class="text-white">Pedro (Teto R$ 800,00)</span>
@@ -603,7 +601,7 @@
                 </div>
             </div>
 
-            <!-- ATIVOS NA CARTEIRA (AJUSTE 5 E 7: POR ATIVO COM FILTRO DE CATEGORIA & INDEXADOR) -->
+            <!-- ATIVOS NA CARTEIRA -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -614,7 +612,6 @@
                     </label>
                 </div>
 
-                <!-- Botoes de Visao -->
                 <div class="grid grid-cols-4 gap-1 bg-input-bg p-1 rounded-xl">
                     <button onclick="setAssetsViewMode('tipo')" id="avm-tipo" class="py-1 rounded-lg bg-app-accent-blue text-white text-[10px] font-bold cursor-pointer">Por Tipo</button>
                     <button onclick="setAssetsViewMode('ativo')" id="avm-ativo" class="py-1 rounded-lg text-app-subtext text-[10px] font-semibold hover:text-white cursor-pointer">Por Ativo</button>
@@ -622,7 +619,6 @@
                     <button onclick="setAssetsViewMode('banco')" id="avm-banco" class="py-1 rounded-lg text-app-subtext text-[10px] font-semibold hover:text-white cursor-pointer">Por Banco</button>
                 </div>
 
-                <!-- SUB-SELETOR QUANDO FOR "POR ATIVO" -->
                 <div id="sub-category-filter-panel" class="hidden ui-field-group">
                     <span class="ui-field-label">Filtrar Ativos pela Categoria</span>
                     <div class="custom-select-container" data-id="inv-sub-cat-select" data-onchange="updateInvestmentsView">
@@ -649,7 +645,7 @@
                 <div id="assets-list-container" class="space-y-1 text-xs pt-2 border-t border-app-card-hover"></div>
             </div>
 
-            <!-- CRONOGRAMA DE VENCIMENTO + DETALHES EXPANSÍVEIS (AJUSTE 6) -->
+            <!-- CRONOGRAMA DE VENCIMENTO -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <h3 class="font-bold text-sm text-white flex items-center gap-2">
                     <i class="fa-solid fa-calendar-check text-app-accent"></i> Cronograma de Vencimento
@@ -660,19 +656,19 @@
                 </div>
 
                 <div id="vencimento-list-container" class="space-y-1 text-xs pt-2 border-t border-app-card-hover"></div>
-
-                <!-- CAMPO DETALHES EXPANSÍVEL (LISTA COMPLETA DOS ATIVOS) -->
-                <div class="pt-2 border-t border-app-card-hover">
-                    <button onclick="toggleVencimentoDetails()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
-                        <span><i class="fa-solid fa-list-ul mr-1.5"></i> Detalhes dos Ativos (Lista Completa)</span>
-                        <i class="fa-solid fa-chevron-down" id="venc-det-icon"></i>
-                    </button>
-
-                    <div id="vencimento-details-panel" class="hidden mt-3 space-y-2"></div>
-                </div>
             </div>
 
-            <!-- EVOLUÇÃO DO PATRIMÔNIO (AJUSTE 2: APENAS DADOS REAIS) -->
+            <!-- DETALHES COMPLETOS DOS ATIVOS (CAMPO SEPARADO E INDIVIDUAL) -->
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
+                <button onclick="toggleVencimentoDetails()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
+                    <span><i class="fa-solid fa-list-ul mr-1.5"></i> Detalhes dos Ativos (Lista Completa)</span>
+                    <i class="fa-solid fa-chevron-down" id="venc-det-icon"></i>
+                </button>
+
+                <div id="vencimento-details-panel" class="hidden mt-3 space-y-2"></div>
+            </div>
+
+            <!-- EVOLUÇÃO DO PATRIMÔNIO (ACUMULADO CONSTRUÍDO COM O HISTÓRICO REAL DO PATRIMÔNIO) -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center flex-wrap gap-2">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -714,50 +710,52 @@
                 <canvas id="evolucaoChart" height="180"></canvas>
             </div>
 
-            <!-- SIMULADOR / CALCULADORA DE PATRIMÔNIO (AJUSTE 4) -->
-            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
-                <h3 class="font-bold text-sm text-white flex items-center gap-2">
-                    <i class="fa-solid fa-calculator text-app-accent"></i> Simulador de Investimentos
-                </h3>
+            <!-- SIMULADOR EXPANSÍVEL -->
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
+                <button onclick="toggleSimuladorPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
+                    <span><i class="fa-solid fa-calculator mr-1.5"></i> Simulador de Investimentos</span>
+                    <i class="fa-solid fa-chevron-down" id="sim-panel-icon"></i>
+                </button>
 
-                <form id="form-simulador" oninput="runSimulador()" class="space-y-3">
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="ui-field-group">
-                            <span class="ui-field-label">Patrimônio Inicial</span>
-                            <input type="number" id="sim-initial" value="10000" step="100" class="ui-input">
+                <div id="simulador-panel" class="hidden mt-4 space-y-4 pt-2 border-t border-app-card-hover">
+                    <form id="form-simulador" oninput="runSimulador()" class="space-y-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Patrimônio Inicial</span>
+                                <input type="number" id="sim-initial" value="10000" step="100" class="ui-input">
+                            </div>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Aporte Mensal</span>
+                                <input type="number" id="sim-monthly" value="1000" step="100" class="ui-input">
+                            </div>
                         </div>
-                        <div class="ui-field-group">
-                            <span class="ui-field-label">Aporte Mensal</span>
-                            <input type="number" id="sim-monthly" value="1000" step="100" class="ui-input">
+
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Início</span>
+                                <input type="month" id="sim-start-date" value="2026-09" class="ui-input !px-2 !text-[11px]">
+                            </div>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Fim</span>
+                                <input type="month" id="sim-end-date" value="2027-12" class="ui-input !px-2 !text-[11px]">
+                            </div>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Rendimento %/mês</span>
+                                <input type="number" id="sim-rate" value="0.88" step="0.01" class="ui-input">
+                            </div>
                         </div>
+                    </form>
+
+                    <div class="bg-input-bg p-3 rounded-xl border border-app-card-hover flex justify-between items-center text-xs">
+                        <span class="text-app-subtext font-semibold">Resultado Final Projetado:</span>
+                        <span id="sim-final-result" class="text-base font-extrabold text-color-vidaloca">R$ 0,00</span>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="ui-field-group">
-                            <span class="ui-field-label">Início</span>
-                            <input type="month" id="sim-start-date" value="2026-09" class="ui-input !px-2 !text-[11px]">
-                        </div>
-                        <div class="ui-field-group">
-                            <span class="ui-field-label">Fim</span>
-                            <input type="month" id="sim-end-date" value="2027-12" class="ui-input !px-2 !text-[11px]">
-                        </div>
-                        <div class="ui-field-group">
-                            <span class="ui-field-label">Rendimento %/mês</span>
-                            <input type="number" id="sim-rate" value="0.88" step="0.01" class="ui-input">
-                        </div>
-                    </div>
-                </form>
-
-                <div class="bg-input-bg p-3 rounded-xl border border-app-card-hover flex justify-between items-center text-xs">
-                    <span class="text-app-subtext font-semibold">Resultado Final Projetado:</span>
-                    <span id="sim-final-result" class="text-base font-extrabold text-color-vidaloca">R$ 0,00</span>
+                    <canvas id="simuladorChart" height="170"></canvas>
                 </div>
-
-                <!-- LINHA VERMELHA PONTILLHADA NO GRÁFICO -->
-                <canvas id="simuladorChart" height="170"></canvas>
             </div>
 
-            <!-- PAINEL EXPANSÍVEL: GERENCIAR/ADICIONAR ATIVOS DA CARTEIRA -->
+            <!-- PAINEL EXPANSÍVEL: GERENCIAR/ADICIONAR ATIVOS -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
                 <button onclick="toggleAddInvestPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
                     <span><i class="fa-solid fa-plus-circle mr-1.5"></i> Adicionar / Gerenciar Dados de Investimento</span>
@@ -806,13 +804,20 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-3 gap-2">
+                        <div class="grid grid-cols-2 gap-2">
                             <div class="ui-field-group">
                                 <span class="ui-field-label">Valor (R$)</span>
                                 <input type="number" id="inv-amount" step="0.01" placeholder="0,00" required class="ui-input">
                             </div>
 
-                            <!-- CAMPO INDEXADOR -->
+                            <!-- CAMPO TAXA / RENTABILIDADE (SUBSTITUIU ANO VENCIMENTO) -->
+                            <div class="ui-field-group" id="field-rate-group">
+                                <span class="ui-field-label">Taxa / Rentabilidade</span>
+                                <input type="text" id="inv-rate" placeholder="Ex: 100% CDI, 12% a.a." class="ui-input">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2" id="field-venc-group-combined">
                             <div class="ui-field-group" id="field-indexer-group">
                                 <span class="ui-field-label">Indexador</span>
                                 <div class="custom-select-container" data-id="inv-indexer">
@@ -829,29 +834,10 @@
                                 </div>
                             </div>
 
-                            <!-- CAMPO ANO VENCIMENTO -->
-                            <div class="ui-field-group" id="field-venc-group">
-                                <span class="ui-field-label">Ano Vencimento</span>
-                                <div class="custom-select-container" data-id="inv-venc-year">
-                                    <div class="custom-select-trigger !px-2 !text-[11px]" tabindex="0">
-                                        <span class="trigger-label">2026</span>
-                                        <i class="fa-solid fa-chevron-down text-app-accent text-[8px]"></i>
-                                    </div>
-                                    <div class="custom-select-options">
-                                        <div class="custom-option selected" data-value="2026">2026</div>
-                                        <div class="custom-option" data-value="2027">2027</div>
-                                        <div class="custom-option" data-value="2028">2028</div>
-                                        <div class="custom-option" data-value="2029">2029</div>
-                                    </div>
-                                    <input type="hidden" id="inv-venc-year" value="2026">
-                                </div>
+                            <div class="ui-field-group" id="field-venc-month-group">
+                                <span class="ui-field-label">Mês/Ano Início ou Venc.</span>
+                                <input type="month" id="inv-venc-month" value="2026-09" class="ui-input">
                             </div>
-                        </div>
-
-                        <!-- MÊS DO VENCIMENTO (COMPLEMENTAR) -->
-                        <div class="ui-field-group" id="field-venc-month-group">
-                            <span class="ui-field-label">Mês do Vencimento</span>
-                            <input type="month" id="inv-venc-month" value="2026-12" class="ui-input">
                         </div>
 
                         <button type="submit" class="w-full bg-color-vidaloca hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer">Salvar Ativo</button>
@@ -861,7 +847,7 @@
                 </div>
             </div>
 
-            <!-- PAINEL EXPANSÍVEL: GERENCIAR VALORES RECEBIDOS / RENDIMENTOS (AJUSTE 3) -->
+            <!-- PAINEL EXPANSÍVEL: GERENCIAR RENDIMENTOS -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
                 <button onclick="toggleAddEarningsPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
                     <span><i class="fa-solid fa-hand-holding-dollar mr-1.5"></i> Registrar Rendimentos Recebidos</span>
@@ -1239,16 +1225,16 @@
             }
             
             if(tabId === 'dashboard') { updateDashboard(); updateHistory(); }
-            if(tabId === 'investments') { updateInvestmentsView(); runSimulador(); }
+            if(tabId === 'investments') { updateInvestmentsView(); }
             if(tabId === 'menu') loadMenu();
         }
 
         const db = new Dexie("FinPWA_DB");
-        db.version(12).stores({
+        db.version(13).stores({
             transactions: '++id, type, amount, description, category, subcategory, date, payer, details, sharedPayer, userAmount',
             shopping: '++id, text, quantity, category, done, dateMonth',
             menu: '++id, dish, type, desc, dateStr',
-            investments: '++id, name, category, bank, amount, vencYear, indexer, vencMonth, status',
+            investments: '++id, name, category, bank, amount, rate, indexer, vencMonth, status',
             earnings: '++id, amount, dateStr, bank'
         });
 
@@ -2097,7 +2083,6 @@
             updateInvestmentsView();
         }
 
-        // AJUSTE 5 E 7: VISÃO POR TIPO / POR ATIVO / INDEXADOR / POR BANCO
         function setAssetsViewMode(mode) {
             assetsViewMode = mode;
             ['tipo', 'ativo', 'indexador', 'banco'].forEach(m => {
@@ -2131,21 +2116,26 @@
             icon.classList.toggle('fa-chevron-down');
         }
 
-        // AJUSTE: OCULTAR INDEXADOR E VENCIMENTO PARA "VARIÁVEL"
+        function toggleSimuladorPanel() {
+            const panel = document.getElementById('simulador-panel');
+            const icon = document.getElementById('sim-panel-icon');
+            panel.classList.toggle('hidden');
+            icon.classList.toggle('fa-chevron-up');
+            icon.classList.toggle('fa-chevron-down');
+            if(!panel.classList.contains('hidden')) runSimulador();
+        }
+
         function onCategoryChangeInAdd() {
             const cat = document.getElementById('inv-category').value;
             const indexerGrp = document.getElementById('field-indexer-group');
-            const vencGrp = document.getElementById('field-venc-group');
-            const vencMGrp = document.getElementById('field-venc-month-group');
+            const vencCombined = document.getElementById('field-venc-group-combined');
 
             if(cat === 'variavel') {
                 indexerGrp.classList.add('hidden');
-                vencGrp.classList.add('hidden');
-                vencMGrp.classList.add('hidden');
+                vencCombined.classList.add('hidden');
             } else {
                 indexerGrp.classList.remove('hidden');
-                vencGrp.classList.remove('hidden');
-                vencMGrp.classList.remove('hidden');
+                vencCombined.classList.remove('hidden');
             }
         }
 
@@ -2155,20 +2145,20 @@
             const name = document.getElementById('inv-name').value;
             const bank = document.getElementById('inv-bank').value;
             const amount = parseFloat(document.getElementById('inv-amount').value);
+            const rate = document.getElementById('inv-rate').value || 'N/A';
             const indexer = cat === 'variavel' ? 'N/A' : document.getElementById('inv-indexer').value;
-            const vencYear = cat === 'variavel' ? 'Sem Vencimento' : document.getElementById('inv-venc-year').value;
             const vencMonth = cat === 'variavel' ? 'N/A' : document.getElementById('inv-venc-month').value;
 
             await db.investments.add({
-                name, category: cat, bank, amount, indexer, vencYear, vencMonth, status: 'ativo'
+                name, category: cat, bank, amount, rate, indexer, vencMonth, status: 'ativo'
             });
 
             document.getElementById('inv-name').value = '';
             document.getElementById('inv-amount').value = '';
+            document.getElementById('inv-rate').value = '';
             updateInvestmentsView();
         });
 
-        // AJUSTE 3: FORMULÁRIO DE RENDIMENTOS RECEBIDOS
         document.getElementById('form-earnings').addEventListener('submit', async (e) => {
             e.preventDefault();
             await db.earnings.add({
@@ -2186,7 +2176,6 @@
             const allEarnings = await db.earnings.toArray();
             const onlyFGC = document.getElementById('inv-fgc-filter').checked;
 
-            // FILTRAR APENAS ATIVOS 'ATIVOS' (NÃO LIQUIDADOS) PARA O PATRIMÔNIO ATUAL
             let activeInvestments = allInvestments.filter(i => i.status !== 'liquidado');
 
             if(onlyFGC) {
@@ -2260,9 +2249,15 @@
                 return;
             }
 
+            // CORREÇÃO CONCEITUAL 4: CÁLCULO PROPORCIONAL INTERNO QUANDO HOUVER SUB-FILTRO DE CATEGORIA
+            let denominator = totalVal;
+            if(assetsViewMode === 'ativo' && selectedSubCat !== 'todas') {
+                denominator = data.reduce((a, b) => a + b, 0);
+            }
+
             labels.forEach((lbl, idx) => {
                 const val = groupedData[lbl];
-                const pct = totalVal > 0 ? ((val / totalVal) * 100).toFixed(1) : '0.0';
+                const pct = denominator > 0 ? ((val / denominator) * 100).toFixed(1) : '0.0';
                 const colorHex = VIBRANT_PALETTE[idx % VIBRANT_PALETTE.length];
 
                 container.innerHTML += `
@@ -2301,8 +2296,11 @@
             const yearTotals = { '2026': 0, '2027': 0, '2028': 0, '2029': 0 };
 
             investments.forEach(i => {
-                if(i.category !== 'variavel' && yearTotals[i.vencYear] !== undefined) {
-                    yearTotals[i.vencYear] += i.amount;
+                if(i.category !== 'variavel' && i.vencMonth) {
+                    const [y] = i.vencMonth.split('-');
+                    if(yearTotals[y] !== undefined) {
+                        yearTotals[y] += i.amount;
+                    }
                 }
             });
 
@@ -2342,7 +2340,7 @@
             });
         }
 
-        // AJUSTE 6: LISTA DETALHADA EXPANSÍVEL DE VENCIMENTOS
+        // DETALHES COMPLETOS DOS ATIVOS
         function toggleVencimentoDetails() {
             const panel = document.getElementById('vencimento-details-panel');
             const icon = document.getElementById('venc-det-icon');
@@ -2364,8 +2362,9 @@
                 const isVar = i.category === 'variavel';
                 const isLiquid = i.status === 'liquidado';
 
-                let vencDisplay = isVar ? 'Sem Vencimento' : (i.vencMonth ? i.vencMonth : i.vencYear);
+                let vencDisplay = isVar ? 'Sem Vencimento' : (i.vencMonth ? i.vencMonth : 'N/A');
                 let indexerDisplay = isVar ? 'N/A' : (i.indexer || 'CDI');
+                let rateDisplay = i.rate ? i.rate : 'N/A';
 
                 container.innerHTML += `
                     <div class="p-2.5 bg-input-bg border border-app-card-hover rounded-xl text-xs space-y-1 ${isLiquid ? 'opacity-40' : ''}">
@@ -2373,20 +2372,21 @@
                             <span>${i.name} ${isLiquid ? '<span class="text-rose-400 text-[10px]">(LIQUIDADO)</span>' : ''}</span>
                             <span class="text-app-accent">${formatCurrency(i.amount)}</span>
                         </div>
-                        <div class="grid grid-cols-2 text-[10px] text-app-subtext">
+                        <div class="grid grid-cols-2 text-[10px] text-app-subtext gap-y-0.5">
                             <span>Tipo: <strong class="text-white">${i.category.toUpperCase()}</strong></span>
                             <span>Banco: <strong class="text-white">${i.bank}</strong></span>
                             <span>Indexador: <strong class="text-white">${indexerDisplay}</strong></span>
-                            <span>Vencimento: <strong class="text-white">${vencDisplay}</strong></span>
+                            <span>Taxa: <strong class="text-white">${rateDisplay}</strong></span>
+                            <span>Mês/Ano Venc.: <strong class="text-white">${vencDisplay}</strong></span>
                         </div>
                     </div>
                 `;
             });
         }
 
-        // AJUSTE 2 & 3: GRÁFICO DE EVOLUÇÃO CONSTRUÍDO 100% SOBRE DADOS INSERIDOS
+        // CORREÇÃO CONCEITUAL 1: LÓGICA DO GRÁFICO DE EVOLUÇÃO BASEADA NO HISTÓRICO REAL DO PATRIMÔNIO MÊS A MÊS
         let evolucaoChartInstance = null;
-        function renderEvolucaoChart(earnings = [], activeInvestments = []) {
+        function renderEvolucaoChart(earnings = [], allInvestments = []) {
             const ctx = document.getElementById('evolucaoChart').getContext('2d');
             if(evolucaoChartInstance) evolucaoChartInstance.destroy();
 
@@ -2405,15 +2405,25 @@
                     }
                 });
             } else {
-                const totalActive = activeInvestments.reduce((a,b)=>a+b.amount,0);
-                let acumSum = 0;
-
+                // ACUMULADO REAL DO PATRIMÔNIO: CONSIDERA APENAS ATIVOS EXISTENTES ATÉ O MÊS/ANO AVALIADO
                 months.forEach((_, idx) => {
-                    const mStr = String(idx + 1).padStart(2, '0');
-                    const key = `${evolYear}-${mStr}`;
-                    const earnedInMonth = earnings.filter(e => e.dateStr === key).reduce((a,b)=>a+b.amount,0);
-                    acumSum += earnedInMonth;
-                    monthlyData[idx] = totalActive > 0 ? (totalActive + acumSum) : acumSum;
+                    const monthNumberStr = String(idx + 1).padStart(2, '0');
+                    const targetMonthStr = `${evolYear}-${monthNumberStr}`;
+
+                    // SOMA DOS ATIVOS COM DATA DE INÍCIO <= MÊS AVALIADO
+                    const activeAtMonth = allInvestments.filter(i => {
+                        if(i.status === 'liquidado') return false;
+                        if(i.vencMonth && i.vencMonth !== 'N/A') {
+                            return i.vencMonth <= targetMonthStr;
+                        }
+                        return true;
+                    }).reduce((sum, item) => sum + item.amount, 0);
+
+                    // SOMA DOS RENDIMENTOS RECEBIDOS ATÉ O MÊS AVALIADO
+                    const earningsUpToMonth = earnings.filter(e => e.dateStr <= targetMonthStr)
+                                                      .reduce((sum, e) => sum + e.amount, 0);
+
+                    monthlyData[idx] = activeAtMonth + earningsUpToMonth;
                 });
             }
 
@@ -2438,7 +2448,7 @@
             });
         }
 
-        // AJUSTE 4: SIMULADOR / CALCULADORA DE INVESTIMENTOS COM LINHA VERMELHA PONTILLHADA
+        // SIMULADOR
         let simuladorChartInstance = null;
         function runSimulador() {
             const ctx = document.getElementById('simuladorChart').getContext('2d');
@@ -2504,7 +2514,6 @@
             });
         }
 
-        // GERENCIAMENTO CRUD E MARCAR COMO LIQUIDADO
         function renderInvestmentsCrudList(items) {
             const container = document.getElementById('investments-crud-list');
             container.innerHTML = '';
