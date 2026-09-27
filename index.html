@@ -47,7 +47,6 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* TEMA CLARO vs TEMA ESCURO */
         html.dark body { background-color: #000000; color: #FFFFFF; }
         html.light body { background-color: #F1F5F9; color: #0F172A; }
 
@@ -81,9 +80,7 @@
             z-index: 10;
         }
 
-        html.light .ui-field-label {
-            background-color: #FFFFFF;
-        }
+        html.light .ui-field-label { background-color: #FFFFFF; }
 
         .ui-input {
             width: 100%;
@@ -108,7 +105,6 @@
             box-shadow: 0 0 8px rgba(22, 214, 250, 0.2);
         }
 
-        /* CUSTOM DROPDOWN SYSTEM */
         .custom-select-container {
             position: relative;
             width: 100%;
@@ -131,9 +127,7 @@
             user-select: none;
         }
 
-        html.light .custom-select-trigger {
-            background-color: #F8FAFC;
-        }
+        html.light .custom-select-trigger { background-color: #F8FAFC; }
 
         .custom-select-trigger:focus, .custom-select-container.open .custom-select-trigger {
             border-color: #16D6FA;
@@ -143,8 +137,7 @@
         .custom-select-options {
             position: absolute;
             top: calc(100% + 4px);
-            left: 0;
-            right: 0;
+            left: 0; right: 0;
             background-color: #111827;
             border: 1px solid rgba(82, 116, 255, 0.5);
             border-radius: 14px;
@@ -204,14 +197,12 @@
         .round-cb:checked { border-color: #16D6FA; }
         .round-cb:checked::before { transform: scale(1); }
 
-        /* ITEM COMPRADO (COMPRAS): 2 TONES MAIS CLAROS E RISCADO */
         .shopping-item-done {
             opacity: 0.45;
             text-decoration: line-through;
             transition: all 0.2s ease;
         }
 
-        /* ESTILIZAÇÃO DO INPUT DATE/MONTH PARA COMPATIBILIDADE COM SELETORES */
         input[type="date"]::-webkit-calendar-picker-indicator,
         input[type="month"]::-webkit-calendar-picker-indicator {
             cursor: pointer;
@@ -229,7 +220,7 @@
                 <i class="fa-solid fa-house text-app-accent"></i> Casinha
             </h1>
         </div>
-        <button id="themeToggle" class="p-2 rounded-full hover:bg-app-card-hover transition text-app-subtext">
+        <button id="themeToggle" class="p-2 rounded-full hover:bg-app-card-hover transition text-app-subtext cursor-pointer">
             <i class="fa-solid fa-moon text-lg" id="themeIcon"></i>
         </button>
     </header>
@@ -237,7 +228,7 @@
     <!-- MAIN CONTAINER -->
     <main class="p-4 max-w-md sm:max-w-xl md:max-w-2xl mx-auto space-y-5">
         
-        <!-- ================= FINANCEIRO (RESUMO + HISTÓRICO UNIFICADOS) ================= -->
+        <!-- ================= FINANCEIRO ================= -->
         <section id="tab-dashboard" class="tab-content active space-y-5">
             <!-- Saldo Geral -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-2xl p-5 text-center">
@@ -452,11 +443,11 @@
                 </div>
             </div>
 
-            <!-- NOVO: TETO DE GASTOS ALIMENTAÇÃO (SUBDIVIDIDO) -->
-            <div class="bg-app-card border-l-4 border-l-amber-500 border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
+            <!-- AJUSTE 1: TETO ALIMENTAÇÃO - NOME, ÍCONE DE PIZZA E BORDA AZUL CLARA -->
+            <div class="bg-app-card border-l-4 border-l-app-accent border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
-                        <i class="fa-solid fa-utensils text-amber-500"></i> Teto Alimentação (Benefícios)
+                        <i class="fa-solid fa-pizza-slice text-app-accent"></i> Teto Alimentação
                     </h3>
                     <span class="text-xs font-bold text-app-subtext">Total Teto: R$ 2.800,00</span>
                 </div>
@@ -468,7 +459,7 @@
                         <span class="text-app-subtext">Gasto: <span id="teto-food-l-spent" class="text-color-cardinal">R$ 0,00</span> | Livre: <span id="teto-food-l-free" class="text-color-vidaloca">R$ 2.000,00</span></span>
                     </div>
                     <div class="w-full bg-input-bg h-2 rounded-full overflow-hidden">
-                        <div id="teto-food-l-bar" class="bg-amber-500 h-full transition-all duration-300" style="width: 0%"></div>
+                        <div id="teto-food-l-bar" class="bg-app-accent h-full transition-all duration-300" style="width: 0%"></div>
                     </div>
                 </div>
 
@@ -529,7 +520,7 @@
                 <div id="mom-list-container" class="mt-4 pt-3 border-t border-app-card-hover space-y-1 text-xs"></div>
             </div>
 
-            <!-- ================= PARTE TRANSFERIDA DO HISTÓRICO ================= -->
+            <!-- HISTÓRICO DE TRANSAÇÕES -->
             <div class="space-y-4 pt-2">
                 <h2 class="text-lg font-bold text-white flex items-center gap-2">
                     <i class="fa-solid fa-clock-rotate-left text-app-accent"></i> Histórico de Transações
@@ -579,9 +570,9 @@
             </div>
         </section>
 
-        <!-- ================= INVESTIMENTOS (DESENVOLVIDO) ================= -->
+        <!-- ================= INVESTIMENTOS ================= -->
         <section id="tab-investments" class="tab-content space-y-5">
-            <!-- I. PATRIMÔNIO TOTAL -->
+            <!-- PATRIMÔNIO TOTAL -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-2xl p-5 relative overflow-hidden">
                 <div class="flex justify-between items-center">
                     <span class="text-[11px] uppercase tracking-wider text-app-subtext font-semibold">Patrimônio Total</span>
@@ -595,14 +586,12 @@
                     <span id="inv-patrimonio-mom" class="text-xs font-bold text-emerald-400">+0.0% MoM</span>
                 </div>
 
-                <!-- Mini Menu Instituições -->
                 <div class="flex gap-1.5 mt-3 border-t border-app-card-hover/80 pt-3">
                     <button onclick="setPatrimonioBank('Total')" id="inv-bank-Total" class="px-3 py-1 rounded-lg bg-app-accent-blue text-white text-xs font-bold cursor-pointer">Total</button>
                     <button onclick="setPatrimonioBank('Bradesco')" id="inv-bank-Bradesco" class="px-3 py-1 rounded-lg bg-input-bg text-app-subtext text-xs font-semibold hover:text-white cursor-pointer">Bradesco</button>
                     <button onclick="setPatrimonioBank('Itaú')" id="inv-bank-Itaú" class="px-3 py-1 rounded-lg bg-input-bg text-app-subtext text-xs font-semibold hover:text-white cursor-pointer">Itaú</button>
                 </div>
 
-                <!-- V. BARRA DE META DE PATRIMÔNIO -->
                 <div class="mt-4 pt-3 border-t border-app-card-hover/50">
                     <div class="flex justify-between text-[10px] font-bold text-app-subtext mb-1">
                         <span>Meta: R$ 500.000,00</span>
@@ -614,7 +603,7 @@
                 </div>
             </div>
 
-            <!-- II. ATIVOS NA CARTEIRA -->
+            <!-- ATIVOS NA CARTEIRA (AJUSTE 5 E 7: POR ATIVO COM FILTRO DE CATEGORIA & INDEXADOR) -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -625,23 +614,42 @@
                     </label>
                 </div>
 
-                <!-- Seletores por Tipo / por Ativo / por Banco -->
-                <div class="flex gap-1.5 bg-input-bg p-1 rounded-xl">
-                    <button onclick="setAssetsViewMode('tipo')" id="avm-tipo" class="flex-1 py-1 rounded-lg bg-app-accent-blue text-white text-[11px] font-bold cursor-pointer">Por Tipo</button>
-                    <button onclick="setAssetsViewMode('ativo')" id="avm-ativo" class="flex-1 py-1 rounded-lg text-app-subtext text-[11px] font-semibold hover:text-white cursor-pointer">Por Ativo</button>
-                    <button onclick="setAssetsViewMode('banco')" id="avm-banco" class="flex-1 py-1 rounded-lg text-app-subtext text-[11px] font-semibold hover:text-white cursor-pointer">Por Banco</button>
+                <!-- Botoes de Visao -->
+                <div class="grid grid-cols-4 gap-1 bg-input-bg p-1 rounded-xl">
+                    <button onclick="setAssetsViewMode('tipo')" id="avm-tipo" class="py-1 rounded-lg bg-app-accent-blue text-white text-[10px] font-bold cursor-pointer">Por Tipo</button>
+                    <button onclick="setAssetsViewMode('ativo')" id="avm-ativo" class="py-1 rounded-lg text-app-subtext text-[10px] font-semibold hover:text-white cursor-pointer">Por Ativo</button>
+                    <button onclick="setAssetsViewMode('indexador')" id="avm-indexador" class="py-1 rounded-lg text-app-subtext text-[10px] font-semibold hover:text-white cursor-pointer">Indexador</button>
+                    <button onclick="setAssetsViewMode('banco')" id="avm-banco" class="py-1 rounded-lg text-app-subtext text-[10px] font-semibold hover:text-white cursor-pointer">Por Banco</button>
                 </div>
 
-                <!-- Gráfico de Ativos -->
+                <!-- SUB-SELETOR QUANDO FOR "POR ATIVO" -->
+                <div id="sub-category-filter-panel" class="hidden ui-field-group">
+                    <span class="ui-field-label">Filtrar Ativos pela Categoria</span>
+                    <div class="custom-select-container" data-id="inv-sub-cat-select" data-onchange="updateInvestmentsView">
+                        <div class="custom-select-trigger !py-1.5 !text-xs" tabindex="0">
+                            <span class="trigger-label">Todas as Categorias</span>
+                            <i class="fa-solid fa-chevron-down text-app-accent text-[8px]"></i>
+                        </div>
+                        <div class="custom-select-options">
+                            <div class="custom-option selected" data-value="todas">Todas as Categorias</div>
+                            <div class="custom-option" data-value="cdb">CDB</div>
+                            <div class="custom-option" data-value="cra/cri">CRA / CRI</div>
+                            <div class="custom-option" data-value="lca/lci">LCA / LCI</div>
+                            <div class="custom-option" data-value="cofrinhos">Cofrinhos</div>
+                            <div class="custom-option" data-value="variavel">Variável</div>
+                        </div>
+                        <input type="hidden" id="inv-sub-cat-select" value="todas">
+                    </div>
+                </div>
+
                 <div class="h-48 relative flex items-center justify-center">
                     <canvas id="assetsChart"></canvas>
                 </div>
 
-                <!-- Lista de Detalhamento de Ativos -->
                 <div id="assets-list-container" class="space-y-1 text-xs pt-2 border-t border-app-card-hover"></div>
             </div>
 
-            <!-- III. GRÁFICO DE VENCIMENTO -->
+            <!-- CRONOGRAMA DE VENCIMENTO + DETALHES EXPANSÍVEIS (AJUSTE 6) -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <h3 class="font-bold text-sm text-white flex items-center gap-2">
                     <i class="fa-solid fa-calendar-check text-app-accent"></i> Cronograma de Vencimento
@@ -652,9 +660,19 @@
                 </div>
 
                 <div id="vencimento-list-container" class="space-y-1 text-xs pt-2 border-t border-app-card-hover"></div>
+
+                <!-- CAMPO DETALHES EXPANSÍVEL (LISTA COMPLETA DOS ATIVOS) -->
+                <div class="pt-2 border-t border-app-card-hover">
+                    <button onclick="toggleVencimentoDetails()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
+                        <span><i class="fa-solid fa-list-ul mr-1.5"></i> Detalhes dos Ativos (Lista Completa)</span>
+                        <i class="fa-solid fa-chevron-down" id="venc-det-icon"></i>
+                    </button>
+
+                    <div id="vencimento-details-panel" class="hidden mt-3 space-y-2"></div>
+                </div>
             </div>
 
-            <!-- IV. EVOLUÇÃO DO PATRIMÔNIO -->
+            <!-- EVOLUÇÃO DO PATRIMÔNIO (AJUSTE 2: APENAS DADOS REAIS) -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center flex-wrap gap-2">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -696,7 +714,50 @@
                 <canvas id="evolucaoChart" height="180"></canvas>
             </div>
 
-            <!-- PAINEL EXPANSÍVEL: GERENCIAR/ADICIONAR INVESTIMENTOS -->
+            <!-- SIMULADOR / CALCULADORA DE PATRIMÔNIO (AJUSTE 4) -->
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
+                <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                    <i class="fa-solid fa-calculator text-app-accent"></i> Simulador de Investimentos
+                </h3>
+
+                <form id="form-simulador" oninput="runSimulador()" class="space-y-3">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="ui-field-group">
+                            <span class="ui-field-label">Patrimônio Inicial</span>
+                            <input type="number" id="sim-initial" value="10000" step="100" class="ui-input">
+                        </div>
+                        <div class="ui-field-group">
+                            <span class="ui-field-label">Aporte Mensal</span>
+                            <input type="number" id="sim-monthly" value="1000" step="100" class="ui-input">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="ui-field-group">
+                            <span class="ui-field-label">Início</span>
+                            <input type="month" id="sim-start-date" value="2026-09" class="ui-input !px-2 !text-[11px]">
+                        </div>
+                        <div class="ui-field-group">
+                            <span class="ui-field-label">Fim</span>
+                            <input type="month" id="sim-end-date" value="2027-12" class="ui-input !px-2 !text-[11px]">
+                        </div>
+                        <div class="ui-field-group">
+                            <span class="ui-field-label">Rendimento %/mês</span>
+                            <input type="number" id="sim-rate" value="0.88" step="0.01" class="ui-input">
+                        </div>
+                    </div>
+                </form>
+
+                <div class="bg-input-bg p-3 rounded-xl border border-app-card-hover flex justify-between items-center text-xs">
+                    <span class="text-app-subtext font-semibold">Resultado Final Projetado:</span>
+                    <span id="sim-final-result" class="text-base font-extrabold text-color-vidaloca">R$ 0,00</span>
+                </div>
+
+                <!-- LINHA VERMELHA PONTILLHADA NO GRÁFICO -->
+                <canvas id="simuladorChart" height="170"></canvas>
+            </div>
+
+            <!-- PAINEL EXPANSÍVEL: GERENCIAR/ADICIONAR ATIVOS DA CARTEIRA -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
                 <button onclick="toggleAddInvestPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
                     <span><i class="fa-solid fa-plus-circle mr-1.5"></i> Adicionar / Gerenciar Dados de Investimento</span>
@@ -713,7 +774,7 @@
                         <div class="grid grid-cols-2 gap-2">
                             <div class="ui-field-group">
                                 <span class="ui-field-label">Categoria</span>
-                                <div class="custom-select-container" data-id="inv-category">
+                                <div class="custom-select-container" data-id="inv-category" data-onchange="onCategoryChangeInAdd">
                                     <div class="custom-select-trigger" tabindex="0">
                                         <span class="trigger-label">cdb</span>
                                         <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
@@ -745,17 +806,36 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-2">
+                        <div class="grid grid-cols-3 gap-2">
                             <div class="ui-field-group">
                                 <span class="ui-field-label">Valor (R$)</span>
                                 <input type="number" id="inv-amount" step="0.01" placeholder="0,00" required class="ui-input">
                             </div>
-                            <div class="ui-field-group">
+
+                            <!-- CAMPO INDEXADOR -->
+                            <div class="ui-field-group" id="field-indexer-group">
+                                <span class="ui-field-label">Indexador</span>
+                                <div class="custom-select-container" data-id="inv-indexer">
+                                    <div class="custom-select-trigger !px-2 !text-[11px]" tabindex="0">
+                                        <span class="trigger-label">CDI</span>
+                                        <i class="fa-solid fa-chevron-down text-app-accent text-[8px]"></i>
+                                    </div>
+                                    <div class="custom-select-options">
+                                        <div class="custom-option selected" data-value="CDI">CDI</div>
+                                        <div class="custom-option" data-value="PRÉ">PRÉ</div>
+                                        <div class="custom-option" data-value="IPCA">IPCA</div>
+                                    </div>
+                                    <input type="hidden" id="inv-indexer" value="CDI">
+                                </div>
+                            </div>
+
+                            <!-- CAMPO ANO VENCIMENTO -->
+                            <div class="ui-field-group" id="field-venc-group">
                                 <span class="ui-field-label">Ano Vencimento</span>
                                 <div class="custom-select-container" data-id="inv-venc-year">
-                                    <div class="custom-select-trigger" tabindex="0">
+                                    <div class="custom-select-trigger !px-2 !text-[11px]" tabindex="0">
                                         <span class="trigger-label">2026</span>
-                                        <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                                        <i class="fa-solid fa-chevron-down text-app-accent text-[8px]"></i>
                                     </div>
                                     <div class="custom-select-options">
                                         <div class="custom-option selected" data-value="2026">2026</div>
@@ -768,10 +848,58 @@
                             </div>
                         </div>
 
+                        <!-- MÊS DO VENCIMENTO (COMPLEMENTAR) -->
+                        <div class="ui-field-group" id="field-venc-month-group">
+                            <span class="ui-field-label">Mês do Vencimento</span>
+                            <input type="month" id="inv-venc-month" value="2026-12" class="ui-input">
+                        </div>
+
                         <button type="submit" class="w-full bg-color-vidaloca hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer">Salvar Ativo</button>
                     </form>
 
                     <div id="investments-crud-list" class="space-y-2 pt-2"></div>
+                </div>
+            </div>
+
+            <!-- PAINEL EXPANSÍVEL: GERENCIAR VALORES RECEBIDOS / RENDIMENTOS (AJUSTE 3) -->
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
+                <button onclick="toggleAddEarningsPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
+                    <span><i class="fa-solid fa-hand-holding-dollar mr-1.5"></i> Registrar Rendimentos Recebidos</span>
+                    <i class="fa-solid fa-chevron-down" id="add-earn-icon"></i>
+                </button>
+
+                <div id="add-earn-panel" class="hidden mt-4 pt-3 border-t border-app-card-hover space-y-4">
+                    <form id="form-earnings" class="space-y-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Valor Recebido (R$)</span>
+                                <input type="number" id="earn-amount" step="0.01" placeholder="0,00" required class="ui-input">
+                            </div>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Mês / Ano</span>
+                                <input type="month" id="earn-date" required class="ui-input">
+                            </div>
+                        </div>
+
+                        <div class="ui-field-group">
+                            <span class="ui-field-label">Banco</span>
+                            <div class="custom-select-container" data-id="earn-bank">
+                                <div class="custom-select-trigger" tabindex="0">
+                                    <span class="trigger-label">Itaú</span>
+                                    <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                                </div>
+                                <div class="custom-select-options">
+                                    <div class="custom-option selected" data-value="Itaú">Itaú</div>
+                                    <div class="custom-option" data-value="Bradesco">Bradesco</div>
+                                </div>
+                                <input type="hidden" id="earn-bank" value="Itaú">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-app-accent-blue hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer">Lançar Rendimento</button>
+                    </form>
+
+                    <div id="earnings-crud-list" class="space-y-2 pt-2"></div>
                 </div>
             </div>
         </section>
@@ -872,7 +1000,6 @@
             
             <div class="flex justify-between items-center px-1">
                 <button onclick="changeWeek(-1)" class="text-app-accent text-lg p-2 font-bold cursor-pointer"><i class="fa-solid fa-chevron-left"></i></button>
-                <!-- 2. DATA / MÊS CUSTOMIZADO NO MESMO ESTILO DO SELETOR -->
                 <div id="menu-month-year-dropdown" class="ui-field-group !mt-0 min-w-[150px]">
                     <div class="custom-select-trigger !py-1.5 !px-3 !text-xs font-bold text-app-accent text-center justify-center">
                         <span id="menu-month-year" class="uppercase tracking-wider"></span>
@@ -910,7 +1037,6 @@
                     <span class="ui-field-label">Modo de preparo / Ingredientes</span>
                     <textarea id="m-desc" placeholder="Ingredientes (opcional)..." class="ui-input h-16 resize-none"></textarea>
                 </div>
-                <!-- 4. BOTÃO SEM ICONE/EMOJI -->
                 <button type="submit" class="bg-app-accent-blue hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs transition cursor-pointer">Adicionar ao Cardápio</button>
             </form>
 
@@ -958,7 +1084,7 @@
         </div>
     </div>
 
-    <!-- NAVEGAÇÃO INFERIOR UNIFICADA (3. "Resumo" + "Histórico" -> "Financeiro") -->
+    <!-- NAVEGAÇÃO INFERIOR -->
     <div class="fixed bottom-3 left-0 right-0 z-40 flex justify-center px-4">
         <nav class="bg-app-card/95 border border-app-card-hover/90 backdrop-blur-md rounded-full shadow-2xl p-1.5 max-w-md sm:max-w-xl md:max-w-2xl w-full">
             <div class="flex items-center overflow-x-auto no-scrollbar gap-1 px-1 justify-between">
@@ -1007,7 +1133,6 @@
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
-        // INITIALIZE CUSTOM DROPDOWNS
         function initCustomDropdowns() {
             document.querySelectorAll('.custom-select-container').forEach(container => {
                 const trigger = container.querySelector('.custom-select-trigger');
@@ -1050,7 +1175,6 @@
             document.querySelectorAll('.custom-select-container').forEach(c => c.classList.remove('open'));
         });
 
-        // MODO CLARO / MODO ESCURO
         const html = document.documentElement;
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
@@ -1115,17 +1239,17 @@
             }
             
             if(tabId === 'dashboard') { updateDashboard(); updateHistory(); }
-            if(tabId === 'investments') { updateInvestmentsView(); }
+            if(tabId === 'investments') { updateInvestmentsView(); runSimulador(); }
             if(tabId === 'menu') loadMenu();
         }
 
-        // BANCO DE DADOS DEXIE
         const db = new Dexie("FinPWA_DB");
-        db.version(11).stores({
+        db.version(12).stores({
             transactions: '++id, type, amount, description, category, subcategory, date, payer, details, sharedPayer, userAmount',
             shopping: '++id, text, quantity, category, done, dateMonth',
             menu: '++id, dish, type, desc, dateStr',
-            investments: '++id, name, category, bank, amount, vencYear'
+            investments: '++id, name, category, bank, amount, vencYear, indexer, vencMonth, status',
+            earnings: '++id, amount, dateStr, bank'
         });
 
         const formatCurrency = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
@@ -1134,6 +1258,7 @@
         document.getElementById('b-date').value = currentMonthStr;
         document.getElementById('history-month-filter').value = currentMonthStr;
         document.getElementById('chart-month-filter').value = currentMonthStr;
+        document.getElementById('earn-date').value = currentMonthStr;
 
         function toggleFoodSub() {
             const cat = document.getElementById('t-category').value;
@@ -1361,7 +1486,6 @@
                             larissaExpensesMonth += effectiveAmount;
                         }
 
-                        // 5. LÓGICA DE DEDUÇÃO ALIMENTAÇÃO (BENEFÍCIO)
                         if(isFood) {
                             if(t.subcategory === 'VR Larissa' || t.subcategory === 'VA Larissa' || (t.payer === 'Larissa' && !t.subcategory)) {
                                 larissaFoodMonth += effectiveAmount;
@@ -1411,7 +1535,6 @@
             document.getElementById('dash-larissa').innerText = formatCurrency(larissaBal);
             document.getElementById('dash-pedro').innerText = formatCurrency(pedroBal);
 
-            // TETO GERAL LARISSA
             const tetoMax = 3000;
             const tetoLivre = tetoMax - larissaExpensesMonth;
             const pctSpent = Math.min(100, Math.max(0, (larissaExpensesMonth / tetoMax) * 100));
@@ -1428,7 +1551,6 @@
                 document.getElementById('teto-progress-bar').className = 'bg-app-accent h-full transition-all duration-300';
             }
 
-            // 5. TETO ALIMENTAÇÃO LARISSA (2000) E PEDRO (800)
             const foodLarissaMax = 2000;
             const foodLarissaLivre = foodLarissaMax - larissaFoodMonth;
             const foodLarissaPct = Math.min(100, Math.max(0, (larissaFoodMonth / foodLarissaMax) * 100));
@@ -1564,12 +1686,7 @@
                 chartInstance = new Chart(ctx, { 
                     type: 'doughnut', 
                     data: { labels: ['Sem despesas'], datasets: [{ data: [1], backgroundColor: ['#111827'], borderWidth: 0 }] },
-                    options: { 
-                        responsive: true, 
-                        maintainAspectRatio: false, 
-                        cutout: '80%',
-                        plugins: { legend: { display: false } } 
-                    } 
+                    options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false } } } 
                 }); 
                 return; 
             }
@@ -1588,9 +1705,7 @@
                     }] 
                 }, 
                 options: { 
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '78%',
+                    responsive: true, maintainAspectRatio: false, cutout: '78%',
                     plugins: { 
                         legend: { display: false },
                         tooltip: {
@@ -1633,14 +1748,8 @@
                 options: {
                     plugins: { legend: { labels: { color: '#FFFFFF', font: { size: 11 } } } },
                     scales: {
-                        x: { 
-                            ticks: { color: '#8A99AD' }, 
-                            grid: { display: false } 
-                        },
-                        y: { 
-                            display: false,
-                            grid: { display: false } 
-                        }
+                        x: { ticks: { color: '#8A99AD' }, grid: { display: false } },
+                        y: { display: false, grid: { display: false } }
                     }
                 }
             });
@@ -1753,7 +1862,6 @@
                     `;
 
                     grouped[cat].forEach(i => {
-                        // 1. DEMAIS ELEMENTOS DA LINHA FICAM 2 TONS MAIS CLAROS / OPACOS QUANDO RISCADOS
                         const doneClass = i.done ? 'shopping-item-done' : '';
                         
                         htmlCard += `
@@ -1908,13 +2016,7 @@
                 return;
             }
 
-            const mealOrder = {
-                'Café da Manhã': 1,
-                'Almoço': 2,
-                'Snack': 3,
-                'Jantar': 4
-            };
-
+            const mealOrder = { 'Café da Manhã': 1, 'Almoço': 2, 'Snack': 3, 'Jantar': 4 };
             items.sort((a, b) => (mealOrder[a.type] || 99) - (mealOrder[b.type] || 99));
 
             const tagColors = {
@@ -1973,8 +2075,6 @@
         let selectedPatrimonioBank = 'Total';
         let assetsViewMode = 'tipo';
 
-        // ATIVOS COM COBERTURA FGC (CDB, LCA/LCI, COFRINHOS RENDERAM EM CDB)
-        // CRA/CRI E RENDA VARIÁVEL NÃO POSSUEM FGC
         const FGC_COVERED_CATEGORIES = ['cdb', 'lca/lci', 'cofrinhos'];
 
         function toggleVisibilityPatrimonio() {
@@ -1997,15 +2097,21 @@
             updateInvestmentsView();
         }
 
+        // AJUSTE 5 E 7: VISÃO POR TIPO / POR ATIVO / INDEXADOR / POR BANCO
         function setAssetsViewMode(mode) {
             assetsViewMode = mode;
-            ['tipo', 'ativo', 'banco'].forEach(m => {
+            ['tipo', 'ativo', 'indexador', 'banco'].forEach(m => {
                 const btn = document.getElementById(`avm-${m}`);
                 if(btn) {
-                    if(m === mode) btn.className = "flex-1 py-1 rounded-lg bg-app-accent-blue text-white text-[11px] font-bold cursor-pointer";
-                    else btn.className = "flex-1 py-1 rounded-lg text-app-subtext text-[11px] font-semibold hover:text-white cursor-pointer";
+                    if(m === mode) btn.className = "py-1 rounded-lg bg-app-accent-blue text-white text-[10px] font-bold cursor-pointer";
+                    else btn.className = "py-1 rounded-lg text-app-subtext text-[10px] font-semibold hover:text-white cursor-pointer";
                 }
             });
+
+            const subPanel = document.getElementById('sub-category-filter-panel');
+            if(mode === 'ativo') subPanel.classList.remove('hidden');
+            else subPanel.classList.add('hidden');
+
             updateInvestmentsView();
         }
 
@@ -2017,39 +2123,83 @@
             icon.classList.toggle('fa-chevron-down');
         }
 
+        function toggleAddEarningsPanel() {
+            const panel = document.getElementById('add-earn-panel');
+            const icon = document.getElementById('add-earn-icon');
+            panel.classList.toggle('hidden');
+            icon.classList.toggle('fa-chevron-up');
+            icon.classList.toggle('fa-chevron-down');
+        }
+
+        // AJUSTE: OCULTAR INDEXADOR E VENCIMENTO PARA "VARIÁVEL"
+        function onCategoryChangeInAdd() {
+            const cat = document.getElementById('inv-category').value;
+            const indexerGrp = document.getElementById('field-indexer-group');
+            const vencGrp = document.getElementById('field-venc-group');
+            const vencMGrp = document.getElementById('field-venc-month-group');
+
+            if(cat === 'variavel') {
+                indexerGrp.classList.add('hidden');
+                vencGrp.classList.add('hidden');
+                vencMGrp.classList.add('hidden');
+            } else {
+                indexerGrp.classList.remove('hidden');
+                vencGrp.classList.remove('hidden');
+                vencMGrp.classList.remove('hidden');
+            }
+        }
+
         document.getElementById('form-investments').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const cat = document.getElementById('inv-category').value;
+            const name = document.getElementById('inv-name').value;
+            const bank = document.getElementById('inv-bank').value;
+            const amount = parseFloat(document.getElementById('inv-amount').value);
+            const indexer = cat === 'variavel' ? 'N/A' : document.getElementById('inv-indexer').value;
+            const vencYear = cat === 'variavel' ? 'Sem Vencimento' : document.getElementById('inv-venc-year').value;
+            const vencMonth = cat === 'variavel' ? 'N/A' : document.getElementById('inv-venc-month').value;
+
             await db.investments.add({
-                name: document.getElementById('inv-name').value,
-                category: document.getElementById('inv-category').value,
-                bank: document.getElementById('inv-bank').value,
-                amount: parseFloat(document.getElementById('inv-amount').value),
-                vencYear: document.getElementById('inv-venc-year').value
+                name, category: cat, bank, amount, indexer, vencYear, vencMonth, status: 'ativo'
             });
+
             document.getElementById('inv-name').value = '';
             document.getElementById('inv-amount').value = '';
             updateInvestmentsView();
         });
 
+        // AJUSTE 3: FORMULÁRIO DE RENDIMENTOS RECEBIDOS
+        document.getElementById('form-earnings').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await db.earnings.add({
+                amount: parseFloat(document.getElementById('earn-amount').value),
+                dateStr: document.getElementById('earn-date').value,
+                bank: document.getElementById('earn-bank').value
+            });
+
+            document.getElementById('earn-amount').value = '';
+            updateInvestmentsView();
+        });
+
         async function updateInvestmentsView() {
             const allInvestments = await db.investments.toArray();
+            const allEarnings = await db.earnings.toArray();
             const onlyFGC = document.getElementById('inv-fgc-filter').checked;
 
-            // FILTRAR POR FGC E BANCO SE SELECIONADO NO TOPO
-            let filtered = allInvestments;
+            // FILTRAR APENAS ATIVOS 'ATIVOS' (NÃO LIQUIDADOS) PARA O PATRIMÔNIO ATUAL
+            let activeInvestments = allInvestments.filter(i => i.status !== 'liquidado');
 
             if(onlyFGC) {
-                filtered = filtered.filter(i => FGC_COVERED_CATEGORIES.includes(i.category.toLowerCase()));
+                activeInvestments = activeInvestments.filter(i => FGC_COVERED_CATEGORIES.includes(i.category.toLowerCase()));
             }
 
-            let patrimonioFiltered = filtered;
+            let patrimonioFiltered = activeInvestments;
             if(selectedPatrimonioBank !== 'Total') {
                 patrimonioFiltered = patrimonioFiltered.filter(i => i.bank === selectedPatrimonioBank);
             }
 
             const totalPatrimonio = patrimonioFiltered.reduce((a, b) => a + b.amount, 0);
 
-            // ATUALIZAR EXIBIÇÃO DE PATRIMÔNIO E META
             const valEl = document.getElementById('inv-patrimonio-val');
             if(isPatrimonioVisible) {
                 valEl.innerText = formatCurrency(totalPatrimonio);
@@ -2057,16 +2207,17 @@
                 valEl.innerText = 'R$ *******';
             }
 
-            // V. META DE 500 MIL
             const metaGoal = 500000;
             const metaPct = Math.min(100, (totalPatrimonio / metaGoal) * 100);
             document.getElementById('inv-meta-pct').innerText = `${metaPct.toFixed(1)}%`;
             document.getElementById('inv-meta-bar').style.width = `${metaPct}%`;
 
-            renderAssetsChartAndList(filtered, totalPatrimonio);
-            renderVencimentoChartAndList(filtered, totalPatrimonio);
-            renderEvolucaoChart();
+            renderAssetsChartAndList(activeInvestments, totalPatrimonio);
+            renderVencimentoChartAndList(activeInvestments, totalPatrimonio);
+            renderVencimentoDetailsList(allInvestments);
+            renderEvolucaoChart(allEarnings, activeInvestments);
             renderInvestmentsCrudList(allInvestments);
+            renderEarningsCrudList(allEarnings);
         }
 
         let assetsChartInstance = null;
@@ -2075,14 +2226,22 @@
             if(assetsChartInstance) assetsChartInstance.destroy();
 
             const groupedData = {};
+            const selectedSubCat = document.getElementById('inv-sub-cat-select').value;
 
             investments.forEach(item => {
                 let key = '';
-                if(assetsViewMode === 'tipo') key = item.category.toUpperCase();
-                else if(assetsViewMode === 'ativo') key = `${item.name} (${item.bank})`;
-                else if(assetsViewMode === 'banco') key = item.bank;
+                if(assetsViewMode === 'tipo') {
+                    key = item.category.toUpperCase();
+                } else if(assetsViewMode === 'ativo') {
+                    if(selectedSubCat !== 'todas' && item.category !== selectedSubCat) return;
+                    key = `${item.name} (${item.bank})`;
+                } else if(assetsViewMode === 'indexador') {
+                    key = item.category === 'variavel' ? 'Renda Variável' : (item.indexer || 'CDI');
+                } else if(assetsViewMode === 'banco') {
+                    key = item.bank;
+                }
 
-                groupedData[key] = (groupedData[key] || 0) + item.amount;
+                if(key) groupedData[key] = (groupedData[key] || 0) + item.amount;
             });
 
             const labels = Object.keys(groupedData);
@@ -2092,7 +2251,7 @@
             container.innerHTML = '';
 
             if(labels.length === 0) {
-                container.innerHTML = '<p class="text-app-subtext italic text-center py-2">Nenhum ativo cadastrado.</p>';
+                container.innerHTML = '<p class="text-app-subtext italic text-center py-2">Nenhum ativo para os filtros selecionados.</p>';
                 assetsChartInstance = new Chart(ctx, { 
                     type: 'doughnut', 
                     data: { labels: ['Sem ativos'], datasets: [{ data: [1], backgroundColor: ['#111827'], borderWidth: 0 }] },
@@ -2127,9 +2286,7 @@
                     datasets: [{ data, backgroundColor: VIBRANT_PALETTE, borderWidth: 0, hoverOffset: 4 }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '75%',
+                    responsive: true, maintainAspectRatio: false, cutout: '75%',
                     plugins: { legend: { display: false } }
                 }
             });
@@ -2140,12 +2297,11 @@
             const ctx = document.getElementById('vencimentoChart').getContext('2d');
             if(vencimentoChartInstance) vencimentoChartInstance.destroy();
 
-            // ANOS DE 2026 ATÉ 2029
             const years = ['2026', '2027', '2028', '2029'];
             const yearTotals = { '2026': 0, '2027': 0, '2028': 0, '2029': 0 };
 
             investments.forEach(i => {
-                if(yearTotals[i.vencYear] !== undefined) {
+                if(i.category !== 'variavel' && yearTotals[i.vencYear] !== undefined) {
                     yearTotals[i.vencYear] += i.amount;
                 }
             });
@@ -2180,16 +2336,57 @@
                     datasets: [{ data, backgroundColor: VIBRANT_PALETTE.slice(0, 4), borderWidth: 0, hoverOffset: 4 }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '75%',
+                    responsive: true, maintainAspectRatio: false, cutout: '75%',
                     plugins: { legend: { display: false } }
                 }
             });
         }
 
+        // AJUSTE 6: LISTA DETALHADA EXPANSÍVEL DE VENCIMENTOS
+        function toggleVencimentoDetails() {
+            const panel = document.getElementById('vencimento-details-panel');
+            const icon = document.getElementById('venc-det-icon');
+            panel.classList.toggle('hidden');
+            icon.classList.toggle('fa-chevron-up');
+            icon.classList.toggle('fa-chevron-down');
+        }
+
+        function renderVencimentoDetailsList(items) {
+            const container = document.getElementById('vencimento-details-panel');
+            container.innerHTML = '';
+
+            if(items.length === 0) {
+                container.innerHTML = '<p class="text-app-subtext text-center text-xs py-2">Nenhum ativo cadastrado.</p>';
+                return;
+            }
+
+            items.forEach(i => {
+                const isVar = i.category === 'variavel';
+                const isLiquid = i.status === 'liquidado';
+
+                let vencDisplay = isVar ? 'Sem Vencimento' : (i.vencMonth ? i.vencMonth : i.vencYear);
+                let indexerDisplay = isVar ? 'N/A' : (i.indexer || 'CDI');
+
+                container.innerHTML += `
+                    <div class="p-2.5 bg-input-bg border border-app-card-hover rounded-xl text-xs space-y-1 ${isLiquid ? 'opacity-40' : ''}">
+                        <div class="flex justify-between font-bold text-white">
+                            <span>${i.name} ${isLiquid ? '<span class="text-rose-400 text-[10px]">(LIQUIDADO)</span>' : ''}</span>
+                            <span class="text-app-accent">${formatCurrency(i.amount)}</span>
+                        </div>
+                        <div class="grid grid-cols-2 text-[10px] text-app-subtext">
+                            <span>Tipo: <strong class="text-white">${i.category.toUpperCase()}</strong></span>
+                            <span>Banco: <strong class="text-white">${i.bank}</strong></span>
+                            <span>Indexador: <strong class="text-white">${indexerDisplay}</strong></span>
+                            <span>Vencimento: <strong class="text-white">${vencDisplay}</strong></span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // AJUSTE 2 & 3: GRÁFICO DE EVOLUÇÃO CONSTRUÍDO 100% SOBRE DADOS INSERIDOS
         let evolucaoChartInstance = null;
-        function renderEvolucaoChart() {
+        function renderEvolucaoChart(earnings = [], activeInvestments = []) {
             const ctx = document.getElementById('evolucaoChart').getContext('2d');
             if(evolucaoChartInstance) evolucaoChartInstance.destroy();
 
@@ -2197,14 +2394,27 @@
             const evolYear = document.getElementById('inv-evol-year').value;
 
             const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-            
-            // DADOS SIMULADOS PARA DEMONSTRAÇÃO
-            let mockData = [];
-            if(evolType === 'acumulado') {
-                let base = evolYear === '2025' ? 10000 : (evolYear === '2026' ? 25000 : 50000);
-                mockData = months.map((_, i) => base + (i * 1500));
+            const monthlyData = new Array(12).fill(0);
+
+            if(evolType === 'recebidos') {
+                earnings.forEach(e => {
+                    const [y, m] = e.dateStr.split('-');
+                    if(y === evolYear) {
+                        const idx = parseInt(m, 10) - 1;
+                        if(idx >= 0 && idx < 12) monthlyData[idx] += e.amount;
+                    }
+                });
             } else {
-                mockData = months.map(() => Math.floor(Math.random() * 800) + 200);
+                const totalActive = activeInvestments.reduce((a,b)=>a+b.amount,0);
+                let acumSum = 0;
+
+                months.forEach((_, idx) => {
+                    const mStr = String(idx + 1).padStart(2, '0');
+                    const key = `${evolYear}-${mStr}`;
+                    const earnedInMonth = earnings.filter(e => e.dateStr === key).reduce((a,b)=>a+b.amount,0);
+                    acumSum += earnedInMonth;
+                    monthlyData[idx] = totalActive > 0 ? (totalActive + acumSum) : acumSum;
+                });
             }
 
             evolucaoChartInstance = new Chart(ctx, {
@@ -2213,7 +2423,7 @@
                     labels: months,
                     datasets: [{
                         label: evolType === 'acumulado' ? 'Patrimônio Acumulado' : 'Rendimentos Recebidos',
-                        data: mockData,
+                        data: monthlyData,
                         backgroundColor: '#5274FF',
                         borderRadius: 4
                     }]
@@ -2228,6 +2438,73 @@
             });
         }
 
+        // AJUSTE 4: SIMULADOR / CALCULADORA DE INVESTIMENTOS COM LINHA VERMELHA PONTILLHADA
+        let simuladorChartInstance = null;
+        function runSimulador() {
+            const ctx = document.getElementById('simuladorChart').getContext('2d');
+            if(simuladorChartInstance) simuladorChartInstance.destroy();
+
+            const initial = parseFloat(document.getElementById('sim-initial').value) || 0;
+            const monthly = parseFloat(document.getElementById('sim-monthly').value) || 0;
+            const rate = (parseFloat(document.getElementById('sim-rate').value) || 0) / 100;
+
+            const startDateStr = document.getElementById('sim-start-date').value;
+            const endDateStr = document.getElementById('sim-end-date').value;
+
+            if(!startDateStr || !endDateStr) return;
+
+            const [sY, sM] = startDateStr.split('-').map(Number);
+            const [eY, eM] = endDateStr.split('-').map(Number);
+
+            const totalMonths = (eY - sY) * 12 + (eM - sM) + 1;
+            if(totalMonths <= 0) return;
+
+            const labels = [];
+            const data = [];
+            let currentBalance = initial;
+
+            let curY = sY, curM = sM;
+            for(let i = 0; i < totalMonths; i++) {
+                const mStr = String(curM).padStart(2, '0');
+                labels.push(`${mStr}/${String(curY).slice(2)}`);
+
+                if(i > 0) currentBalance += monthly;
+                currentBalance += (currentBalance * rate);
+                data.push(currentBalance);
+
+                curM++;
+                if(curM > 12) { curM = 1; curY++; }
+            }
+
+            document.getElementById('sim-final-result').innerText = formatCurrency(currentBalance);
+
+            simuladorChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Projeção de Patrimônio',
+                        data,
+                        borderColor: '#C8183A',
+                        borderDash: [5, 5],
+                        borderWidth: 2,
+                        pointRadius: 2,
+                        pointBackgroundColor: '#C8183A',
+                        fill: false,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { ticks: { color: '#8A99AD', font: { size: 9 } }, grid: { display: false } },
+                        y: { ticks: { color: '#8A99AD', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    }
+                }
+            });
+        }
+
+        // GERENCIAMENTO CRUD E MARCAR COMO LIQUIDADO
         function renderInvestmentsCrudList(items) {
             const container = document.getElementById('investments-crud-list');
             container.innerHTML = '';
@@ -2238,19 +2515,30 @@
             }
 
             items.forEach(i => {
+                const isLiquid = i.status === 'liquidado';
+
                 container.innerHTML += `
-                    <div class="flex justify-between items-center bg-input-bg p-2 rounded-xl text-xs border border-app-card-hover">
+                    <div class="flex justify-between items-center bg-input-bg p-2 rounded-xl text-xs border border-app-card-hover ${isLiquid ? 'opacity-50' : ''}">
                         <div>
-                            <span class="font-bold text-white block">${i.name}</span>
-                            <span class="text-[10px] text-app-subtext">${i.bank} • ${i.category.toUpperCase()} • Venc: ${i.vencYear}</span>
+                            <span class="font-bold text-white block">${i.name} ${isLiquid ? '(LIQUIDADO)' : ''}</span>
+                            <span class="text-[10px] text-app-subtext">${i.bank} • ${i.category.toUpperCase()}</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <span class="font-bold text-app-accent">${formatCurrency(i.amount)}</span>
+                            <button onclick="toggleLiquidateInvestment(${i.id}, '${i.status}')" class="px-2 py-1 bg-input-bg border border-app-accent/30 rounded text-[10px] text-app-accent font-bold cursor-pointer">
+                                ${isLiquid ? 'Reativar' : 'Liquidar'}
+                            </button>
                             <button onclick="deleteInvestment(${i.id})" class="text-color-cardinal p-1 cursor-pointer"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                 `;
             });
+        }
+
+        async function toggleLiquidateInvestment(id, currentStatus) {
+            const newStatus = currentStatus === 'liquidado' ? 'ativo' : 'liquidado';
+            await db.investments.update(id, { status: newStatus });
+            updateInvestmentsView();
         }
 
         async function deleteInvestment(id) {
@@ -2260,12 +2548,45 @@
             }
         }
 
+        function renderEarningsCrudList(items) {
+            const container = document.getElementById('earnings-crud-list');
+            container.innerHTML = '';
+
+            if(items.length === 0) {
+                container.innerHTML = '<p class="text-app-subtext text-center text-xs">Sem rendimentos registrados.</p>';
+                return;
+            }
+
+            items.forEach(i => {
+                container.innerHTML += `
+                    <div class="flex justify-between items-center bg-input-bg p-2 rounded-xl text-xs border border-app-card-hover">
+                        <div>
+                            <span class="font-bold text-white block">${i.bank}</span>
+                            <span class="text-[10px] text-app-subtext">Mês: ${i.dateStr}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-color-vidaloca">+${formatCurrency(i.amount)}</span>
+                            <button onclick="deleteEarning(${i.id})" class="text-color-cardinal p-1 cursor-pointer"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        async function deleteEarning(id) {
+            if(confirm('Excluir este rendimento?')) {
+                await db.earnings.delete(id);
+                updateInvestmentsView();
+            }
+        }
+
         async function exportData() {
             const txs = await db.transactions.toArray();
             const shop = await db.shopping.toArray();
             const menuData = await db.menu.toArray();
             const invData = await db.investments.toArray();
-            const data = { transactions: txs, shopping: shop, menu: menuData, investments: invData };
+            const earnData = await db.earnings.toArray();
+            const data = { transactions: txs, shopping: shop, menu: menuData, investments: invData, earnings: earnData };
             const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
             const url = URL.createObjectURL(blob); const a = document.createElement('a');
             a.href = url; a.download = `backup_casinha_${new Date().toISOString().slice(0,10)}.json`;
@@ -2280,11 +2601,12 @@
                 try {
                     const data = JSON.parse(e.target.result);
                     if (confirm('Isso apagará os dados atuais. Continuar?')) {
-                        await db.transactions.clear(); await db.shopping.clear(); await db.menu.clear(); await db.investments.clear();
+                        await db.transactions.clear(); await db.shopping.clear(); await db.menu.clear(); await db.investments.clear(); await db.earnings.clear();
                         if(data.transactions) await db.transactions.bulkAdd(data.transactions);
                         if(data.shopping) await db.shopping.bulkAdd(data.shopping);
                         if(data.menu) await db.menu.bulkAdd(data.menu);
                         if(data.investments) await db.investments.bulkAdd(data.investments);
+                        if(data.earnings) await db.earnings.bulkAdd(data.earnings);
                         showModal('Com sucesso!', 'Dados importados com sucesso.');
                         setTimeout(() => window.location.reload(), 1200);
                     }
@@ -2293,7 +2615,6 @@
             reader.readAsText(fileInput.files[0]);
         }
 
-        // INIT
         generateMonthOptions(); 
         initCustomDropdowns();
         nav('dashboard');
