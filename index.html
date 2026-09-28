@@ -230,7 +230,6 @@
         
         <!-- ================= FINANCEIRO ================= -->
         <section id="tab-dashboard" class="tab-content active space-y-5">
-            <!-- Saldo Geral -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-2xl p-5 text-center">
                 <p class="text-[11px] uppercase tracking-wider text-app-subtext font-semibold">Saldo Geral</p>
                 <h2 class="text-3xl font-extrabold text-white mt-1" id="dash-balance">R$ 0,00</h2>
@@ -244,7 +243,6 @@
                 </div>
             </div>
 
-            <!-- Saldo Individual -->
             <div class="grid grid-cols-2 gap-3">
                 <div class="bg-app-card p-4 rounded-2xl border border-app-card-hover text-center">
                     <p class="text-[10px] text-app-subtext font-bold uppercase tracking-wider">Larissa (Saldo)</p>
@@ -256,7 +254,6 @@
                 </div>
             </div>
 
-            <!-- Nova Transação -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5">
                 <h3 class="font-bold mb-4 text-white text-sm flex items-center gap-2">
                     <i class="fa-solid fa-plus-circle text-app-accent"></i> Nova Transação
@@ -342,7 +339,6 @@
                 </form>
             </div>
 
-            <!-- CONTAS BÁSICAS -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5">
                 <h3 class="font-bold mb-1 text-white text-sm flex items-center gap-2">
                     <i class="fa-solid fa-bolt text-app-accent"></i> Contas Básicas
@@ -424,7 +420,6 @@
                 </div>
             </div>
 
-            <!-- TETO DE GASTOS LARISSA -->
             <div class="bg-app-card border-l-4 border-l-app-accent border border-app-card-hover rounded-2xl shadow-xl p-5">
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -443,7 +438,6 @@
                 </div>
             </div>
 
-            <!-- TETO ALIMENTAÇÃO -->
             <div class="bg-app-card border-l-4 border-l-app-accent border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -473,7 +467,6 @@
                 </div>
             </div>
 
-            <!-- GRÁFICO DE ROSCA -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-sm text-white">Distribuição de Custos</h3>
@@ -518,7 +511,6 @@
                 <div id="mom-list-container" class="mt-4 pt-3 border-t border-app-card-hover space-y-1 text-xs"></div>
             </div>
 
-            <!-- HISTÓRICO DE TRANSAÇÕES -->
             <div class="space-y-4 pt-2">
                 <h2 class="text-lg font-bold text-white flex items-center gap-2">
                     <i class="fa-solid fa-clock-rotate-left text-app-accent"></i> Histórico de Transações
@@ -570,7 +562,7 @@
 
         <!-- ================= INVESTIMENTOS ================= -->
         <section id="tab-investments" class="tab-content space-y-5">
-            <!-- PATRIMÔNIO TOTAL -->
+            <!-- PATRIMÔNIO TOTAL (INCLUI ATIVOS + RENDIMENTOS) -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-2xl p-5 relative overflow-hidden">
                 <div class="flex justify-between items-center">
                     <span class="text-[11px] uppercase tracking-wider text-app-subtext font-semibold">Patrimônio Total</span>
@@ -658,7 +650,7 @@
                 <div id="vencimento-list-container" class="space-y-1 text-xs pt-2 border-t border-app-card-hover"></div>
             </div>
 
-            <!-- DETALHES COMPLETOS DOS ATIVOS (CAMPO SEPARADO E INDIVIDUAL) -->
+            <!-- DETALHES COMPLETOS DOS ATIVOS -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
                 <button onclick="toggleVencimentoDetails()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
                     <span><i class="fa-solid fa-list-ul mr-1.5"></i> Detalhes dos Ativos (Lista Completa)</span>
@@ -668,7 +660,7 @@
                 <div id="vencimento-details-panel" class="hidden mt-3 space-y-2"></div>
             </div>
 
-            <!-- EVOLUÇÃO DO PATRIMÔNIO (ACUMULADO CONSTRUÍDO COM O HISTÓRICO REAL DO PATRIMÔNIO) -->
+            <!-- EVOLUÇÃO DO PATRIMÔNIO (ACUMULADO & RECEBIDOS ESTÁVEIS) -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center flex-wrap gap-2">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -676,8 +668,8 @@
                     </h3>
                     
                     <div class="flex gap-2">
-                        <div class="w-24 ui-field-group !mt-0">
-                            <div class="custom-select-container" data-id="inv-evol-type" data-onchange="renderEvolucaoChart">
+                        <div class="w-28 ui-field-group !mt-0">
+                            <div class="custom-select-container" data-id="inv-evol-type" data-onchange="triggerEvolucaoRender">
                                 <div class="custom-select-trigger !py-1 !px-2 !text-[11px]" tabindex="0">
                                     <span class="trigger-label">Acumulado</span>
                                     <i class="fa-solid fa-chevron-down text-app-accent text-[8px]"></i>
@@ -691,7 +683,7 @@
                         </div>
 
                         <div class="w-20 ui-field-group !mt-0">
-                            <div class="custom-select-container" data-id="inv-evol-year" data-onchange="renderEvolucaoChart">
+                            <div class="custom-select-container" data-id="inv-evol-year" data-onchange="triggerEvolucaoRender">
                                 <div class="custom-select-trigger !py-1 !px-2 !text-[11px]" tabindex="0">
                                     <span class="trigger-label">2026</span>
                                     <i class="fa-solid fa-chevron-down text-app-accent text-[8px]"></i>
@@ -810,14 +802,13 @@
                                 <input type="number" id="inv-amount" step="0.01" placeholder="0,00" required class="ui-input">
                             </div>
 
-                            <!-- CAMPO TAXA / RENTABILIDADE (SUBSTITUIU ANO VENCIMENTO) -->
                             <div class="ui-field-group" id="field-rate-group">
                                 <span class="ui-field-label">Taxa / Rentabilidade</span>
                                 <input type="text" id="inv-rate" placeholder="Ex: 100% CDI, 12% a.a." class="ui-input">
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-2" id="field-venc-group-combined">
+                        <div class="grid grid-cols-3 gap-2" id="field-venc-group-combined">
                             <div class="ui-field-group" id="field-indexer-group">
                                 <span class="ui-field-label">Indexador</span>
                                 <div class="custom-select-container" data-id="inv-indexer">
@@ -834,9 +825,15 @@
                                 </div>
                             </div>
 
+                            <!-- MÊS/ANO DE AQUISIÇÃO DO ATIVO (NOVO E CORRIGIDO) -->
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Mês/Ano Aquisição</span>
+                                <input type="month" id="inv-acq-month" value="2026-01" class="ui-input !px-2 !text-[11px]" required>
+                            </div>
+
                             <div class="ui-field-group" id="field-venc-month-group">
-                                <span class="ui-field-label">Mês/Ano Início ou Venc.</span>
-                                <input type="month" id="inv-venc-month" value="2026-09" class="ui-input">
+                                <span class="ui-field-label">Mês/Ano Venc.</span>
+                                <input type="month" id="inv-venc-month" value="2026-09" class="ui-input !px-2 !text-[11px]">
                             </div>
                         </div>
 
@@ -1230,11 +1227,11 @@
         }
 
         const db = new Dexie("FinPWA_DB");
-        db.version(13).stores({
+        db.version(14).stores({
             transactions: '++id, type, amount, description, category, subcategory, date, payer, details, sharedPayer, userAmount',
             shopping: '++id, text, quantity, category, done, dateMonth',
             menu: '++id, dish, type, desc, dateStr',
-            investments: '++id, name, category, bank, amount, rate, indexer, vencMonth, status',
+            investments: '++id, name, category, bank, amount, rate, indexer, acqMonth, vencMonth, status',
             earnings: '++id, amount, dateStr, bank'
         });
 
@@ -2147,10 +2144,11 @@
             const amount = parseFloat(document.getElementById('inv-amount').value);
             const rate = document.getElementById('inv-rate').value || 'N/A';
             const indexer = cat === 'variavel' ? 'N/A' : document.getElementById('inv-indexer').value;
+            const acqMonth = document.getElementById('inv-acq-month').value || '2026-01';
             const vencMonth = cat === 'variavel' ? 'N/A' : document.getElementById('inv-venc-month').value;
 
             await db.investments.add({
-                name, category: cat, bank, amount, rate, indexer, vencMonth, status: 'ativo'
+                name, category: cat, bank, amount, rate, indexer, acqMonth, vencMonth, status: 'ativo'
             });
 
             document.getElementById('inv-name').value = '';
@@ -2183,11 +2181,17 @@
             }
 
             let patrimonioFiltered = activeInvestments;
+            let earningsFiltered = allEarnings;
+
             if(selectedPatrimonioBank !== 'Total') {
                 patrimonioFiltered = patrimonioFiltered.filter(i => i.bank === selectedPatrimonioBank);
+                earningsFiltered = earningsFiltered.filter(e => e.bank === selectedPatrimonioBank);
             }
 
-            const totalPatrimonio = patrimonioFiltered.reduce((a, b) => a + b.amount, 0);
+            // CORREÇÃO CONCEITUAL 1: O PATRIMÔNIO TOTAL AGORA SOMA OS ATIVOS + RENDIMENTOS RECEBIDOS
+            const totalAtivos = patrimonioFiltered.reduce((a, b) => a + b.amount, 0);
+            const totalRendimentos = earningsFiltered.reduce((a, b) => a + b.amount, 0);
+            const totalPatrimonio = totalAtivos + totalRendimentos;
 
             const valEl = document.getElementById('inv-patrimonio-val');
             if(isPatrimonioVisible) {
@@ -2201,12 +2205,19 @@
             document.getElementById('inv-meta-pct').innerText = `${metaPct.toFixed(1)}%`;
             document.getElementById('inv-meta-bar').style.width = `${metaPct}%`;
 
-            renderAssetsChartAndList(activeInvestments, totalPatrimonio);
-            renderVencimentoChartAndList(activeInvestments, totalPatrimonio);
+            renderAssetsChartAndList(activeInvestments, totalAtivos);
+            renderVencimentoChartAndList(activeInvestments, totalAtivos);
             renderVencimentoDetailsList(allInvestments);
             renderEvolucaoChart(allEarnings, activeInvestments);
             renderInvestmentsCrudList(allInvestments);
             renderEarningsCrudList(allEarnings);
+        }
+
+        async function triggerEvolucaoRender() {
+            const allInvestments = await db.investments.toArray();
+            const allEarnings = await db.earnings.toArray();
+            let activeInvestments = allInvestments.filter(i => i.status !== 'liquidado');
+            renderEvolucaoChart(allEarnings, activeInvestments);
         }
 
         let assetsChartInstance = null;
@@ -2249,7 +2260,6 @@
                 return;
             }
 
-            // CORREÇÃO CONCEITUAL 4: CÁLCULO PROPORCIONAL INTERNO QUANDO HOUVER SUB-FILTRO DE CATEGORIA
             let denominator = totalVal;
             if(assetsViewMode === 'ativo' && selectedSubCat !== 'todas') {
                 denominator = data.reduce((a, b) => a + b, 0);
@@ -2340,7 +2350,6 @@
             });
         }
 
-        // DETALHES COMPLETOS DOS ATIVOS
         function toggleVencimentoDetails() {
             const panel = document.getElementById('vencimento-details-panel');
             const icon = document.getElementById('venc-det-icon');
@@ -2362,6 +2371,7 @@
                 const isVar = i.category === 'variavel';
                 const isLiquid = i.status === 'liquidado';
 
+                let acqDisplay = i.acqMonth ? i.acqMonth : 'N/A';
                 let vencDisplay = isVar ? 'Sem Vencimento' : (i.vencMonth ? i.vencMonth : 'N/A');
                 let indexerDisplay = isVar ? 'N/A' : (i.indexer || 'CDI');
                 let rateDisplay = i.rate ? i.rate : 'N/A';
@@ -2375,20 +2385,27 @@
                         <div class="grid grid-cols-2 text-[10px] text-app-subtext gap-y-0.5">
                             <span>Tipo: <strong class="text-white">${i.category.toUpperCase()}</strong></span>
                             <span>Banco: <strong class="text-white">${i.bank}</strong></span>
+                            <span>Aquisição: <strong class="text-white">${acqDisplay}</strong></span>
+                            <span>Mês/Ano Venc.: <strong class="text-white">${vencDisplay}</strong></span>
                             <span>Indexador: <strong class="text-white">${indexerDisplay}</strong></span>
                             <span>Taxa: <strong class="text-white">${rateDisplay}</strong></span>
-                            <span>Mês/Ano Venc.: <strong class="text-white">${vencDisplay}</strong></span>
                         </div>
                     </div>
                 `;
             });
         }
 
-        // CORREÇÃO CONCEITUAL 1: LÓGICA DO GRÁFICO DE EVOLUÇÃO BASEADA NO HISTÓRICO REAL DO PATRIMÔNIO MÊS A MÊS
+        // CORREÇÃO CONCEITUAL 2 & 3: LÓGICA DO GRÁFICO DE EVOLUÇÃO E CORREÇÃO DO SUMIÇO DAS BARRAS
         let evolucaoChartInstance = null;
         function renderEvolucaoChart(earnings = [], allInvestments = []) {
-            const ctx = document.getElementById('evolucaoChart').getContext('2d');
-            if(evolucaoChartInstance) evolucaoChartInstance.destroy();
+            const chartCanvas = document.getElementById('evolucaoChart');
+            if(!chartCanvas) return;
+            const ctx = chartCanvas.getContext('2d');
+
+            if (evolucaoChartInstance) {
+                evolucaoChartInstance.destroy();
+                evolucaoChartInstance = null;
+            }
 
             const evolType = document.getElementById('inv-evol-type').value;
             const evolYear = document.getElementById('inv-evol-year').value;
@@ -2397,31 +2414,32 @@
             const monthlyData = new Array(12).fill(0);
 
             if(evolType === 'recebidos') {
+                // EXIBE UNICAMENTE OS RENDIMENTOS RECEBIDOS NO ANO/MÊS CORRESPONDENTE
                 earnings.forEach(e => {
-                    const [y, m] = e.dateStr.split('-');
-                    if(y === evolYear) {
-                        const idx = parseInt(m, 10) - 1;
-                        if(idx >= 0 && idx < 12) monthlyData[idx] += e.amount;
+                    if(e.dateStr) {
+                        const [y, m] = e.dateStr.split('-');
+                        if(y === evolYear) {
+                            const idx = parseInt(m, 10) - 1;
+                            if(idx >= 0 && idx < 12) {
+                                monthlyData[idx] += parseFloat(e.amount) || 0;
+                            }
+                        }
                     }
                 });
             } else {
-                // ACUMULADO REAL DO PATRIMÔNIO: CONSIDERA APENAS ATIVOS EXISTENTES ATÉ O MÊS/ANO AVALIADO
+                // ACUMULADO CONSTRUÍDO PELA DATA DE AQUISIÇÃO DO ATIVO + RENDIMENTOS ATÉ AQUELE MÊS
                 months.forEach((_, idx) => {
                     const monthNumberStr = String(idx + 1).padStart(2, '0');
                     const targetMonthStr = `${evolYear}-${monthNumberStr}`;
 
-                    // SOMA DOS ATIVOS COM DATA DE INÍCIO <= MÊS AVALIADO
                     const activeAtMonth = allInvestments.filter(i => {
                         if(i.status === 'liquidado') return false;
-                        if(i.vencMonth && i.vencMonth !== 'N/A') {
-                            return i.vencMonth <= targetMonthStr;
-                        }
-                        return true;
-                    }).reduce((sum, item) => sum + item.amount, 0);
+                        const acq = i.acqMonth || '2026-01';
+                        return acq <= targetMonthStr;
+                    }).reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
 
-                    // SOMA DOS RENDIMENTOS RECEBIDOS ATÉ O MÊS AVALIADO
-                    const earningsUpToMonth = earnings.filter(e => e.dateStr <= targetMonthStr)
-                                                      .reduce((sum, e) => sum + e.amount, 0);
+                    const earningsUpToMonth = earnings.filter(e => e.dateStr && e.dateStr <= targetMonthStr)
+                                                      .reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
 
                     monthlyData[idx] = activeAtMonth + earningsUpToMonth;
                 });
@@ -2434,11 +2452,13 @@
                     datasets: [{
                         label: evolType === 'acumulado' ? 'Patrimônio Acumulado' : 'Rendimentos Recebidos',
                         data: monthlyData,
-                        backgroundColor: '#5274FF',
+                        backgroundColor: evolType === 'acumulado' ? '#5274FF' : '#51821E',
                         borderRadius: 4
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
                         x: { ticks: { color: '#8A99AD', font: { size: 10 } }, grid: { display: false } },
