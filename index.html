@@ -562,7 +562,7 @@
 
         <!-- ================= INVESTIMENTOS ================= -->
         <section id="tab-investments" class="tab-content space-y-5">
-            <!-- PATRIMÔNIO TOTAL (INCLUI ATIVOS + RENDIMENTOS) -->
+            <!-- PATRIMÔNIO TOTAL -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-2xl p-5 relative overflow-hidden">
                 <div class="flex justify-between items-center">
                     <span class="text-[11px] uppercase tracking-wider text-app-subtext font-semibold">Patrimônio Total</span>
@@ -660,7 +660,7 @@
                 <div id="vencimento-details-panel" class="hidden mt-3 space-y-2"></div>
             </div>
 
-            <!-- EVOLUÇÃO DO PATRIMÔNIO (ACUMULADO & RECEBIDOS ESTÁVEIS) -->
+            <!-- EVOLUÇÃO DO PATRIMÔNIO (CONTÊINER COM ALTURA FIXA H-48 FIXANDO O TAMANHO) -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center flex-wrap gap-2">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -699,7 +699,9 @@
                     </div>
                 </div>
 
-                <canvas id="evolucaoChart" height="180"></canvas>
+                <div class="h-48 relative w-full">
+                    <canvas id="evolucaoChart"></canvas>
+                </div>
             </div>
 
             <!-- SIMULADOR EXPANSÍVEL -->
@@ -743,7 +745,9 @@
                         <span id="sim-final-result" class="text-base font-extrabold text-color-vidaloca">R$ 0,00</span>
                     </div>
 
-                    <canvas id="simuladorChart" height="170"></canvas>
+                    <div class="h-44 relative w-full">
+                        <canvas id="simuladorChart"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -825,7 +829,6 @@
                                 </div>
                             </div>
 
-                            <!-- MÊS/ANO DE AQUISIÇÃO DO ATIVO (NOVO E CORRIGIDO) -->
                             <div class="ui-field-group">
                                 <span class="ui-field-label">Mês/Ano Aquisição</span>
                                 <input type="month" id="inv-acq-month" value="2026-01" class="ui-input !px-2 !text-[11px]" required>
@@ -1729,6 +1732,7 @@
                     ]
                 },
                 options: {
+                    responsive: true, maintainAspectRatio: false,
                     plugins: { legend: { labels: { color: '#FFFFFF', font: { size: 11 } } } },
                     scales: {
                         x: { ticks: { color: '#8A99AD' }, grid: { display: false } },
@@ -2188,7 +2192,6 @@
                 earningsFiltered = earningsFiltered.filter(e => e.bank === selectedPatrimonioBank);
             }
 
-            // CORREÇÃO CONCEITUAL 1: O PATRIMÔNIO TOTAL AGORA SOMA OS ATIVOS + RENDIMENTOS RECEBIDOS
             const totalAtivos = patrimonioFiltered.reduce((a, b) => a + b.amount, 0);
             const totalRendimentos = earningsFiltered.reduce((a, b) => a + b.amount, 0);
             const totalPatrimonio = totalAtivos + totalRendimentos;
@@ -2395,18 +2398,19 @@
             });
         }
 
-        // CORREÇÃO CONCEITUAL 2 & 3: LÓGICA DO GRÁFICO DE EVOLUÇÃO E CORREÇÃO DO SUMIÇO DAS BARRAS
+        // FUNÇÃO DE RENDERIZAÇÃO ESTÁVEL DO GRÁFICO DE EVOLUÇÃO
         let evolucaoChartInstance = null;
         function renderEvolucaoChart(earnings = [], allInvestments = []) {
             const chartCanvas = document.getElementById('evolucaoChart');
             if(!chartCanvas) return;
-            const ctx = chartCanvas.getContext('2d');
 
+            // Destrói totalmente a instância anterior antes de recriar
             if (evolucaoChartInstance) {
                 evolucaoChartInstance.destroy();
                 evolucaoChartInstance = null;
             }
 
+            const ctx = chartCanvas.getContext('2d');
             const evolType = document.getElementById('inv-evol-type').value;
             const evolYear = document.getElementById('inv-evol-year').value;
 
@@ -2414,7 +2418,6 @@
             const monthlyData = new Array(12).fill(0);
 
             if(evolType === 'recebidos') {
-                // EXIBE UNICAMENTE OS RENDIMENTOS RECEBIDOS NO ANO/MÊS CORRESPONDENTE
                 earnings.forEach(e => {
                     if(e.dateStr) {
                         const [y, m] = e.dateStr.split('-');
@@ -2427,7 +2430,6 @@
                     }
                 });
             } else {
-                // ACUMULADO CONSTRUÍDO PELA DATA DE AQUISIÇÃO DO ATIVO + RENDIMENTOS ATÉ AQUELE MÊS
                 months.forEach((_, idx) => {
                     const monthNumberStr = String(idx + 1).padStart(2, '0');
                     const targetMonthStr = `${evolYear}-${monthNumberStr}`;
@@ -2525,6 +2527,8 @@
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
                         x: { ticks: { color: '#8A99AD', font: { size: 9 } }, grid: { display: false } },
