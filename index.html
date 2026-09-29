@@ -6,7 +6,7 @@
     <title>Casinha</title>
     
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0B1528">
+    <meta name="theme-color" content="#0A0A0A">
     <link rel="icon" href="355.png">
     <link rel="apple-touch-icon" href="355.png">
 
@@ -17,17 +17,17 @@
             theme: {
                 extend: {
                     colors: {
-                        'app-bg': '#000000',
-                        'app-card': '#0B1528',
-                        'app-card-hover': '#111F38',
+                        'app-bg': '#0A0A0A',
+                        'app-card': '#141414',
+                        'app-card-hover': '#1F1F1F',
                         'app-accent': '#16D6FA',
                         'app-accent-blue': '#5274FF',
-                        'app-subtext': '#8A99AD',
-                        'input-bg': '#111827',
-                        'category-header-bg': '#080E1A',
-                        'color-cardinal': '#C8183A',
-                        'color-vidaloca': '#51821E',
-                        'blue-medium-light': '#1A2B4C'
+                        'app-subtext': '#8E8E93',
+                        'input-bg': '#1C1C1E',
+                        'category-header-bg': '#18181A',
+                        'color-cardinal': '#FF453A',
+                        'color-vidaloca': '#30D158',
+                        'blue-medium-light': '#18181A'
                     }
                 }
             }
@@ -47,13 +47,13 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        html.dark body { background-color: #000000; color: #FFFFFF; }
-        html.light body { background-color: #F1F5F9; color: #0F172A; }
+        html.dark body { background-color: #0A0A0A; color: #FFFFFF; }
+        html.light body { background-color: #F2F2F7; color: #1C1C1E; }
 
-        html.light .bg-app-card { background-color: #FFFFFF; border-color: #E2E8F0; }
-        html.light .bg-input-bg { background-color: #F8FAFC; border-color: #CBD5E1; color: #0F172A; }
-        html.light .text-app-subtext { color: #64748B; }
-        html.light .text-white { color: #0F172A; }
+        html.light .bg-app-card { background-color: #FFFFFF; border-color: #E5E5EA; }
+        html.light .bg-input-bg { background-color: #F2F2F7; border-color: #D1D1D6; color: #1C1C1E; }
+        html.light .text-app-subtext { color: #8E8E93; }
+        html.light .text-white { color: #1C1C1E; }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
@@ -71,11 +71,11 @@
             position: absolute;
             top: -9px;
             left: 12px;
-            background-color: #0B1528;
+            background-color: #141414;
             padding: 0 6px;
             font-size: 10px;
             font-weight: 600;
-            color: #8A99AD;
+            color: #8E8E93;
             border-radius: 4px;
             z-index: 10;
         }
@@ -84,20 +84,20 @@
 
         .ui-input {
             width: 100%;
-            background-color: #111827;
+            background-color: #1C1C1E;
             color: inherit;
             font-size: 13px;
             font-weight: 500;
             padding: 11px 14px;
             border-radius: 12px;
-            border: 1px solid rgba(82, 116, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             outline: none;
             transition: all 0.2s ease;
         }
 
         html.light .ui-input {
-            background-color: #F8FAFC;
-            border-color: rgba(82, 116, 255, 0.4);
+            background-color: #F2F2F7;
+            border-color: rgba(0, 0, 0, 0.1);
         }
 
         .ui-input:focus {
@@ -112,13 +112,13 @@
 
         .custom-select-trigger {
             width: 100%;
-            background-color: #111827;
+            background-color: #1C1C1E;
             color: inherit;
             font-size: 13px;
             font-weight: 500;
             padding: 11px 14px;
             border-radius: 12px;
-            border: 1px solid rgba(82, 116, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -127,7 +127,7 @@
             user-select: none;
         }
 
-        html.light .custom-select-trigger { background-color: #F8FAFC; }
+        html.light .custom-select-trigger { background-color: #F2F2F7; }
 
         .custom-select-trigger:focus, .custom-select-container.open .custom-select-trigger {
             border-color: #16D6FA;
@@ -138,8 +138,8 @@
             position: absolute;
             top: calc(100% + 4px);
             left: 0; right: 0;
-            background-color: #111827;
-            border: 1px solid rgba(82, 116, 255, 0.5);
+            background-color: #1C1C1E;
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 14px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
             z-index: 50;
@@ -151,7 +151,7 @@
 
         html.light .custom-select-options {
             background-color: #FFFFFF;
-            border-color: rgba(82, 116, 255, 0.4);
+            border-color: rgba(0, 0, 0, 0.1);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
@@ -170,12 +170,12 @@
         }
 
         .custom-option:hover, .custom-option.selected {
-            background-color: #1F293D;
+            background-color: #2C2C2E;
             color: #16D6FA;
         }
 
         html.light .custom-option:hover, html.light .custom-option.selected {
-            background-color: #F1F5F9;
+            background-color: #E5E5EA;
             color: #5274FF;
         }
 
@@ -335,7 +335,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-color-vidaloca hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs transition duration-200 mt-2 cursor-pointer">Salvar Transação</button>
+                    <button type="submit" class="w-full bg-app-accent-blue hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs transition duration-200 mt-2 cursor-pointer">Salvar Transação</button>
                 </form>
             </div>
 
@@ -511,13 +511,14 @@
                 <div id="mom-list-container" class="mt-4 pt-3 border-t border-app-card-hover space-y-1 text-xs"></div>
             </div>
 
+            <!-- HISTÓRICO CORRIGIDO (ALTURA DO GRÁFICO FIXADA EM H-48) -->
             <div class="space-y-4 pt-2">
                 <h2 class="text-lg font-bold text-white flex items-center gap-2">
                     <i class="fa-solid fa-clock-rotate-left text-app-accent"></i> Histórico de Transações
                 </h2>
                 
-                <div class="bg-blue-medium-light border border-app-card-hover rounded-2xl shadow p-4">
-                    <div class="flex justify-between items-center mb-3">
+                <div class="bg-app-card border border-app-card-hover rounded-2xl shadow p-4 space-y-3">
+                    <div class="flex justify-between items-center mb-1">
                         <h3 class="font-bold text-xs text-white">Entradas vs Saídas</h3>
                         <div class="flex gap-2 text-sm">
                             <button onclick="setHistoryChartFilter('Geral')" id="hf-Geral" class="p-1.5 rounded-lg bg-app-accent-blue text-white font-bold transition cursor-pointer" title="Geral">
@@ -531,7 +532,11 @@
                             </button>
                         </div>
                     </div>
-                    <canvas id="historyChart" height="180"></canvas>
+                    
+                    <!-- Div envoltória com altura fixa para evitar loop do Chart.js -->
+                    <div class="h-48 relative w-full">
+                        <canvas id="historyChart"></canvas>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-2">
@@ -660,7 +665,7 @@
                 <div id="vencimento-details-panel" class="hidden mt-3 space-y-2"></div>
             </div>
 
-            <!-- EVOLUÇÃO DO PATRIMÔNIO (CONTÊINER COM ALTURA FIXA H-48 FIXANDO O TAMANHO) -->
+            <!-- EVOLUÇÃO DO PATRIMÔNIO -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center flex-wrap gap-2">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -840,7 +845,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="w-full bg-color-vidaloca hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer">Salvar Ativo</button>
+                        <button type="submit" class="w-full bg-app-accent-blue hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer">Salvar Ativo</button>
                     </form>
 
                     <div id="investments-crud-list" class="space-y-2 pt-2"></div>
@@ -967,7 +972,7 @@
                     </div>
                 </div>
 
-                <button type="submit" id="btn-add-shopping" class="w-full bg-color-vidaloca hover:opacity-90 text-white font-bold py-3 rounded-xl text-xs transition duration-200 mt-1 cursor-pointer">
+                <button type="submit" id="btn-add-shopping" class="w-full bg-app-accent-blue hover:opacity-90 text-white font-bold py-3 rounded-xl text-xs transition duration-200 mt-1 cursor-pointer">
                     <i class="fa-solid fa-plus mr-1"></i> Adicionar Item
                 </button>
             </form>
@@ -975,7 +980,7 @@
             <div class="space-y-3" id="shopping-list-container"></div>
             
             <div class="flex gap-2 pt-2">
-                <button onclick="shareWhatsApp()" class="w-1/2 bg-color-vidaloca text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer"><i class="fa-brands fa-whatsapp mr-1"></i> Compartilhar</button>
+                <button onclick="shareWhatsApp()" class="w-1/2 bg-app-accent-blue text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer"><i class="fa-brands fa-whatsapp mr-1"></i> Compartilhar</button>
                 <button onclick="clearShopping()" class="w-1/2 text-color-cardinal border border-color-cardinal/40 p-2.5 rounded-xl font-bold text-xs cursor-pointer"><i class="fa-solid fa-trash mr-1"></i> Limpar Mês</button>
             </div>
         </section>
@@ -1052,19 +1057,19 @@
 
     <!-- MODAL DE CONFIRMAÇÃO -->
     <div id="custom-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-[#0D192D] border border-app-card-hover rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative animate-fadeIn">
+        <div class="bg-[#141414] border border-app-card-hover rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative animate-fadeIn">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-app-subtext hover:text-white w-8 h-8 rounded-full bg-input-bg flex items-center justify-center cursor-pointer">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <div class="w-16 h-16 rounded-full bg-emerald-950/60 border border-color-vidaloca/50 text-color-vidaloca flex items-center justify-center mx-auto mb-4 text-2xl shadow-[0_0_20px_rgba(81,130,30,0.3)]">
+            <div class="w-16 h-16 rounded-full bg-emerald-950/60 border border-color-vidaloca/50 text-color-vidaloca flex items-center justify-center mx-auto mb-4 text-2xl shadow-[0_0_20px_rgba(48,209,88,0.3)]">
                 <i class="fa-solid fa-check"></i>
             </div>
 
             <h3 id="modal-title" class="text-xl font-extrabold text-white mb-2">Com sucesso!</h3>
             <p id="modal-msg" class="text-xs text-app-subtext mb-6">Ação executada com sucesso.</p>
 
-            <button onclick="closeModal()" class="w-full bg-color-vidaloca hover:opacity-90 text-white font-bold py-3 rounded-2xl text-xs transition duration-200 cursor-pointer">
+            <button onclick="closeModal()" class="w-full bg-app-accent-blue hover:opacity-90 text-white font-bold py-3 rounded-2xl text-xs transition duration-200 cursor-pointer">
                 Concluído
             </button>
         </div>
@@ -1671,7 +1676,7 @@
             if(labels.length === 0) {
                 chartInstance = new Chart(ctx, { 
                     type: 'doughnut', 
-                    data: { labels: ['Sem despesas'], datasets: [{ data: [1], backgroundColor: ['#111827'], borderWidth: 0 }] },
+                    data: { labels: ['Sem despesas'], datasets: [{ data: [1], backgroundColor: ['#1C1C1E'], borderWidth: 0 }] },
                     options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false } } } 
                 }); 
                 return; 
@@ -1710,9 +1715,15 @@
 
         let historyChartInstance = null;
         function renderHistoryChart(dataObj) {
-            const ctx = document.getElementById('historyChart').getContext('2d');
-            if(historyChartInstance) historyChartInstance.destroy();
-            
+            const chartCanvas = document.getElementById('historyChart');
+            if(!chartCanvas) return;
+
+            if(historyChartInstance) {
+                historyChartInstance.destroy();
+                historyChartInstance = null;
+            }
+
+            const ctx = chartCanvas.getContext('2d');
             const rawLabels = Object.keys(dataObj).reverse();
             const labels = rawLabels.map(d => {
                 const [y, m] = d.split('-');
@@ -1727,16 +1738,17 @@
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: 'Entradas', data: incomeData, backgroundColor: '#51821E', borderRadius: 6 },
-                        { label: 'Saídas', data: expenseData, backgroundColor: '#C8183A', borderRadius: 6 }
+                        { label: 'Entradas', data: incomeData, backgroundColor: '#30D158', borderRadius: 4 },
+                        { label: 'Saídas', data: expenseData, backgroundColor: '#FF453A', borderRadius: 4 }
                     ]
                 },
                 options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#FFFFFF', font: { size: 11 } } } },
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#FFFFFF', font: { size: 10 } } } },
                     scales: {
-                        x: { ticks: { color: '#8A99AD' }, grid: { display: false } },
-                        y: { display: false, grid: { display: false } }
+                        x: { ticks: { color: '#8E8E93', font: { size: 10 } }, grid: { display: false } },
+                        y: { ticks: { color: '#8E8E93', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
                     }
                 }
             });
@@ -1836,7 +1848,7 @@
                     const iconClass = categoryIcons[cat] || "fa-solid fa-box-archive";
                     
                     let htmlCard = `
-                        <div class="bg-app-card/60 border border-app-card-hover rounded-2xl overflow-hidden shadow">
+                        <div class="bg-app-card border border-app-card-hover rounded-2xl overflow-hidden shadow">
                             <div class="bg-category-header-bg border-b border-app-card-hover px-4 py-2.5 flex items-center justify-between">
                                 <h3 class="font-bold text-xs uppercase tracking-wider text-white flex items-center gap-2">
                                     <i class="${iconClass} text-app-accent"></i> ${cat}
@@ -2257,7 +2269,7 @@
                 container.innerHTML = '<p class="text-app-subtext italic text-center py-2">Nenhum ativo para os filtros selecionados.</p>';
                 assetsChartInstance = new Chart(ctx, { 
                     type: 'doughnut', 
-                    data: { labels: ['Sem ativos'], datasets: [{ data: [1], backgroundColor: ['#111827'], borderWidth: 0 }] },
+                    data: { labels: ['Sem ativos'], datasets: [{ data: [1], backgroundColor: ['#1C1C1E'], borderWidth: 0 }] },
                     options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { display: false } } } 
                 });
                 return;
@@ -2398,13 +2410,11 @@
             });
         }
 
-        // FUNÇÃO DE RENDERIZAÇÃO ESTÁVEL DO GRÁFICO DE EVOLUÇÃO
         let evolucaoChartInstance = null;
         function renderEvolucaoChart(earnings = [], allInvestments = []) {
             const chartCanvas = document.getElementById('evolucaoChart');
             if(!chartCanvas) return;
 
-            // Destrói totalmente a instância anterior antes de recriar
             if (evolucaoChartInstance) {
                 evolucaoChartInstance.destroy();
                 evolucaoChartInstance = null;
@@ -2454,7 +2464,7 @@
                     datasets: [{
                         label: evolType === 'acumulado' ? 'Patrimônio Acumulado' : 'Rendimentos Recebidos',
                         data: monthlyData,
-                        backgroundColor: evolType === 'acumulado' ? '#5274FF' : '#51821E',
+                        backgroundColor: evolType === 'acumulado' ? '#5274FF' : '#30D158',
                         borderRadius: 4
                     }]
                 },
@@ -2463,8 +2473,8 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { ticks: { color: '#8A99AD', font: { size: 10 } }, grid: { display: false } },
-                        y: { ticks: { color: '#8A99AD', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                        x: { ticks: { color: '#8E8E93', font: { size: 10 } }, grid: { display: false } },
+                        y: { ticks: { color: '#8E8E93', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
                     }
                 }
             });
@@ -2517,11 +2527,11 @@
                     datasets: [{
                         label: 'Projeção de Patrimônio',
                         data,
-                        borderColor: '#C8183A',
+                        borderColor: '#FF453A',
                         borderDash: [5, 5],
                         borderWidth: 2,
                         pointRadius: 2,
-                        pointBackgroundColor: '#C8183A',
+                        pointBackgroundColor: '#FF453A',
                         fill: false,
                         tension: 0.1
                     }]
@@ -2531,8 +2541,8 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { ticks: { color: '#8A99AD', font: { size: 9 } }, grid: { display: false } },
-                        y: { ticks: { color: '#8A99AD', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                        x: { ticks: { color: '#8E8E93', font: { size: 9 } }, grid: { display: false } },
+                        y: { ticks: { color: '#8E8E93', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
                     }
                 }
             });
