@@ -63,183 +63,78 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        .ui-field-group {
-            position: relative;
-            margin-top: 6px;
-        }
-
+        .ui-field-group { position: relative; margin-top: 6px; }
         .ui-field-label {
-            position: absolute;
-            top: -9px;
-            left: 12px;
-            background-color: #141414;
-            padding: 0 6px;
-            font-size: 10px;
-            font-weight: 600;
-            color: #8E8E93;
-            border-radius: 4px;
-            z-index: 10;
+            position: absolute; top: -9px; left: 12px;
+            background-color: #141414; padding: 0 6px;
+            font-size: 10px; font-weight: 600; color: #8E8E93;
+            border-radius: 4px; z-index: 10;
         }
-
         html.light .ui-field-label { background-color: #FFFFFF; }
 
         .ui-input {
-            width: 100%;
-            background-color: #1C1C1E;
-            color: inherit;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 11px 14px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            outline: none;
-            transition: all 0.2s ease;
+            width: 100%; background-color: #1C1C1E; color: inherit;
+            font-size: 13px; font-weight: 500; padding: 11px 14px;
+            border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);
+            outline: none; transition: all 0.2s ease;
         }
+        html.light .ui-input { background-color: #F2F2F7; border-color: rgba(0, 0, 0, 0.1); }
+        .ui-input:focus { border-color: #16D6FA; box-shadow: 0 0 8px rgba(22, 214, 250, 0.2); }
 
-        html.light .ui-input {
-            background-color: #F2F2F7;
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .ui-input:focus {
-            border-color: #16D6FA;
-            box-shadow: 0 0 8px rgba(22, 214, 250, 0.2);
-        }
-
-        .custom-select-container {
-            position: relative;
-            width: 100%;
-        }
-
+        .custom-select-container { position: relative; width: 100%; }
         .custom-select-trigger {
-            width: 100%;
-            background-color: #1C1C1E;
-            color: inherit;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 11px 14px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
+            width: 100%; background-color: #1C1C1E; color: inherit;
+            font-size: 13px; font-weight: 500; padding: 11px 14px;
+            border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; transition: all 0.2s ease; user-select: none;
         }
-
         html.light .custom-select-trigger { background-color: #F2F2F7; }
-
-        .custom-select-trigger:focus, .custom-select-container.open .custom-select-trigger {
-            border-color: #16D6FA;
-            box-shadow: 0 0 8px rgba(22, 214, 250, 0.2);
-        }
+        .custom-select-container.open .custom-select-options { display: block; animation: fadeIn 0.15s ease-out; }
 
         .custom-select-options {
-            position: absolute;
-            top: calc(100% + 4px);
-            left: 0; right: 0;
-            background-color: #1C1C1E;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 14px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
-            z-index: 50;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-            padding: 4px;
+            position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+            background-color: #1C1C1E; border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+            z-index: 50; max-height: 200px; overflow-y: auto; display: none; padding: 4px;
         }
-
-        html.light .custom-select-options {
-            background-color: #FFFFFF;
-            border-color: rgba(0, 0, 0, 0.1);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .custom-select-container.open .custom-select-options {
-            display: block;
-            animation: fadeIn 0.15s ease-out;
-        }
-
-        .custom-option {
-            padding: 10px 12px;
-            font-size: 13px;
-            font-weight: 500;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.15s ease;
-        }
-
-        .custom-option:hover, .custom-option.selected {
-            background-color: #2C2C2E;
-            color: #16D6FA;
-        }
-
-        html.light .custom-option:hover, html.light .custom-option.selected {
-            background-color: #E5E5EA;
-            color: #5274FF;
-        }
+        html.light .custom-select-options { background-color: #FFFFFF; border-color: rgba(0, 0, 0, 0.1); }
+        .custom-option { padding: 10px 12px; font-size: 13px; font-weight: 500; border-radius: 8px; cursor: pointer; }
+        .custom-option:hover, .custom-option.selected { background-color: #2C2C2E; color: #16D6FA; }
 
         .round-cb-sm {
-            appearance: none;
-            width: 0.95rem; 
-            height: 0.95rem;
-            border: 1.5px solid #5274FF;
-            border-radius: 50%;
-            display: grid; 
-            place-content: center;
-            cursor: pointer; 
-            transition: all 0.2s;
-            margin-right: 0.5rem;
-            flex-shrink: 0;
+            appearance: none; width: 0.95rem; height: 0.95rem;
+            border: 1.5px solid #5274FF; border-radius: 50%;
+            display: grid; place-content: center; cursor: pointer; margin-right: 0.5rem; flex-shrink: 0;
         }
         .round-cb-sm::before {
-            content: ""; 
-            width: 0.45rem; 
-            height: 0.45rem;
-            border-radius: 50%; 
-            transform: scale(0);
-            transition: 0.15s transform ease-in-out;
-            box-shadow: inset 1em 1em #16D6FA;
+            content: ""; width: 0.45rem; height: 0.45rem; border-radius: 50%;
+            transform: scale(0); transition: 0.15s transform ease-in-out; box-shadow: inset 1em 1em #16D6FA;
         }
         .round-cb-sm:checked { border-color: #16D6FA; }
         .round-cb-sm:checked::before { transform: scale(1); }
 
         .round-cb {
-            appearance: none;
-            width: 1.3rem; height: 1.3rem;
-            border: 2px solid #5274FF;
-            border-radius: 50%;
-            display: grid; place-content: center;
-            cursor: pointer; transition: all 0.2s;
-            margin-right: 0.6rem;
+            appearance: none; width: 1.3rem; height: 1.3rem;
+            border: 2px solid #5274FF; border-radius: 50%;
+            display: grid; place-content: center; cursor: pointer; transition: all 0.2s; margin-right: 0.6rem;
         }
         .round-cb::before {
-            content: ""; width: 0.65rem; height: 0.65rem;
-            border-radius: 50%; transform: scale(0);
-            transition: 0.2s transform ease-in-out;
-            box-shadow: inset 1em 1em #16D6FA;
+            content: ""; width: 0.65rem; height: 0.65rem; border-radius: 50%;
+            transform: scale(0); transition: 0.2s transform ease-in-out; box-shadow: inset 1em 1em #16D6FA;
         }
         .round-cb:checked { border-color: #16D6FA; }
         .round-cb:checked::before { transform: scale(1); }
 
-        .shopping-item-done {
-            opacity: 0.4;
-            text-decoration: line-through;
-            transition: all 0.2s ease;
-        }
-
+        .shopping-item-done { opacity: 0.4; text-decoration: line-through; transition: all 0.2s ease; }
         input[type="date"]::-webkit-calendar-picker-indicator,
-        input[type="month"]::-webkit-calendar-picker-indicator {
-            cursor: pointer;
-            filter: invert(0.8);
-        }
+        input[type="month"]::-webkit-calendar-picker-indicator { cursor: pointer; filter: invert(0.8); }
     </style>
 </head>
-<body class="min-h-screen pb-28">
+<body class="min-h-screen pb-20">
 
     <!-- HEADER -->
-    <header class="bg-app-card border-b border-app-card-hover text-white p-4 shadow-xl flex justify-between items-center">
+    <header id="app-header" class="bg-app-card border-b border-app-card-hover text-white p-4 shadow-xl flex justify-between items-center">
         <div class="flex items-center gap-3">
             <img src="355.png" onerror="this.style.display='none'" class="w-8 h-8 rounded-full object-cover border border-app-accent-blue">
             <h1 class="text-lg font-bold tracking-wide flex items-center gap-2">
@@ -256,37 +151,25 @@
         
         <!-- ================= TELA INICIAL / HOME ================= -->
         <section id="tab-home" class="tab-content active">
-            <div class="bg-app-card border border-app-card-hover rounded-3xl p-6 shadow-2xl text-center flex flex-col items-center relative overflow-hidden min-h-[75vh] justify-between">
-                
-                <!-- ÍCONE DE MENU 3 FILEIRAS (NO LUGAR DA SETA) -->
-                <div class="w-full flex justify-between items-center">
-                    <span class="text-xs font-bold text-app-accent tracking-widest uppercase">Casinha App</span>
-                    <button onclick="openNavigationMenu()" class="w-10 h-10 rounded-2xl bg-input-bg border border-app-card-hover flex items-center justify-center text-app-accent hover:text-white transition shadow cursor-pointer">
-                        <i class="fa-solid fa-bars-staggered text-lg"></i>
-                    </button>
-                </div>
+            <div class="relative w-full h-[82vh] rounded-3xl overflow-hidden flex flex-col justify-between p-6 shadow-2xl border border-app-card-hover bg-black">
+                <img src="423.png" alt="Personagem" class="absolute inset-0 w-full h-full object-cover object-center opacity-85 z-0">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/60 z-10 pointer-events-none"></div>
 
-                <!-- ILUSTRAÇÃO DA HOME -->
-                <div class="my-6 relative flex justify-center items-center w-full max-w-xs">
-                    <div class="absolute w-56 h-56 rounded-full bg-app-accent/10 blur-2xl pointer-events-none"></div>
-                    <img src="423.png" alt="Personagem" class="w-64 h-auto max-h-80 object-contain rounded-2xl relative z-10 drop-shadow-xl">
-                </div>
-
-                <!-- TÍTULO E SUBTÍTULO -->
-                <div class="space-y-2 mb-6">
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white leading-snug">
-                        Bem-vinda de volta,<br><span class="text-app-accent">vamos começar?</span>
+                <div class="relative z-20 space-y-1 text-left pt-2">
+                    <h2 class="text-3xl font-extrabold text-white tracking-tight drop-shadow-md">
+                        Bem-vinda de volta
                     </h2>
-                    <p class="text-xs text-app-subtext max-w-xs mx-auto">
-                        Organize suas finanças, investimentos, compras e cardápio num só lugar.
+                    <p class="text-sm font-semibold text-app-accent/90 tracking-wide drop-shadow">
+                        vamos começar?
                     </p>
                 </div>
 
-                <!-- BOTÃO VAMOS COMECAR -->
-                <button onclick="openNavigationMenu()" class="w-full bg-gradient-to-r from-app-accent-blue to-app-accent hover:opacity-90 text-white font-extrabold py-3.5 rounded-2xl text-xs transition duration-200 shadow-lg flex items-center justify-center gap-2 cursor-pointer">
-                    <span>Vamos Começar</span>
-                    <i class="fa-solid fa-bars-staggered"></i>
-                </button>
+                <div class="relative z-20 flex justify-end w-full pb-2">
+                    <button onclick="openNavigationMenu()" class="bg-gradient-to-r from-app-accent-blue to-app-accent hover:scale-105 active:scale-95 text-white px-4 py-2.5 rounded-2xl text-xs font-bold shadow-2xl flex items-center gap-2 border border-white/20 backdrop-blur-md transition cursor-pointer">
+                        <span>Vamos começar</span>
+                        <i class="fa-solid fa-bars-staggered text-sm"></i>
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -397,7 +280,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-app-accent-blue hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs transition duration-200 mt-2 cursor-pointer">Salvar Transação</button>
+                    <button type="submit" class="w-full bg-app-accent-blue hover:opacity-90 text-white p-2.5 rounded-xl font-bold text-xs transition cursor-pointer">Salvar Transação</button>
                 </form>
             </div>
 
@@ -1131,7 +1014,7 @@
 
     </main>
 
-    <!-- MODAL DO MENU DE NAVEGAÇÃO DE 3 FILEIRAS (GAVETA DE MÓDULOS) -->
+    <!-- MODAL DO MENU DE NAVEGAÇÃO DE 3 FILEIRAS -->
     <div id="nav-drawer-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="bg-[#141414] border border-app-card-hover rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative animate-fadeIn">
             <button onclick="closeNavigationMenu()" class="absolute top-4 right-4 text-app-subtext hover:text-white w-8 h-8 rounded-full bg-input-bg flex items-center justify-center cursor-pointer">
@@ -1142,7 +1025,7 @@
             <p class="text-xs text-app-subtext mb-5">Escolha uma seção para navegar:</p>
 
             <div class="grid grid-cols-2 gap-3 text-left">
-                <button onclick="closeNavigationMenu(); nav('dashboard')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition group cursor-pointer">
+                <button onclick="closeNavigationMenu(); nav('dashboard')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition cursor-pointer">
                     <div class="w-9 h-9 rounded-xl bg-app-accent/10 text-app-accent flex items-center justify-center font-bold text-sm">
                         <i class="fa-solid fa-wallet"></i>
                     </div>
@@ -1152,7 +1035,7 @@
                     </div>
                 </button>
 
-                <button onclick="closeNavigationMenu(); nav('investments')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition group cursor-pointer">
+                <button onclick="closeNavigationMenu(); nav('investments')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition cursor-pointer">
                     <div class="w-9 h-9 rounded-xl bg-app-accent-blue/10 text-app-accent-blue flex items-center justify-center font-bold text-sm">
                         <i class="fa-solid fa-chart-line"></i>
                     </div>
@@ -1162,7 +1045,7 @@
                     </div>
                 </button>
 
-                <button onclick="closeNavigationMenu(); nav('shopping')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition group cursor-pointer">
+                <button onclick="closeNavigationMenu(); nav('shopping')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition cursor-pointer">
                     <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-sm">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </div>
@@ -1172,7 +1055,7 @@
                     </div>
                 </button>
 
-                <button onclick="closeNavigationMenu(); nav('menu')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition group cursor-pointer">
+                <button onclick="closeNavigationMenu(); nav('menu')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition cursor-pointer">
                     <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-sm">
                         <i class="fa-solid fa-utensils"></i>
                     </div>
@@ -1182,7 +1065,7 @@
                     </div>
                 </button>
 
-                <button onclick="closeNavigationMenu(); nav('travel')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition group cursor-pointer">
+                <button onclick="closeNavigationMenu(); nav('travel')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition cursor-pointer">
                     <div class="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-sm">
                         <i class="fa-solid fa-plane"></i>
                     </div>
@@ -1192,7 +1075,7 @@
                     </div>
                 </button>
 
-                <button onclick="closeNavigationMenu(); nav('settings')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition group cursor-pointer">
+                <button onclick="closeNavigationMenu(); nav('settings')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition cursor-pointer">
                     <div class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center font-bold text-sm">
                         <i class="fa-solid fa-gear"></i>
                     </div>
@@ -1226,49 +1109,42 @@
     </div>
 
     <!-- NAVEGAÇÃO INFERIOR -->
-    <div class="fixed bottom-3 left-0 right-0 z-40 flex justify-center px-4">
+    <div id="bottom-nav-bar" class="fixed bottom-3 left-0 right-0 z-40 hidden flex justify-center px-4">
         <nav class="bg-app-card/95 border border-app-card-hover/90 backdrop-blur-md rounded-full shadow-2xl p-1.5 max-w-md sm:max-w-xl md:max-w-2xl w-full">
             <div class="flex items-center overflow-x-auto no-scrollbar gap-1 px-1 justify-between">
                 
                 <button onclick="nav('home')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="home">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
-                    <i class="fa-solid fa-house text-base transition-transform group-hover:scale-110"></i>
+                    <i class="fa-solid fa-house text-base"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Início</span>
                 </button>
 
                 <button onclick="nav('dashboard')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="dashboard">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
-                    <i class="fa-solid fa-wallet text-base transition-transform group-hover:scale-110"></i>
+                    <i class="fa-solid fa-wallet text-base"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Financeiro</span>
                 </button>
 
                 <button onclick="nav('investments')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="investments">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
-                    <i class="fa-solid fa-chart-line text-base transition-transform group-hover:scale-110"></i>
+                    <i class="fa-solid fa-chart-line text-base"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Invest.</span>
                 </button>
 
                 <button onclick="nav('shopping')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="shopping">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
-                    <i class="fa-solid fa-cart-shopping text-base transition-transform group-hover:scale-110"></i>
+                    <i class="fa-solid fa-cart-shopping text-base"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Compras</span>
                 </button>
 
                 <button onclick="nav('menu')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="menu">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
-                    <i class="fa-solid fa-utensils text-base transition-transform group-hover:scale-110"></i>
+                    <i class="fa-solid fa-utensils text-base"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Cardápio</span>
                 </button>
 
                 <button onclick="nav('travel')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="travel">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
-                    <i class="fa-solid fa-plane text-base transition-transform group-hover:scale-110"></i>
+                    <i class="fa-solid fa-plane text-base"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Viagens</span>
                 </button>
 
                 <button onclick="nav('settings')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="settings">
-                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
-                    <i class="fa-solid fa-gear text-base transition-transform group-hover:scale-110"></i>
+                    <i class="fa-solid fa-gear text-base"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Ajustes</span>
                 </button>
 
@@ -1276,7 +1152,7 @@
         </nav>
     </div>
 
-    <!-- JAVASCRIPT & LÓGICA COMPLETA -->
+    <!-- JAVASCRIPT COMPLETO E LÓGICA DE DADOS -->
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
@@ -1378,19 +1254,23 @@
             const targetEl = document.getElementById(`tab-${tabId}`);
             if(targetEl) targetEl.classList.add('active');
             
+            const bottomNav = document.getElementById('bottom-nav-bar');
+            
+            if (tabId === 'home') {
+                bottomNav.classList.add('hidden');
+            } else {
+                bottomNav.classList.remove('hidden');
+            }
+
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('bg-app-card-hover', 'text-app-accent');
                 btn.classList.add('text-app-subtext');
-                const dot = btn.querySelector('.bubble-dot');
-                if(dot) dot.classList.add('opacity-0');
             });
 
             const activeBtn = document.querySelector(`.nav-btn[data-target="${tabId}"]`);
             if(activeBtn) {
                 activeBtn.classList.remove('text-app-subtext');
                 activeBtn.classList.add('bg-app-card-hover', 'text-app-accent');
-                const dot = activeBtn.querySelector('.bubble-dot');
-                if(dot) dot.classList.remove('opacity-0');
             }
             
             if(tabId === 'dashboard') { updateDashboard(); updateHistory(); }
