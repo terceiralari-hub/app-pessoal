@@ -46,6 +46,7 @@
             -webkit-tap-highlight-color: transparent;
             transition: background-color 0.3s ease, color 0.3s ease;
             user-select: none;
+            overflow-x: hidden;
         }
 
         html.dark body { background-color: #0A0A0A; color: #FFFFFF; }
@@ -131,31 +132,18 @@
         input[type="month"]::-webkit-calendar-picker-indicator { cursor: pointer; filter: invert(0.8); }
     </style>
 </head>
-<body class="min-h-screen pb-20">
-
-    <!-- HEADER -->
-    <header id="app-header" class="bg-app-card border-b border-app-card-hover text-white p-4 shadow-xl flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <img src="355.png" onerror="this.style.display='none'" class="w-8 h-8 rounded-full object-cover border border-app-accent-blue">
-            <h1 class="text-lg font-bold tracking-wide flex items-center gap-2">
-                <i class="fa-solid fa-house text-app-accent"></i> Casinha
-            </h1>
-        </div>
-        <button id="themeToggle" class="p-2 rounded-full hover:bg-app-card-hover transition text-app-subtext cursor-pointer">
-            <i class="fa-solid fa-moon text-lg" id="themeIcon"></i>
-        </button>
-    </header>
+<body class="min-h-screen">
 
     <!-- MAIN CONTAINER -->
-    <main class="p-4 max-w-md sm:max-w-xl md:max-w-2xl mx-auto space-y-5">
+    <main class="max-w-md sm:max-w-xl md:max-w-2xl mx-auto space-y-5">
         
         <!-- ================= TELA INICIAL / HOME ================= -->
-        <section id="tab-home" class="tab-content active">
-            <div class="relative w-full h-[82vh] rounded-3xl overflow-hidden flex flex-col justify-between p-6 shadow-2xl border border-app-card-hover bg-black">
-                <img src="423.png" alt="Personagem" class="absolute inset-0 w-full h-full object-cover object-center opacity-85 z-0">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/60 z-10 pointer-events-none"></div>
+        <section id="tab-home" class="tab-content active p-0">
+            <div class="relative w-full h-screen h-[100dvh] overflow-hidden flex flex-col justify-center items-center p-6 bg-black">
+                <img src="423.png" alt="Personagem" class="absolute inset-0 w-full h-full object-cover object-center opacity-85 z-0 pointer-events-none">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/60 z-10 pointer-events-none"></div>
 
-                <div class="relative z-20 space-y-1 text-left pt-2">
+                <div class="relative z-20 space-y-2 text-center my-auto">
                     <h2 class="text-3xl font-extrabold text-white tracking-tight drop-shadow-md">
                         Bem-vinda de volta
                     </h2>
@@ -164,17 +152,16 @@
                     </p>
                 </div>
 
-                <div class="relative z-20 flex justify-end w-full pb-2">
-                    <button onclick="openNavigationMenu()" class="bg-gradient-to-r from-app-accent-blue to-app-accent hover:scale-105 active:scale-95 text-white px-4 py-2.5 rounded-2xl text-xs font-bold shadow-2xl flex items-center gap-2 border border-white/20 backdrop-blur-md transition cursor-pointer">
-                        <span>Vamos começar</span>
-                        <i class="fa-solid fa-bars-staggered text-sm"></i>
+                <div class="absolute bottom-6 right-6 z-20">
+                    <button onclick="openNavigationMenu()" class="w-12 h-12 bg-gradient-to-r from-app-accent-blue to-app-accent hover:scale-105 active:scale-95 text-white rounded-2xl shadow-2xl flex items-center justify-center border border-white/20 backdrop-blur-md transition cursor-pointer">
+                        <wa-icon name="list" variant="regular" class="text-xl"></wa-icon>
                     </button>
                 </div>
             </div>
         </section>
 
         <!-- ================= FINANCEIRO ================= -->
-        <section id="tab-dashboard" class="tab-content space-y-5">
+        <section id="tab-dashboard" class="tab-content space-y-5 p-4 pb-20">
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-2xl p-5 text-center">
                 <p class="text-[11px] uppercase tracking-wider text-app-subtext font-semibold">Saldo Geral</p>
                 <h2 class="text-3xl font-extrabold text-white mt-1" id="dash-balance">R$ 0,00</h2>
@@ -509,7 +496,7 @@
         </section>
 
         <!-- ================= INVESTIMENTOS ================= -->
-        <section id="tab-investments" class="tab-content space-y-5">
+        <section id="tab-investments" class="tab-content space-y-5 p-4 pb-20">
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-2xl p-5 relative overflow-hidden">
                 <div class="flex justify-between items-center">
                     <span class="text-[11px] uppercase tracking-wider text-app-subtext font-semibold">Patrimônio Total</span>
@@ -831,7 +818,7 @@
         </section>
 
         <!-- ================= VIAGENS ================= -->
-        <section id="tab-travel" class="tab-content">
+        <section id="tab-travel" class="tab-content p-4 pb-20">
             <div class="text-center py-16 bg-app-card border border-app-card-hover rounded-2xl">
                 <i class="fa-solid fa-plane-departure text-5xl text-app-subtext mb-3"></i>
                 <h2 class="text-xl font-bold text-white">Viagens</h2>
@@ -840,7 +827,7 @@
         </section>
 
         <!-- ================= LISTA DE COMPRAS ================= -->
-        <section id="tab-shopping" class="tab-content space-y-4">
+        <section id="tab-shopping" class="tab-content space-y-4 p-4 pb-20">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-white">Lista de Compras</h2>
                 <div class="w-36 ui-field-group !mt-0">
@@ -939,7 +926,7 @@
         </section>
 
         <!-- ================= CARDÁPIO SEMANAL ================= -->
-        <section id="tab-menu" class="tab-content space-y-4">
+        <section id="tab-menu" class="tab-content space-y-4 p-4 pb-20">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-white">Cardápio Semanal</h2>
                 <div class="flex gap-1 bg-input-bg p-1 rounded-xl">
@@ -994,7 +981,7 @@
         </section>
 
         <!-- ================= CONFIGURAÇÕES ================= -->
-        <section id="tab-settings" class="tab-content">
+        <section id="tab-settings" class="tab-content p-4 pb-20">
             <h2 class="text-xl font-bold mb-4 text-white">Configurações & Dados</h2>
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow p-5 space-y-4">
                 <div>
@@ -1207,33 +1194,14 @@
         });
 
         const html = document.documentElement;
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
 
         if (localStorage.getItem('theme') === 'light') {
             html.classList.remove('dark');
             html.classList.add('light');
-            themeIcon.classList.replace('fa-moon', 'fa-sun');
         } else {
             html.classList.remove('light');
             html.classList.add('dark');
-            themeIcon.classList.replace('fa-sun', 'fa-moon');
         }
-
-        themeToggle.addEventListener('click', () => {
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                localStorage.setItem('theme', 'light');
-                themeIcon.classList.replace('fa-moon', 'fa-sun');
-            } else {
-                html.classList.remove('light');
-                html.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                themeIcon.classList.replace('fa-sun', 'fa-moon');
-            }
-            updateDashboard();
-        });
 
         function showModal(title, msg) {
             document.getElementById('modal-title').innerText = title;
