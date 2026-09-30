@@ -180,7 +180,6 @@
             color: #5274FF;
         }
 
-        /* CHECKBOX REDUZIDO E DISCRETO */
         .round-cb-sm {
             appearance: none;
             width: 0.95rem; 
@@ -255,8 +254,44 @@
     <!-- MAIN CONTAINER -->
     <main class="p-4 max-w-md sm:max-w-xl md:max-w-2xl mx-auto space-y-5">
         
+        <!-- ================= TELA INICIAL / HOME ================= -->
+        <section id="tab-home" class="tab-content active">
+            <div class="bg-app-card border border-app-card-hover rounded-3xl p-6 shadow-2xl text-center flex flex-col items-center relative overflow-hidden min-h-[75vh] justify-between">
+                
+                <!-- ÍCONE DE MENU 3 FILEIRAS (NO LUGAR DA SETA) -->
+                <div class="w-full flex justify-between items-center">
+                    <span class="text-xs font-bold text-app-accent tracking-widest uppercase">Casinha App</span>
+                    <button onclick="openNavigationMenu()" class="w-10 h-10 rounded-2xl bg-input-bg border border-app-card-hover flex items-center justify-center text-app-accent hover:text-white transition shadow cursor-pointer">
+                        <i class="fa-solid fa-bars-staggered text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- ILUSTRAÇÃO DA HOME -->
+                <div class="my-6 relative flex justify-center items-center w-full max-w-xs">
+                    <div class="absolute w-56 h-56 rounded-full bg-app-accent/10 blur-2xl pointer-events-none"></div>
+                    <img src="423.jpg" alt="Personagem" class="w-64 h-auto max-h-80 object-contain rounded-2xl relative z-10 drop-shadow-xl">
+                </div>
+
+                <!-- TÍTULO E SUBTÍTULO -->
+                <div class="space-y-2 mb-6">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white leading-snug">
+                        Bem-vinda de volta,<br><span class="text-app-accent">vamos começar?</span>
+                    </h2>
+                    <p class="text-xs text-app-subtext max-w-xs mx-auto">
+                        Organize suas finanças, investimentos, compras e cardápio num só lugar.
+                    </p>
+                </div>
+
+                <!-- BOTÃO VAMOS COMECAR -->
+                <button onclick="openNavigationMenu()" class="w-full bg-gradient-to-r from-app-accent-blue to-app-accent hover:opacity-90 text-white font-extrabold py-3.5 rounded-2xl text-xs transition duration-200 shadow-lg flex items-center justify-center gap-2 cursor-pointer">
+                    <span>Vamos Começar</span>
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+        </section>
+
         <!-- ================= FINANCEIRO ================= -->
-        <section id="tab-dashboard" class="tab-content active space-y-5">
+        <section id="tab-dashboard" class="tab-content space-y-5">
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-2xl p-5 text-center">
                 <p class="text-[11px] uppercase tracking-wider text-app-subtext font-semibold">Saldo Geral</p>
                 <h2 class="text-3xl font-extrabold text-white mt-1" id="dash-balance">R$ 0,00</h2>
@@ -921,7 +956,7 @@
             </div>
         </section>
 
-        <!-- ================= LISTA DE COMPRAS (REFORMULADA - CLEAN) ================= -->
+        <!-- ================= LISTA DE COMPRAS ================= -->
         <section id="tab-shopping" class="tab-content space-y-4">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-white">Lista de Compras</h2>
@@ -937,7 +972,6 @@
                 </div>
             </div>
 
-            <!-- FORMULÁRIO ESTILO CARD ESCURO (SEM CAMPO DE IMAGEM; PREÇO OPCIONAL) -->
             <form id="form-shopping" class="flex flex-col gap-3 bg-app-card border border-app-card-hover p-4 rounded-2xl shadow">
                 <div class="ui-field-group">
                     <span class="ui-field-label">Nome do Item</span>
@@ -1003,10 +1037,8 @@
                 <i class="fa-solid fa-circle-info mr-1"></i> Pressione e segure um item para exibir as opções de editar e excluir.
             </div>
 
-            <!-- CONTAINER DA LISTA CLEAN -->
             <div class="space-y-3" id="shopping-list-container"></div>
             
-            <!-- RODAPÉ COM TOTALIZADOR E RECURSO DISCRETO DE OCULTAR PREÇO -->
             <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl flex justify-between items-center shadow-lg">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-semibold text-app-subtext">Total Estimado:</span>
@@ -1099,6 +1131,80 @@
 
     </main>
 
+    <!-- MODAL DO MENU DE NAVEGAÇÃO DE 3 FILEIRAS (GAVETA DE MÓDULOS) -->
+    <div id="nav-drawer-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-[#141414] border border-app-card-hover rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative animate-fadeIn">
+            <button onclick="closeNavigationMenu()" class="absolute top-4 right-4 text-app-subtext hover:text-white w-8 h-8 rounded-full bg-input-bg flex items-center justify-center cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h3 class="text-lg font-bold text-white mb-1">Para onde vamos?</h3>
+            <p class="text-xs text-app-subtext mb-5">Escolha uma seção para navegar:</p>
+
+            <div class="grid grid-cols-2 gap-3 text-left">
+                <button onclick="closeNavigationMenu(); nav('dashboard')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition group cursor-pointer">
+                    <div class="w-9 h-9 rounded-xl bg-app-accent/10 text-app-accent flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-white block">Financeiro</span>
+                        <span class="text-[9px] text-app-subtext">Gastos e Tetos</span>
+                    </div>
+                </button>
+
+                <button onclick="closeNavigationMenu(); nav('investments')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition group cursor-pointer">
+                    <div class="w-9 h-9 rounded-xl bg-app-accent-blue/10 text-app-accent-blue flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-white block">Investimentos</span>
+                        <span class="text-[9px] text-app-subtext">Patrimônio</span>
+                    </div>
+                </button>
+
+                <button onclick="closeNavigationMenu(); nav('shopping')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition group cursor-pointer">
+                    <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-white block">Compras</span>
+                        <span class="text-[9px] text-app-subtext">Supermercado</span>
+                    </div>
+                </button>
+
+                <button onclick="closeNavigationMenu(); nav('menu')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition group cursor-pointer">
+                    <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-white block">Cardápio</span>
+                        <span class="text-[9px] text-app-subtext">Refeições</span>
+                    </div>
+                </button>
+
+                <button onclick="closeNavigationMenu(); nav('travel')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition group cursor-pointer">
+                    <div class="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-plane"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-white block">Viagens</span>
+                        <span class="text-[9px] text-app-subtext">Roteiros</span>
+                    </div>
+                </button>
+
+                <button onclick="closeNavigationMenu(); nav('settings')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition group cursor-pointer">
+                    <div class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-white block">Ajustes</span>
+                        <span class="text-[9px] text-app-subtext">Backup e Dados</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL DE CONFIRMAÇÃO -->
     <div id="custom-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-[#141414] border border-app-card-hover rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative animate-fadeIn">
@@ -1124,37 +1230,43 @@
         <nav class="bg-app-card/95 border border-app-card-hover/90 backdrop-blur-md rounded-full shadow-2xl p-1.5 max-w-md sm:max-w-xl md:max-w-2xl w-full">
             <div class="flex items-center overflow-x-auto no-scrollbar gap-1 px-1 justify-between">
                 
-                <button onclick="nav('dashboard')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="dashboard">
+                <button onclick="nav('home')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="home">
+                    <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
+                    <i class="fa-solid fa-house text-base transition-transform group-hover:scale-110"></i>
+                    <span class="text-[9px] mt-0.5 font-semibold">Início</span>
+                </button>
+
+                <button onclick="nav('dashboard')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="dashboard">
                     <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-wallet text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Financeiro</span>
                 </button>
 
-                <button onclick="nav('investments')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="investments">
+                <button onclick="nav('investments')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="investments">
                     <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-chart-line text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Invest.</span>
                 </button>
 
-                <button onclick="nav('shopping')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="shopping">
+                <button onclick="nav('shopping')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="shopping">
                     <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-cart-shopping text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Compras</span>
                 </button>
 
-                <button onclick="nav('menu')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="menu">
+                <button onclick="nav('menu')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="menu">
                     <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-utensils text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Cardápio</span>
                 </button>
 
-                <button onclick="nav('travel')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="travel">
+                <button onclick="nav('travel')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="travel">
                     <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-plane text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Viagens</span>
                 </button>
 
-                <button onclick="nav('settings')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3.5rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="settings">
+                <button onclick="nav('settings')" class="nav-btn group relative flex flex-col items-center justify-center min-w-[3rem] flex-1 py-2 rounded-full transition-all duration-300 cursor-pointer" data-target="settings">
                     <span class="bubble-dot absolute -top-1 w-1.5 h-1.5 rounded-full bg-app-accent opacity-0 transition-all"></span>
                     <i class="fa-solid fa-gear text-base transition-transform group-hover:scale-110"></i>
                     <span class="text-[9px] mt-0.5 font-semibold">Ajustes</span>
@@ -1167,6 +1279,13 @@
     <!-- JAVASCRIPT & LÓGICA COMPLETA -->
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+
+        function openNavigationMenu() {
+            document.getElementById('nav-drawer-modal').classList.remove('hidden');
+        }
+        function closeNavigationMenu() {
+            document.getElementById('nav-drawer-modal').classList.add('hidden');
+        }
 
         function initCustomDropdowns() {
             document.querySelectorAll('.custom-select-container').forEach(container => {
@@ -1208,7 +1327,6 @@
 
         document.addEventListener('click', () => {
             document.querySelectorAll('.custom-select-container').forEach(c => c.classList.remove('open'));
-            // Oculta menus contextuais abertos
             document.querySelectorAll('[id^="s-actions-"]').forEach(el => el.classList.add('hidden'));
         });
 
@@ -1836,7 +1954,6 @@
             if (triggerLabel) triggerLabel.innerText = firstDisplay;
         }
 
-        // ================= LÓGICA DA LISTA DE COMPRAS CLEAN =================
         let isShowPrices = true;
         let shoppingPressTimer = null;
 
@@ -1954,19 +2071,16 @@
                                 
                                 <div class="flex items-center justify-between ${doneClass}">
                                     <label class="flex items-center cursor-pointer flex-1 overflow-hidden pr-2">
-                                        <!-- CHECKBOX MENOR E MAIS CLEAN -->
                                         <input type="checkbox" ${i.done ? 'checked' : ''} onchange="toggleShopping(${i.id}, this.checked)" class="round-cb-sm">
                                         <span class="font-bold text-xs truncate ${i.done ? 'line-through text-app-subtext' : 'text-white'}">${i.text}</span>
                                     </label>
 
-                                    <!-- QUANTIDADE E UNIDADE NA OUTRA PONTA -->
                                     <div class="flex items-center flex-shrink-0">
                                         ${priceDisplay}
                                         <span class="text-app-subtext text-xs font-semibold bg-input-bg px-2 py-0.5 rounded-md border border-app-card-hover">${i.quantity}</span>
                                     </div>
                                 </div>
 
-                                <!-- MENU FLUTUANTE EXIBIDO AO SEGURAR (PRESS & HOLD) -->
                                 <div id="s-actions-${i.id}" class="hidden absolute right-0 top-1/2 -translate-y-1/2 bg-input-bg border border-app-accent/40 rounded-xl shadow-xl px-2 py-1 flex gap-2 z-20 animate-fadeIn">
                                     <button onclick="event.stopPropagation(); editShopping(${i.id})" class="text-app-accent hover:text-white p-1 text-xs cursor-pointer" title="Editar"><i class="fa-solid fa-pen"></i></button>
                                     <button onclick="event.stopPropagation(); deleteShopping(${i.id})" class="text-color-cardinal font-bold p-1 text-xs cursor-pointer" title="Excluir"><i class="fa-solid fa-trash"></i></button>
@@ -2031,7 +2145,6 @@
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // ================= LÓGICA DO CARDÁPIO SEMANAL =================
         let menuViewMode = 'daily';
         let currentWeekOffset = 0;
         let selectedMenuDateStr = new Date().toISOString().slice(0, 10);
@@ -2169,7 +2282,6 @@
                     `;
                 });
             } else {
-                // VISÃO SEMANAL AGRUPADA (SEGUNDA A DOMINGO)
                 const monday = getMondayOfOffsetWeek(currentWeekOffset);
                 const daysName = ['Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado', 'Domingo'];
 
@@ -2238,7 +2350,6 @@
             }
         }
 
-        // ================= LÓGICA DO MÓDULO DE INVESTIMENTOS =================
         let isPatrimonioVisible = true;
         let selectedPatrimonioBank = 'Total';
         let assetsViewMode = 'tipo';
@@ -2649,7 +2760,6 @@
             });
         }
 
-        // SIMULADOR
         let simuladorChartInstance = null;
         function runSimulador() {
             const ctx = document.getElementById('simuladorChart').getContext('2d');
@@ -2829,8 +2939,7 @@
 
         generateMonthOptions(); 
         initCustomDropdowns();
-        nav('dashboard');
-        loadShopping();
+        nav('home');
     </script>
 </body>
 </html>
