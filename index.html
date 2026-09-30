@@ -45,6 +45,7 @@
             scrollbar-width: none; 
             -webkit-tap-highlight-color: transparent;
             transition: background-color 0.3s ease, color 0.3s ease;
+            user-select: none;
         }
 
         html.dark body { background-color: #0A0A0A; color: #FFFFFF; }
@@ -179,6 +180,32 @@
             color: #5274FF;
         }
 
+        /* CHECKBOX REDUZIDO E DISCRETO */
+        .round-cb-sm {
+            appearance: none;
+            width: 0.95rem; 
+            height: 0.95rem;
+            border: 1.5px solid #5274FF;
+            border-radius: 50%;
+            display: grid; 
+            place-content: center;
+            cursor: pointer; 
+            transition: all 0.2s;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+        .round-cb-sm::before {
+            content: ""; 
+            width: 0.45rem; 
+            height: 0.45rem;
+            border-radius: 50%; 
+            transform: scale(0);
+            transition: 0.15s transform ease-in-out;
+            box-shadow: inset 1em 1em #16D6FA;
+        }
+        .round-cb-sm:checked { border-color: #16D6FA; }
+        .round-cb-sm:checked::before { transform: scale(1); }
+
         .round-cb {
             appearance: none;
             width: 1.3rem; height: 1.3rem;
@@ -198,7 +225,7 @@
         .round-cb:checked::before { transform: scale(1); }
 
         .shopping-item-done {
-            opacity: 0.45;
+            opacity: 0.4;
             text-decoration: line-through;
             transition: all 0.2s ease;
         }
@@ -511,7 +538,6 @@
                 <div id="mom-list-container" class="mt-4 pt-3 border-t border-app-card-hover space-y-1 text-xs"></div>
             </div>
 
-            <!-- HISTÓRICO CORRIGIDO (ALTURA DO GRÁFICO FIXADA EM H-48) -->
             <div class="space-y-4 pt-2">
                 <h2 class="text-lg font-bold text-white flex items-center gap-2">
                     <i class="fa-solid fa-clock-rotate-left text-app-accent"></i> Histórico de Transações
@@ -533,7 +559,6 @@
                         </div>
                     </div>
                     
-                    <!-- Div envoltória com altura fixa para evitar loop do Chart.js -->
                     <div class="h-48 relative w-full">
                         <canvas id="historyChart"></canvas>
                     </div>
@@ -567,7 +592,6 @@
 
         <!-- ================= INVESTIMENTOS ================= -->
         <section id="tab-investments" class="tab-content space-y-5">
-            <!-- PATRIMÔNIO TOTAL -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-2xl p-5 relative overflow-hidden">
                 <div class="flex justify-between items-center">
                     <span class="text-[11px] uppercase tracking-wider text-app-subtext font-semibold">Patrimônio Total</span>
@@ -598,7 +622,6 @@
                 </div>
             </div>
 
-            <!-- ATIVOS NA CARTEIRA -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -642,7 +665,6 @@
                 <div id="assets-list-container" class="space-y-1 text-xs pt-2 border-t border-app-card-hover"></div>
             </div>
 
-            <!-- CRONOGRAMA DE VENCIMENTO -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <h3 class="font-bold text-sm text-white flex items-center gap-2">
                     <i class="fa-solid fa-calendar-check text-app-accent"></i> Cronograma de Vencimento
@@ -655,7 +677,6 @@
                 <div id="vencimento-list-container" class="space-y-1 text-xs pt-2 border-t border-app-card-hover"></div>
             </div>
 
-            <!-- DETALHES COMPLETOS DOS ATIVOS -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
                 <button onclick="toggleVencimentoDetails()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
                     <span><i class="fa-solid fa-list-ul mr-1.5"></i> Detalhes dos Ativos (Lista Completa)</span>
@@ -665,7 +686,6 @@
                 <div id="vencimento-details-panel" class="hidden mt-3 space-y-2"></div>
             </div>
 
-            <!-- EVOLUÇÃO DO PATRIMÔNIO -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center flex-wrap gap-2">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -709,7 +729,6 @@
                 </div>
             </div>
 
-            <!-- SIMULADOR EXPANSÍVEL -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
                 <button onclick="toggleSimuladorPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
                     <span><i class="fa-solid fa-calculator mr-1.5"></i> Simulador de Investimentos</span>
@@ -756,7 +775,6 @@
                 </div>
             </div>
 
-            <!-- PAINEL EXPANSÍVEL: GERENCIAR/ADICIONAR ATIVOS -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
                 <button onclick="toggleAddInvestPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
                     <span><i class="fa-solid fa-plus-circle mr-1.5"></i> Adicionar / Gerenciar Dados de Investimento</span>
@@ -852,7 +870,6 @@
                 </div>
             </div>
 
-            <!-- PAINEL EXPANSÍVEL: GERENCIAR RENDIMENTOS -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
                 <button onclick="toggleAddEarningsPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
                     <span><i class="fa-solid fa-hand-holding-dollar mr-1.5"></i> Registrar Rendimentos Recebidos</span>
@@ -904,7 +921,7 @@
             </div>
         </section>
 
-        <!-- ================= LISTA DE COMPRAS ================= -->
+        <!-- ================= LISTA DE COMPRAS (REFORMULADA - CLEAN) ================= -->
         <section id="tab-shopping" class="tab-content space-y-4">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-white">Lista de Compras</h2>
@@ -920,26 +937,27 @@
                 </div>
             </div>
 
+            <!-- FORMULÁRIO ESTILO CARD ESCURO (SEM CAMPO DE IMAGEM; PREÇO OPCIONAL) -->
             <form id="form-shopping" class="flex flex-col gap-3 bg-app-card border border-app-card-hover p-4 rounded-2xl shadow">
                 <div class="ui-field-group">
-                    <span class="ui-field-label">Item</span>
-                    <input type="text" id="s-item" placeholder="Ex: Queijo, Frango..." required class="ui-input">
+                    <span class="ui-field-label">Nome do Item</span>
+                    <input type="text" id="s-item" placeholder="Ex: Queijo Muçarela, Detergente..." required class="ui-input">
                 </div>
 
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-3 gap-2">
                     <div class="ui-field-group">
-                        <span class="ui-field-label">Quantidade</span>
+                        <span class="ui-field-label">Qtd</span>
                         <input type="number" id="s-qtd-num" placeholder="1" step="0.1" min="0.1" required class="ui-input">
                     </div>
                     <div class="ui-field-group">
                         <span class="ui-field-label">Unidade</span>
                         <div class="custom-select-container" data-id="s-unit">
-                            <div class="custom-select-trigger" tabindex="0">
-                                <span class="trigger-label">unidades</span>
-                                <i class="fa-solid fa-chevron-down text-app-accent text-[10px]"></i>
+                            <div class="custom-select-trigger !px-2 !text-xs" tabindex="0">
+                                <span class="trigger-label">un.</span>
+                                <i class="fa-solid fa-chevron-down text-app-accent text-[8px]"></i>
                             </div>
                             <div class="custom-select-options">
-                                <div class="custom-option selected" data-value="unidades">unidades</div>
+                                <div class="custom-option selected" data-value="unidade">unidade</div>
                                 <div class="custom-option" data-value="kg">kg</div>
                                 <div class="custom-option" data-value="g">g</div>
                                 <div class="custom-option" data-value="l">l</div>
@@ -948,8 +966,12 @@
                                 <div class="custom-option" data-value="caixa">caixa</div>
                                 <div class="custom-option" data-value="dúzia">dúzia</div>
                             </div>
-                            <input type="hidden" id="s-unit" value="unidades">
+                            <input type="hidden" id="s-unit" value="unidade">
                         </div>
+                    </div>
+                    <div class="ui-field-group">
+                        <span class="ui-field-label">Preço (Opcional)</span>
+                        <input type="number" id="s-price" step="0.01" placeholder="R$ 0,00" class="ui-input">
                     </div>
                 </div>
 
@@ -973,23 +995,45 @@
                 </div>
 
                 <button type="submit" id="btn-add-shopping" class="w-full bg-app-accent-blue hover:opacity-90 text-white font-bold py-3 rounded-xl text-xs transition duration-200 mt-1 cursor-pointer">
-                    <i class="fa-solid fa-plus mr-1"></i> Adicionar Item
+                    <i class="fa-solid fa-plus mr-1"></i> Adicionar à Lista
                 </button>
             </form>
 
+            <div class="text-[10px] text-app-subtext text-center italic">
+                <i class="fa-solid fa-circle-info mr-1"></i> Pressione e segure um item para exibir as opções de editar e excluir.
+            </div>
+
+            <!-- CONTAINER DA LISTA CLEAN -->
             <div class="space-y-3" id="shopping-list-container"></div>
             
-            <div class="flex gap-2 pt-2">
-                <button onclick="shareWhatsApp()" class="w-1/2 bg-app-accent-blue text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer"><i class="fa-brands fa-whatsapp mr-1"></i> Compartilhar</button>
-                <button onclick="clearShopping()" class="w-1/2 text-color-cardinal border border-color-cardinal/40 p-2.5 rounded-xl font-bold text-xs cursor-pointer"><i class="fa-solid fa-trash mr-1"></i> Limpar Mês</button>
+            <!-- RODAPÉ COM TOTALIZADOR E RECURSO DISCRETO DE OCULTAR PREÇO -->
+            <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl flex justify-between items-center shadow-lg">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-semibold text-app-subtext">Total Estimado:</span>
+                    <span id="shopping-total-val" class="font-extrabold text-white text-base">R$ 0,00</span>
+                    <button onclick="toggleShowPrices()" class="text-app-subtext hover:text-white p-1 text-xs cursor-pointer ml-1" title="Mostrar/Ocultar Preços">
+                        <i id="eye-icon-price" class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+
+                <div class="flex gap-2">
+                    <button onclick="shareWhatsApp()" class="p-2.5 bg-app-accent-blue text-white rounded-xl font-bold text-xs cursor-pointer" title="Compartilhar no WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+                    <button onclick="clearShopping()" class="p-2.5 text-color-cardinal border border-color-cardinal/40 rounded-xl font-bold text-xs cursor-pointer" title="Limpar Lista do Mês"><i class="fa-solid fa-trash"></i></button>
+                </div>
             </div>
         </section>
 
         <!-- ================= CARDÁPIO SEMANAL ================= -->
         <section id="tab-menu" class="tab-content space-y-4">
-            <h2 class="text-xl font-bold text-white">Cardápio Semanal</h2>
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-bold text-white">Cardápio Semanal</h2>
+                <div class="flex gap-1 bg-input-bg p-1 rounded-xl">
+                    <button onclick="setMenuViewMode('daily')" id="mvm-daily" class="px-2.5 py-1 rounded-lg bg-app-accent-blue text-white text-[10px] font-bold cursor-pointer">Dia a Dia</button>
+                    <button onclick="setMenuViewMode('weekly')" id="mvm-weekly" class="px-2.5 py-1 rounded-lg text-app-subtext text-[10px] font-semibold hover:text-white cursor-pointer">Visão Semanal</button>
+                </div>
+            </div>
             
-            <div class="flex justify-between items-center px-1">
+            <div id="menu-daily-controls" class="flex justify-between items-center px-1">
                 <button onclick="changeWeek(-1)" class="text-app-accent text-lg p-2 font-bold cursor-pointer"><i class="fa-solid fa-chevron-left"></i></button>
                 <div id="menu-month-year-dropdown" class="ui-field-group !mt-0 min-w-[150px]">
                     <div class="custom-select-trigger !py-1.5 !px-3 !text-xs font-bold text-app-accent text-center justify-center">
@@ -999,7 +1043,7 @@
                 <button onclick="changeWeek(1)" class="text-app-accent text-lg p-2 font-bold cursor-pointer"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
-            <div class="bg-app-card border border-app-card-hover rounded-2xl p-2 flex justify-between text-center overflow-x-auto gap-1 no-scrollbar" id="week-calendar"></div>
+            <div id="week-calendar-container" class="bg-app-card border border-app-card-hover rounded-2xl p-2 flex justify-between text-center overflow-x-auto gap-1 no-scrollbar"></div>
 
             <form id="form-menu" class="flex flex-col gap-3 bg-app-card border border-app-card-hover p-4 rounded-2xl shadow">
                 <div class="flex gap-2">
@@ -1164,6 +1208,8 @@
 
         document.addEventListener('click', () => {
             document.querySelectorAll('.custom-select-container').forEach(c => c.classList.remove('open'));
+            // Oculta menus contextuais abertos
+            document.querySelectorAll('[id^="s-actions-"]').forEach(el => el.classList.add('hidden'));
         });
 
         const html = document.documentElement;
@@ -1231,13 +1277,14 @@
             
             if(tabId === 'dashboard') { updateDashboard(); updateHistory(); }
             if(tabId === 'investments') { updateInvestmentsView(); }
+            if(tabId === 'shopping') loadShopping();
             if(tabId === 'menu') loadMenu();
         }
 
         const db = new Dexie("FinPWA_DB");
-        db.version(14).stores({
+        db.version(15).stores({
             transactions: '++id, type, amount, description, category, subcategory, date, payer, details, sharedPayer, userAmount',
-            shopping: '++id, text, quantity, category, done, dateMonth',
+            shopping: '++id, text, quantity, price, category, done, dateMonth',
             menu: '++id, dish, type, desc, dateStr',
             investments: '++id, name, category, bank, amount, rate, indexer, acqMonth, vencMonth, status',
             earnings: '++id, amount, dateStr, bank'
@@ -1789,21 +1836,36 @@
             if (triggerLabel) triggerLabel.innerText = firstDisplay;
         }
 
+        // ================= LÓGICA DA LISTA DE COMPRAS CLEAN =================
+        let isShowPrices = true;
+        let shoppingPressTimer = null;
+
+        function toggleShowPrices() {
+            isShowPrices = !isShowPrices;
+            const icon = document.getElementById('eye-icon-price');
+            if(isShowPrices) icon.className = 'fa-solid fa-eye';
+            else icon.className = 'fa-solid fa-eye-slash';
+            loadShopping();
+        }
+
         document.getElementById('form-shopping').addEventListener('submit', async (e) => {
             e.preventDefault();
             const itemInput = document.getElementById('s-item');
             const qtdNumInput = document.getElementById('s-qtd-num');
             const unitInput = document.getElementById('s-unit');
+            const priceInput = document.getElementById('s-price');
             const categoryInput = document.getElementById('s-category');
             const monthFilterInput = document.getElementById('s-month-filter');
 
             if (!itemInput.value || !qtdNumInput.value) return;
 
             const qtdStr = `${qtdNumInput.value} ${unitInput.value}`;
+            const priceVal = priceInput.value ? parseFloat(priceInput.value) : 0;
 
             await db.shopping.add({
                 text: itemInput.value,
                 quantity: qtdStr,
+                price: priceVal,
                 category: categoryInput.value,
                 done: false,
                 dateMonth: monthFilterInput.value
@@ -1811,8 +1873,23 @@
 
             itemInput.value = ''; 
             qtdNumInput.value = '';
+            priceInput.value = '';
             loadShopping();
         });
+
+        function handleShoppingPressStart(id) {
+            clearTimeout(shoppingPressTimer);
+            shoppingPressTimer = setTimeout(() => {
+                document.querySelectorAll('[id^="s-actions-"]').forEach(el => el.classList.add('hidden'));
+                const actionsEl = document.getElementById(`s-actions-${id}`);
+                if(actionsEl) actionsEl.classList.remove('hidden');
+                if (navigator.vibrate) navigator.vibrate(40);
+            }, 500);
+        }
+
+        function handleShoppingPressEnd() {
+            clearTimeout(shoppingPressTimer);
+        }
 
         async function loadShopping() {
             const filterMonth = document.getElementById('s-month-filter').value;
@@ -1820,8 +1897,11 @@
             const container = document.getElementById('shopping-list-container');
             container.innerHTML = '';
             
+            let totalAccumulated = 0;
+
             if(items.length === 0) { 
-                container.innerHTML = '<p class="text-center text-app-subtext py-6 text-sm">Lista vazia neste mês.</p>'; 
+                container.innerHTML = '<p class="text-center text-app-subtext py-6 text-sm">Lista de compras vazia neste mês.</p>'; 
+                document.getElementById('shopping-total-val').innerText = 'R$ 0,00';
                 return; 
             }
 
@@ -1840,7 +1920,10 @@
             items.forEach(i => {
                 const catKey = (i.category === "Outras despesas" || !grouped[i.category]) ? "Outros" : i.category;
                 grouped[catKey].push(i);
+                if(i.price) totalAccumulated += parseFloat(i.price);
             });
+
+            document.getElementById('shopping-total-val').innerText = isShowPrices ? formatCurrency(totalAccumulated) : 'R$ ***';
 
             order.forEach(cat => {
                 if(grouped[cat] && grouped[cat].length > 0) {
@@ -1862,19 +1945,31 @@
 
                     grouped[cat].forEach(i => {
                         const doneClass = i.done ? 'shopping-item-done' : '';
-                        
+                        const priceDisplay = (i.price && isShowPrices) ? `<span class="text-[11px] font-semibold text-app-accent mr-2">${formatCurrency(i.price)}</span>` : '';
+
                         htmlCard += `
-                            <div class="flex items-center justify-between py-1 ${doneClass}">
-                                <label class="flex items-center cursor-pointer flex-1 overflow-hidden pr-2">
-                                    <input type="checkbox" ${i.done ? 'checked' : ''} onchange="toggleShopping(${i.id}, this.checked)" class="round-cb flex-shrink-0">
-                                    <div class="flex items-baseline truncate">
-                                        <span class="font-bold text-sm truncate ${i.done ? 'line-through text-app-subtext' : 'text-white'}">${i.text}</span>
+                            <div class="relative py-1 border-b border-app-card-hover/40 last:border-0"
+                                 ontouchstart="handleShoppingPressStart(${i.id})" ontouchend="handleShoppingPressEnd()"
+                                 onmousedown="handleShoppingPressStart(${i.id})" onmouseup="handleShoppingPressEnd()" onmouseleave="handleShoppingPressEnd()">
+                                
+                                <div class="flex items-center justify-between ${doneClass}">
+                                    <label class="flex items-center cursor-pointer flex-1 overflow-hidden pr-2">
+                                        <!-- CHECKBOX MENOR E MAIS CLEAN -->
+                                        <input type="checkbox" ${i.done ? 'checked' : ''} onchange="toggleShopping(${i.id}, this.checked)" class="round-cb-sm">
+                                        <span class="font-bold text-xs truncate ${i.done ? 'line-through text-app-subtext' : 'text-white'}">${i.text}</span>
+                                    </label>
+
+                                    <!-- QUANTIDADE E UNIDADE NA OUTRA PONTA -->
+                                    <div class="flex items-center flex-shrink-0">
+                                        ${priceDisplay}
+                                        <span class="text-app-subtext text-xs font-semibold bg-input-bg px-2 py-0.5 rounded-md border border-app-card-hover">${i.quantity}</span>
                                     </div>
-                                </label>
-                                <div class="flex items-center gap-3 flex-shrink-0">
-                                    <span class="text-app-subtext text-xs font-medium">${i.quantity}</span>
-                                    <button onclick="editShopping(${i.id})" class="text-app-subtext hover:text-white p-1 text-xs cursor-pointer"><i class="fa-solid fa-pen"></i></button>
-                                    <button onclick="deleteShopping(${i.id})" class="text-color-cardinal font-bold p-1 text-sm cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+
+                                <!-- MENU FLUTUANTE EXIBIDO AO SEGURAR (PRESS & HOLD) -->
+                                <div id="s-actions-${i.id}" class="hidden absolute right-0 top-1/2 -translate-y-1/2 bg-input-bg border border-app-accent/40 rounded-xl shadow-xl px-2 py-1 flex gap-2 z-20 animate-fadeIn">
+                                    <button onclick="event.stopPropagation(); editShopping(${i.id})" class="text-app-accent hover:text-white p-1 text-xs cursor-pointer" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                    <button onclick="event.stopPropagation(); deleteShopping(${i.id})" class="text-color-cardinal font-bold p-1 text-xs cursor-pointer" title="Excluir"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </div>
                         `;
@@ -1897,7 +1992,10 @@
             if(newText === null || newText.trim() === "") return;
             const newQtd = prompt("Editar quantidade e unidade:", item.quantity);
             if(newQtd === null) return;
-            await db.shopping.update(id, { text: newText, quantity: newQtd });
+            const newPriceStr = prompt("Editar preço (opcional):", item.price || "");
+            const newPrice = newPriceStr ? parseFloat(newPriceStr) : 0;
+
+            await db.shopping.update(id, { text: newText, quantity: newQtd, price: newPrice });
             loadShopping();
         }
 
@@ -1923,7 +2021,8 @@
                 if(catItems.length > 0) {
                     msg += `*${cat.toUpperCase()}*\n`;
                     catItems.forEach(i => {
-                        msg += `${i.done ? '✅' : '▫️'} ${i.text} (${i.quantity})\n`;
+                        const pr = i.price ? ` - ${formatCurrency(i.price)}` : '';
+                        msg += `${i.done ? '✅' : '▫️'} ${i.text} (${i.quantity})${pr}\n`;
                     });
                     msg += `\n`;
                 }
@@ -1932,8 +2031,31 @@
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
+        // ================= LÓGICA DO CARDÁPIO SEMANAL =================
+        let menuViewMode = 'daily';
         let currentWeekOffset = 0;
         let selectedMenuDateStr = new Date().toISOString().slice(0, 10);
+
+        function setMenuViewMode(mode) {
+            menuViewMode = mode;
+            const btnDaily = document.getElementById('mvm-daily');
+            const btnWeekly = document.getElementById('mvm-weekly');
+            const dailyControls = document.getElementById('menu-daily-controls');
+            const weekCal = document.getElementById('week-calendar-container');
+
+            if(mode === 'daily') {
+                btnDaily.className = "px-2.5 py-1 rounded-lg bg-app-accent-blue text-white text-[10px] font-bold cursor-pointer";
+                btnWeekly.className = "px-2.5 py-1 rounded-lg text-app-subtext text-[10px] font-semibold hover:text-white cursor-pointer";
+                dailyControls.classList.remove('hidden');
+                weekCal.classList.remove('hidden');
+            } else {
+                btnWeekly.className = "px-2.5 py-1 rounded-lg bg-app-accent-blue text-white text-[10px] font-bold cursor-pointer";
+                btnDaily.className = "px-2.5 py-1 rounded-lg text-app-subtext text-[10px] font-semibold hover:text-white cursor-pointer";
+                dailyControls.classList.add('hidden');
+                weekCal.classList.add('hidden');
+            }
+            loadMenu();
+        }
 
         function getMondayOfOffsetWeek(offset) {
             const d = new Date();
@@ -1957,7 +2079,7 @@
         }
 
         function renderWeekCalendar() {
-            const cal = document.getElementById('week-calendar');
+            const cal = document.getElementById('week-calendar-container');
             cal.innerHTML = '';
             
             const monday = getMondayOfOffsetWeek(currentWeekOffset);
@@ -2003,20 +2125,8 @@
 
         async function loadMenu() {
             renderWeekCalendar();
-            const items = await db.menu.where('dateStr').equals(selectedMenuDateStr).toArray();
             const container = document.getElementById('menu-list');
             container.innerHTML = '';
-
-            const [y, m, d] = selectedMenuDateStr.split('-');
-            const displayDate = `${d}/${m}/${y}`;
-
-            if(items.length === 0) {
-                container.innerHTML = `<p class="text-center text-app-subtext py-6 text-sm">Nenhuma refeição cadastrada para ${displayDate}.</p>`;
-                return;
-            }
-
-            const mealOrder = { 'Café da Manhã': 1, 'Almoço': 2, 'Snack': 3, 'Jantar': 4 };
-            items.sort((a, b) => (mealOrder[a.type] || 99) - (mealOrder[b.type] || 99));
 
             const tagColors = {
                 'Café da Manhã': 'bg-amber-950/80 text-amber-300 border border-amber-800',
@@ -2025,25 +2135,84 @@
                 'Jantar': 'bg-input-bg text-app-accent border border-app-accent/30'
             };
 
-            items.forEach(i => {
-                container.innerHTML += `
-                    <div class="bg-app-card border border-app-card-hover rounded-2xl shadow p-4 border-l-4 border-l-app-accent">
-                        <div class="flex justify-between items-start cursor-pointer" onclick="toggleMenuDesc(${i.id})">
-                            <div>
-                                <h3 class="font-bold text-sm text-white leading-snug">${i.dish}</h3>
-                                <span class="inline-block mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full ${tagColors[i.type] || 'bg-input-bg text-white'}">${i.type}</span>
+            const mealOrder = { 'Café da Manhã': 1, 'Almoço': 2, 'Snack': 3, 'Jantar': 4 };
+
+            if(menuViewMode === 'daily') {
+                const items = await db.menu.where('dateStr').equals(selectedMenuDateStr).toArray();
+                const [y, m, d] = selectedMenuDateStr.split('-');
+                const displayDate = `${d}/${m}/${y}`;
+
+                if(items.length === 0) {
+                    container.innerHTML = `<p class="text-center text-app-subtext py-6 text-sm">Nenhuma refeição cadastrada para ${displayDate}.</p>`;
+                    return;
+                }
+
+                items.sort((a, b) => (mealOrder[a.type] || 99) - (mealOrder[b.type] || 99));
+
+                items.forEach(i => {
+                    container.innerHTML += `
+                        <div class="bg-app-card border border-app-card-hover rounded-2xl shadow p-4 border-l-4 border-l-app-accent">
+                            <div class="flex justify-between items-start cursor-pointer" onclick="toggleMenuDesc(${i.id})">
+                                <div>
+                                    <h3 class="font-bold text-sm text-white leading-snug">${i.dish}</h3>
+                                    <span class="inline-block mt-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full ${tagColors[i.type] || 'bg-input-bg text-white'}">${i.type}</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="event.stopPropagation(); editMenu(${i.id})" class="text-app-subtext p-1 cursor-pointer"><i class="fa-solid fa-pen text-xs"></i></button>
+                                    <button onclick="event.stopPropagation(); deleteMenu(${i.id})" class="text-color-cardinal font-bold p-1 cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
+                                </div>
                             </div>
-                            <div class="flex items-center gap-3">
-                                <button onclick="event.stopPropagation(); editMenu(${i.id})" class="text-app-subtext p-1 cursor-pointer"><i class="fa-solid fa-pen text-xs"></i></button>
-                                <button onclick="event.stopPropagation(); deleteMenu(${i.id})" class="text-color-cardinal font-bold p-1 cursor-pointer"><i class="fa-solid fa-xmark text-base"></i></button>
+                            <div id="m-desc-${i.id}" class="hidden mt-3 pt-3 border-t border-app-card-hover text-xs text-app-subtext whitespace-pre-line">
+                                ${i.desc ? i.desc : '<span class="italic text-app-subtext/50">Sem descrição/ingredientes cadastrados.</span>'}
                             </div>
                         </div>
-                        <div id="m-desc-${i.id}" class="hidden mt-3 pt-3 border-t border-app-card-hover text-xs text-app-subtext whitespace-pre-line">
-                            ${i.desc ? i.desc : '<span class="italic text-app-subtext/50">Sem descrição/ingredientes cadastrados.</span>'}
-                        </div>
-                    </div>
-                `;
-            });
+                    `;
+                });
+            } else {
+                // VISÃO SEMANAL AGRUPADA (SEGUNDA A DOMINGO)
+                const monday = getMondayOfOffsetWeek(currentWeekOffset);
+                const daysName = ['Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado', 'Domingo'];
+
+                for(let idx = 0; idx < 7; idx++) {
+                    const currentDayObj = new Date(monday);
+                    currentDayObj.setDate(currentDayObj.getDate() + idx);
+                    const dStr = currentDayObj.toISOString().slice(0, 10);
+                    const dayNum = currentDayObj.getDate();
+
+                    const dayItems = await db.menu.where('dateStr').equals(dStr).toArray();
+                    dayItems.sort((a, b) => (mealOrder[a.type] || 99) - (mealOrder[b.type] || 99));
+
+                    let dayCard = `
+                        <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-2 shadow">
+                            <div class="border-b border-app-card-hover pb-2 flex justify-between items-center">
+                                <h3 class="font-extrabold text-xs text-app-accent uppercase tracking-wider">${daysName[idx]} (${dayNum})</h3>
+                                <span class="text-[10px] text-app-subtext">${dayItems.length} refeição(ões)</span>
+                            </div>
+                    `;
+
+                    if(dayItems.length === 0) {
+                        dayCard += `<p class="text-app-subtext/50 italic text-xs py-1">Sem refeições agendadas.</p>`;
+                    } else {
+                        dayItems.forEach(i => {
+                            dayCard += `
+                                <div class="flex justify-between items-center py-1 border-b border-app-card-hover/40 last:border-0 text-xs">
+                                    <div>
+                                        <span class="font-bold text-white block">${i.dish}</span>
+                                        <span class="text-[10px] text-app-subtext">${i.type}</span>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button onclick="editMenu(${i.id})" class="text-app-subtext hover:text-white text-xs p-1"><i class="fa-solid fa-pen"></i></button>
+                                        <button onclick="deleteMenu(${i.id})" class="text-color-cardinal text-xs p-1"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+
+                    dayCard += `</div>`;
+                    container.innerHTML += dayCard;
+                }
+            }
         }
 
         function toggleMenuDesc(id) {
