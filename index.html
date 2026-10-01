@@ -850,27 +850,120 @@
                 </div>
 
                 <!-- CONTEÚDO DA ABA ORÇAMENTO -->
-                <div id="tsec-orcamento" class="hidden space-y-3">
-                    <div class="bg-app-card p-4 rounded-2xl border border-app-card-hover space-y-3">
-                        <h3 class="font-bold text-sm text-white flex items-center gap-2">
-                            <i class="fa-solid fa-calculator text-app-accent"></i> Resumo de Orçamento
-                        </h3>
-                        <p class="text-xs text-app-subtext">Módulo de orçamento em definição...</p>
+                <div id="tsec-orcamento" class="hidden space-y-4">
+                    <!-- CAIXA GRANDE RESUMO DO ORÇAMENTO (PLANEJADO E REALIZADO) -->
+                    <div class="bg-app-card border border-app-card-hover p-5 rounded-2xl text-center shadow-xl space-y-2">
+                        <p class="text-[10px] uppercase font-bold text-app-subtext tracking-wider">Orçamento da Viagem</p>
+                        <h2 class="text-3xl font-extrabold text-white" id="travel-total-budget">R$ 0,00</h2>
+                        <div class="pt-2 border-t border-app-card-hover/80 flex justify-between items-center text-xs font-semibold px-2">
+                            <span class="text-app-subtext">Realizado:</span>
+                            <span class="text-color-vidaloca font-bold" id="travel-total-spent">R$ 0,00</span>
+                        </div>
                     </div>
+
+                    <!-- CONFIGURAÇÕES DE CÂMBIO -->
+                    <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl space-y-3 shadow">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold text-xs text-white flex items-center gap-2">
+                                <i class="fa-solid fa-coins text-app-accent"></i> Câmbio & Cotação
+                            </h4>
+                            <div class="flex gap-1 text-[10px] font-bold">
+                                <button onclick="setCurrencyView('BRL')" id="cur-BRL" class="px-2 py-1 rounded bg-app-accent-blue text-white cursor-pointer">BRL (R$)</button>
+                                <button onclick="setCurrencyView('LOC')" id="cur-LOC" class="px-2 py-1 rounded bg-input-bg text-app-subtext cursor-pointer">Moeda Local</button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Símbolo Local</span>
+                                <input type="text" id="travel-currency-symbol" value="US$" class="ui-input !py-1.5" onchange="saveTravelBudgetSettings()">
+                            </div>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Cotação (1 LOC = R$)</span>
+                                <input type="number" step="0.0001" id="travel-currency-rate" value="5.00" class="ui-input !py-1.5" onchange="saveTravelBudgetSettings()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FORMULÁRIO DE NOVA DESPESA/ORÇAMENTO -->
+                    <form id="form-travel-budget" onsubmit="addTravelBudgetItem(event)" class="bg-app-card border border-app-card-hover p-4 rounded-2xl shadow space-y-3">
+                        <h4 class="font-bold text-xs text-white">Adicionar Item ao Orçamento</h4>
+                        
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Categoria</span>
+                                <div class="custom-select-container" data-id="tb-category">
+                                    <div class="custom-select-trigger !py-2 !text-xs" tabindex="0">
+                                        <span class="trigger-label">Voo</span>
+                                        <i class="fa-solid fa-chevron-down text-app-accent text-[8px]"></i>
+                                    </div>
+                                    <div class="custom-select-options">
+                                        <div class="custom-option selected" data-value="Voo">Voo</div>
+                                        <div class="custom-option" data-value="Transporte">Transporte</div>
+                                        <div class="custom-option" data-value="Hospedagem">Hospedagem</div>
+                                        <div class="custom-option" data-value="Alimentação">Alimentação</div>
+                                        <div class="custom-option" data-value="Atividades">Atividades</div>
+                                        <div class="custom-option" data-value="Outros">Outros</div>
+                                    </div>
+                                    <input type="hidden" id="tb-category" value="Voo">
+                                </div>
+                            </div>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Nome do Item</span>
+                                <input type="text" id="tb-name" placeholder="Ex: Passagem, Hotel..." required class="ui-input">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Valor Planejado (R$)</span>
+                                <input type="number" step="0.01" id="tb-planned" placeholder="0,00" required class="ui-input">
+                            </div>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Valor Realizado (R$)</span>
+                                <input type="number" step="0.01" id="tb-realized" placeholder="0,00" class="ui-input">
+                            </div>
+                        </div>
+
+                        <div class="ui-field-group">
+                            <span class="ui-field-label">Anotação (Opcional)</span>
+                            <input type="text" id="tb-notes" placeholder="Detalhes da despesa..." class="ui-input">
+                        </div>
+
+                        <button type="submit" class="w-full bg-app-accent-blue text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer">
+                            Adicionar ao Orçamento
+                        </button>
+                    </form>
+
+                    <!-- LISTA DOS ITENS ORÇADOS -->
+                    <div id="travel-budget-items-list" class="space-y-2"></div>
                 </div>
 
-                <!-- CONTEÚDO DA ABA ITINERÁRIO -->
+                <!-- CONTEÚDO DA ABA ITINERÁRIO (DESIGN ESTILO KOREA TRIP / KOREA TRIP DAY 2) -->
                 <div id="tsec-itinerario" class="space-y-4 pb-24 relative">
                     <div id="travel-days-container" class="space-y-3">
-                        <!-- Cards triangulares/arredondados dos dias -->
+                        <!-- Lista limpa de cards de dias -->
                     </div>
 
                     <!-- CAIXINHA PARA ADICIONAR UM NOVO DIA (SEMPRE NO FINAL DA PÁGINA) -->
                     <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl shadow space-y-3 mt-6">
                         <h4 class="font-bold text-xs text-white">Adicionar Novo Dia</h4>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Data (Opcional)</span>
+                                <input type="date" id="travel-day-date-input" class="ui-input !py-1.5">
+                            </div>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Horário de Início</span>
+                                <input type="time" id="travel-day-time-input" value="09:00" class="ui-input !py-1.5">
+                            </div>
+                        </div>
                         <div class="ui-field-group">
-                            <span class="ui-field-label">Título/Resumo curto</span>
-                            <input type="text" id="travel-day-summary" placeholder="Ex: Chegada e passeio pelo centro..." class="ui-input">
+                            <span class="ui-field-label">Resumo do Dia</span>
+                            <input type="text" id="travel-day-summary" placeholder="Ex: Exploration of south side of Busan..." class="ui-input">
+                        </div>
+                        <div class="ui-field-group">
+                            <span class="ui-field-label">URL da Imagem de Capa do Dia</span>
+                            <input type="text" id="travel-day-img-input" placeholder="https://..." class="ui-input">
                         </div>
                         <button onclick="addTravelDay()" class="w-full bg-app-accent-blue text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer">
                             + Adicionar Dia
@@ -880,79 +973,103 @@
 
                 <!-- CONTEÚDO DA ABA PLANEJAMENTO -->
                 <div id="tsec-planejamento" class="hidden space-y-4">
-                    <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-2">
-                        <h3 class="font-bold text-xs text-app-accent uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-hotel"></i> Hotel
-                        </h3>
-                        <input type="text" id="plan-hotel" placeholder="Nome do hotel, reserva..." class="ui-input text-xs" onchange="saveTravelPlan()">
+                    <!-- HOSPEDAGEM / HOTEL -->
+                    <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-3 shadow">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-xs text-app-accent uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-hotel"></i> Hospedagem / Hotel
+                            </h3>
+                            <button onclick="addPlanItem('hotel')" class="text-app-accent text-xs font-bold hover:underline cursor-pointer">+ Adicionar</button>
+                        </div>
+                        <div id="plan-list-hotel" class="space-y-2"></div>
                     </div>
 
-                    <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-2">
-                        <h3 class="font-bold text-xs text-app-accent uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-plane"></i> Voo
-                        </h3>
-                        <input type="text" id="plan-voo" placeholder="Companhia, horários, bilhetes..." class="ui-input text-xs" onchange="saveTravelPlan()">
+                    <!-- VOO -->
+                    <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-3 shadow">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-xs text-app-accent uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-plane"></i> Voo
+                            </h3>
+                            <button onclick="addPlanItem('voo')" class="text-app-accent text-xs font-bold hover:underline cursor-pointer">+ Adicionar</button>
+                        </div>
+                        <div id="plan-list-voo" class="space-y-2"></div>
                     </div>
 
-                    <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-2">
-                        <h3 class="font-bold text-xs text-app-accent uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-ticket"></i> Tours
-                        </h3>
-                        <textarea id="plan-tours" placeholder="Ingressos, passeios agendados..." class="ui-input h-16 text-xs resize-none" onchange="saveTravelPlan()"></textarea>
+                    <!-- TOURS / PASSEIOS -->
+                    <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-3 shadow">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-xs text-app-accent uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-ticket"></i> Tours / Passeios
+                            </h3>
+                            <button onclick="addPlanItem('tours')" class="text-app-accent text-xs font-bold hover:underline cursor-pointer">+ Adicionar</button>
+                        </div>
+                        <div id="plan-list-tours" class="space-y-2"></div>
                     </div>
 
-                    <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-2">
-                        <h3 class="font-bold text-xs text-app-accent uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-utensils"></i> Restaurantes
-                        </h3>
-                        <textarea id="plan-restaurantes" placeholder="Locais para comer, reservas..." class="ui-input h-16 text-xs resize-none" onchange="saveTravelPlan()"></textarea>
+                    <!-- RESTAURANTES -->
+                    <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-3 shadow">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-xs text-app-accent uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-utensils"></i> Restaurantes
+                            </h3>
+                            <button onclick="addPlanItem('restaurantes')" class="text-app-accent text-xs font-bold hover:underline cursor-pointer">+ Adicionar</button>
+                        </div>
+                        <div id="plan-list-restaurantes" class="space-y-2"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- TELA DE DETALHES DO DIA -->
-            <div id="travel-day-detail-view" class="hidden space-y-4">
-                <div class="flex items-center gap-3">
-                    <button onclick="closeDayDetail()" class="text-app-accent text-lg p-1 cursor-pointer">
+            <!-- TELA DE DETALHES DO DIA (DESIGN TIMELINE CONFORME A TELA 2 DA IMAGEM) -->
+            <div id="travel-day-detail-view" class="hidden space-y-0 pb-20 -mx-4 -mt-4">
+                <!-- HERO HEADER DO DIA -->
+                <div class="relative w-full h-60 bg-black overflow-hidden">
+                    <img id="day-detail-hero-img" src="" class="absolute inset-0 w-full h-full object-cover opacity-75">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-black/40 to-black/30"></div>
+                    
+                    <button onclick="closeDayDetail()" class="absolute top-4 left-4 z-20 text-white bg-black/50 w-9 h-9 rounded-full flex items-center justify-center border border-white/20 backdrop-blur">
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
-                    <h2 id="day-detail-title" class="text-xl font-extrabold text-white"></h2>
-                </div>
 
-                <!-- ÁREA DE IMAGENS -->
-                <div class="bg-app-card border border-app-card-hover rounded-2xl p-3 space-y-2">
-                    <p class="text-xs font-bold text-app-subtext">Imagens do dia:</p>
-                    <div id="day-images-container" class="grid grid-cols-2 gap-2">
-                        <!-- Imagens adicionadas -->
+                    <div class="absolute bottom-4 left-5 right-5 z-20 space-y-0.5">
+                        <h3 id="day-detail-country-title" class="text-xl font-extrabold text-white leading-tight drop-shadow-md"></h3>
+                        <h4 id="day-detail-number-title" class="text-base font-bold text-app-accent drop-shadow"></h4>
                     </div>
-                    <button onclick="addDayImage()" class="w-full bg-input-bg hover:bg-app-card-hover text-app-accent border border-app-accent/30 p-2 rounded-xl text-xs font-bold cursor-pointer">
-                        + Adicionar URL da Imagem
-                    </button>
                 </div>
 
-                <!-- DATA -->
-                <div class="ui-field-group">
-                    <span class="ui-field-label">Data</span>
-                    <input type="date" id="day-date-input" class="ui-input" onchange="saveDayDetails()">
-                </div>
+                <div class="p-5 space-y-5">
+                    <!-- DATA -->
+                    <div>
+                        <h3 id="day-detail-date-display" class="text-lg font-bold text-white tracking-tight"></h3>
+                    </div>
 
-                <!-- HORÁRIO, ATIVIDADE E DESCRIÇÃO -->
-                <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-3">
-                    <h4 class="font-bold text-xs text-white">Programação / Horário</h4>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="ui-field-group col-span-1">
-                            <span class="ui-field-label">Horário</span>
-                            <input type="time" id="day-time-input" class="ui-input" onchange="saveDayDetails()">
-                        </div>
-                        <div class="ui-field-group col-span-2">
-                            <span class="ui-field-label">O que fazer</span>
-                            <input type="text" id="day-activity-input" placeholder="Ex: Visita ao Museu..." class="ui-input" onchange="saveDayDetails()">
+                    <!-- TIMELINE DAS PARADAS / ATIVIDADES -->
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-xs uppercase tracking-wider text-app-subtext">Roteiro do Dia</h4>
+                        <div id="day-timeline-container" class="space-y-6 relative border-l-2 border-app-card-hover ml-3 pl-5">
+                            <!-- Itens da linha do tempo -->
                         </div>
                     </div>
 
-                    <div class="ui-field-group">
-                        <span class="ui-field-label">Descrição</span>
-                        <textarea id="day-desc-input" placeholder="Detalhes da programação..." class="ui-input h-20 resize-none" onchange="saveDayDetails()"></textarea>
+                    <!-- BOTÃO ADICIONAR ITEM NA TIMELINE -->
+                    <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl shadow space-y-3 mt-4">
+                        <h4 class="font-bold text-xs text-white">Adicionar Parada / Atividade</h4>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="ui-field-group col-span-1">
+                                <span class="ui-field-label">Horário</span>
+                                <input type="text" id="new-stop-time" placeholder="09:00AM" class="ui-input !py-1.5">
+                            </div>
+                            <div class="ui-field-group col-span-2">
+                                <span class="ui-field-label">Atividade / Local</span>
+                                <input type="text" id="new-stop-title" placeholder="Ex: Breakfast @ EGG DROP" class="ui-input !py-1.5">
+                            </div>
+                        </div>
+                        <div class="ui-field-group">
+                            <span class="ui-field-label">Descrição / Instruções</span>
+                            <input type="text" id="new-stop-desc" placeholder="Ex: Take bus 15, 126, 88 - 2 stops..." class="ui-input">
+                        </div>
+                        <button onclick="addTimelineStop()" class="w-full bg-app-accent-blue text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer">
+                            + Adicionar à Linha do Tempo
+                        </button>
                     </div>
                 </div>
             </div>
@@ -968,7 +1085,7 @@
 
                 <div class="ui-field-group">
                     <span class="ui-field-label">País de Destino *</span>
-                    <input type="text" id="travel-country-input" placeholder="Ex: França, Japão..." required class="ui-input">
+                    <input type="text" id="travel-country-input" placeholder="Ex: Korea Trip 2022..." required class="ui-input">
                 </div>
 
                 <div class="ui-field-group">
@@ -1410,13 +1527,13 @@
         }
 
         const db = new Dexie("FinPWA_DB");
-        db.version(16).stores({
+        db.version(17).stores({
             transactions: '++id, type, amount, description, category, subcategory, date, payer, details, sharedPayer, userAmount',
             shopping: '++id, text, quantity, price, category, done, dateMonth',
             menu: '++id, dish, type, desc, dateStr',
             investments: '++id, name, category, bank, amount, rate, indexer, acqMonth, vencMonth, status',
             earnings: '++id, amount, dateStr, bank',
-            travels: '++id, country, date, imageUrl, plan, days'
+            travels: '++id, country, date, imageUrl, plan, days, currencySymbol, currencyRate, budgetItems'
         });
 
         const formatCurrency = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
@@ -2364,6 +2481,7 @@
         /* ================= VIAGENS JS ================= */
         let currentTravelId = null;
         let currentDayIndex = null;
+        let travelCurrencyDisplayMode = 'BRL'; // BRL ou LOC
 
         function openAddTravelModal() {
             document.getElementById('modal-add-travel').classList.remove('hidden');
@@ -2383,8 +2501,11 @@
                 country: country,
                 date: dateVal || '',
                 imageUrl: imgVal || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800',
-                plan: { hotel: '', voo: '', tours: '', restaurantes: '' },
-                days: []
+                plan: { hotel: [], voo: [], tours: [], restaurantes: [] },
+                days: [],
+                currencySymbol: 'US$',
+                currencyRate: 5.00,
+                budgetItems: []
             });
 
             document.getElementById('travel-country-input').value = '';
@@ -2441,17 +2562,16 @@
             if(!t) return;
 
             document.getElementById('travel-country-title').innerText = t.country;
+            document.getElementById('travel-currency-symbol').value = t.currencySymbol || 'US$';
+            document.getElementById('travel-currency-rate').value = t.currencyRate || 5.00;
+
             document.getElementById('travel-main-view').classList.add('hidden');
             document.getElementById('travel-details-view').classList.remove('hidden');
 
-            // Carregar dados de planejamento
-            document.getElementById('plan-hotel').value = t.plan ? t.plan.hotel || '' : '';
-            document.getElementById('plan-voo').value = t.plan ? t.plan.voo || '' : '';
-            document.getElementById('plan-tours').value = t.plan ? t.plan.tours || '' : '';
-            document.getElementById('plan-restaurantes').value = t.plan ? t.plan.restaurantes || '' : '';
-
             setTravelTab('itinerario');
             renderTravelDays();
+            renderTravelBudget();
+            renderTravelPlan();
         }
 
         function closeTravelDetails() {
@@ -2474,10 +2594,123 @@
             });
         }
 
+        /* ORÇAMENTO DA VIAGEM */
+        function setCurrencyView(mode) {
+            travelCurrencyDisplayMode = mode;
+            const btnBrl = document.getElementById('cur-BRL');
+            const btnLoc = document.getElementById('cur-LOC');
+
+            if(mode === 'BRL') {
+                btnBrl.className = "px-2 py-1 rounded bg-app-accent-blue text-white cursor-pointer";
+                btnLoc.className = "px-2 py-1 rounded bg-input-bg text-app-subtext cursor-pointer";
+            } else {
+                btnLoc.className = "px-2 py-1 rounded bg-app-accent-blue text-white cursor-pointer";
+                btnBrl.className = "px-2 py-1 rounded bg-input-bg text-app-subtext cursor-pointer";
+            }
+            renderTravelBudget();
+        }
+
+        async function saveTravelBudgetSettings() {
+            if(!currentTravelId) return;
+            const symbol = document.getElementById('travel-currency-symbol').value || 'US$';
+            const rate = parseFloat(document.getElementById('travel-currency-rate').value) || 1.0;
+
+            await db.travels.update(currentTravelId, { currencySymbol: symbol, currencyRate: rate });
+            renderTravelBudget();
+        }
+
+        async function addTravelBudgetItem(e) {
+            e.preventDefault();
+            if(!currentTravelId) return;
+
+            const category = document.getElementById('tb-category').value;
+            const name = document.getElementById('tb-name').value.trim();
+            const planned = parseFloat(document.getElementById('tb-planned').value) || 0;
+            const realized = parseFloat(document.getElementById('tb-realized').value) || 0;
+            const notes = document.getElementById('tb-notes').value.trim();
+
+            const t = await db.travels.get(currentTravelId);
+            const items = t.budgetItems || [];
+
+            items.push({ id: Date.now(), category, name, planned, realized, notes });
+            await db.travels.update(currentTravelId, { budgetItems: items });
+
+            document.getElementById('tb-name').value = '';
+            document.getElementById('tb-planned').value = '';
+            document.getElementById('tb-realized').value = '';
+            document.getElementById('tb-notes').value = '';
+
+            renderTravelBudget();
+        }
+
+        async function deleteTravelBudgetItem(itemId) {
+            const t = await db.travels.get(currentTravelId);
+            const items = (t.budgetItems || []).filter(i => i.id !== itemId);
+            await db.travels.update(currentTravelId, { budgetItems: items });
+            renderTravelBudget();
+        }
+
+        async function renderTravelBudget() {
+            if(!currentTravelId) return;
+            const t = await db.travels.get(currentTravelId);
+            const items = t.budgetItems || [];
+            const rate = t.currencyRate || 1.0;
+            const symbol = t.currencySymbol || 'US$';
+
+            let totalPlannedBRL = 0;
+            let totalRealizedBRL = 0;
+
+            items.forEach(i => {
+                totalPlannedBRL += (i.planned || 0);
+                totalRealizedBRL += (i.realized || 0);
+            });
+
+            const formatVal = (valBRL) => {
+                if(travelCurrencyDisplayMode === 'BRL') return formatCurrency(valBRL);
+                const locVal = rate > 0 ? (valBRL / rate) : valBRL;
+                return `${symbol} ${locVal.toFixed(2)}`;
+            };
+
+            document.getElementById('travel-total-budget').innerText = formatVal(totalPlannedBRL);
+            document.getElementById('travel-total-spent').innerText = formatVal(totalRealizedBRL);
+
+            const listContainer = document.getElementById('travel-budget-items-list');
+            listContainer.innerHTML = '';
+
+            if(items.length === 0) {
+                listContainer.innerHTML = '<p class="text-center text-app-subtext py-3 text-xs">Nenhum item adicionado ao orçamento.</p>';
+                return;
+            }
+
+            items.forEach(i => {
+                listContainer.innerHTML += `
+                    <div class="bg-app-card border border-app-card-hover p-3 rounded-2xl shadow flex justify-between items-center text-xs">
+                        <div>
+                            <span class="font-bold text-white block">${i.name}</span>
+                            <span class="text-[10px] text-app-subtext">${i.category} ${i.notes ? '• ' + i.notes : ''}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-bold text-white block">${formatVal(i.planned)}</span>
+                            <span class="text-[10px] text-color-vidaloca font-semibold">Realizado: ${formatVal(i.realized || 0)}</span>
+                            <button onclick="deleteTravelBudgetItem(${i.id})" class="text-color-cardinal text-[10px] ml-2 cursor-pointer"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        /* ITINERÁRIO (DESIGN ESTILO KOREA TRIP / KOREA TRIP DAY 2) */
         async function addTravelDay() {
             if(!currentTravelId) return;
             const summaryInput = document.getElementById('travel-day-summary');
-            const summary = summaryInput.value.trim();
+            const dateInput = document.getElementById('travel-day-date-input');
+            const timeInput = document.getElementById('travel-day-time-input');
+            const imgInput = document.getElementById('travel-day-img-input');
+
+            const summary = summaryInput.value.trim() || "Exploration";
+            const dateVal = dateInput.value;
+            const timeVal = timeInput.value || "09:00";
+            const imgVal = imgInput.value.trim() || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500";
 
             const t = await db.travels.get(currentTravelId);
             const days = t.days || [];
@@ -2485,16 +2718,17 @@
 
             days.push({
                 dayNum: newDayNum,
-                summary: summary || "Programação livre",
-                date: '',
-                time: '',
-                activity: '',
-                description: '',
-                images: []
+                summary: summary,
+                date: dateVal,
+                time: timeVal,
+                imgUrl: imgVal,
+                stops: []
             });
 
             await db.travels.update(currentTravelId, { days: days });
             summaryInput.value = '';
+            dateInput.value = '';
+            imgInput.value = '';
             renderTravelDays();
         }
 
@@ -2510,10 +2744,18 @@
             }
 
             days.forEach((d, idx) => {
+                const stopsCount = (d.stops || []).length;
+                const startTime = d.time ? `Day starts at ${d.time}` : 'Day starts at 09:00am';
+
                 container.innerHTML += `
-                    <div onclick="openDayDetail(${idx})" class="bg-app-card border border-app-card-hover rounded-2xl p-4 shadow-lg cursor-pointer hover:border-app-accent/50 transition">
-                        <h3 class="text-base font-extrabold text-white">Dia ${d.dayNum}</h3>
-                        <p class="text-xs font-bold text-app-subtext mt-0.5">${d.summary}</p>
+                    <div onclick="openDayDetail(${idx})" class="bg-app-card border border-app-card-hover rounded-2xl p-3.5 flex items-center gap-3.5 shadow-md cursor-pointer hover:bg-app-card-hover transition">
+                        <img src="${d.imgUrl || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500'}" class="w-16 h-16 rounded-xl object-cover flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-sm font-extrabold text-white">Day ${d.dayNum}</h3>
+                            <p class="text-xs font-semibold text-white truncate leading-snug mt-0.5">${d.summary}</p>
+                            <p class="text-[10px] text-app-subtext mt-1">${startTime}</p>
+                            <p class="text-[10px] text-app-subtext">${stopsCount} ${stopsCount === 1 ? 'stop' : 'stops'}</p>
+                        </div>
                     </div>
                 `;
             });
@@ -2524,13 +2766,18 @@
             const t = await db.travels.get(currentTravelId);
             const d = t.days[idx];
 
-            document.getElementById('day-detail-title').innerText = `Dia ${d.dayNum}`;
-            document.getElementById('day-date-input').value = d.date || '';
-            document.getElementById('day-time-input').value = d.time || '';
-            document.getElementById('day-activity-input').value = d.activity || '';
-            document.getElementById('day-desc-input').value = d.description || '';
+            document.getElementById('day-detail-country-title').innerText = t.country;
+            document.getElementById('day-detail-number-title').innerText = `Day ${d.dayNum}`;
+            document.getElementById('day-detail-hero-img').src = d.imgUrl || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500';
 
-            renderDayImages(d.images || []);
+            let formattedDateDisplay = "11 November 2026, Friday";
+            if(d.date) {
+                const dateObj = new Date(d.date + 'T00:00:00');
+                formattedDateDisplay = dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long' });
+            }
+            document.getElementById('day-detail-date-display').innerText = formattedDateDisplay;
+
+            renderDayTimeline(d.stops || []);
 
             document.getElementById('travel-details-view').classList.add('hidden');
             document.getElementById('travel-day-detail-view').classList.remove('hidden');
@@ -2542,60 +2789,116 @@
             renderTravelDays();
         }
 
-        function renderDayImages(images) {
-            const container = document.getElementById('day-images-container');
+        function renderDayTimeline(stops) {
+            const container = document.getElementById('day-timeline-container');
             container.innerHTML = '';
-            images.forEach((img, i) => {
+
+            if(stops.length === 0) {
+                container.innerHTML = '<p class="text-app-subtext text-xs italic">Nenhuma atividade cadastrada neste dia.</p>';
+                return;
+            }
+
+            stops.forEach((s, idx) => {
                 container.innerHTML += `
-                    <div class="relative h-24 rounded-xl overflow-hidden border border-app-card-hover">
-                        <img src="${img}" class="w-full h-full object-cover">
-                        <button onclick="removeDayImage(${i})" class="absolute top-1 right-1 bg-black/60 text-color-cardinal text-xs p-1 rounded-full"><i class="fa-solid fa-xmark"></i></button>
+                    <div class="relative pl-2">
+                        <!-- Bolinha na linha do tempo -->
+                        <div class="absolute -left-[27px] top-1 w-3 h-3 rounded-full bg-app-accent border-2 border-black"></div>
+                        
+                        <div class="flex items-start gap-4">
+                            <span class="text-xs font-bold text-app-subtext w-16 pt-0.5 flex-shrink-0">${s.time || '09:00AM'}</span>
+                            <div class="flex-1 space-y-0.5">
+                                <h4 class="text-sm font-bold text-white leading-snug">${s.title}</h4>
+                                ${s.desc ? `<p class="text-xs text-app-subtext">${s.desc}</p>` : ''}
+                            </div>
+                            <button onclick="removeTimelineStop(${idx})" class="text-color-cardinal text-xs p-1"><i class="fa-solid fa-trash"></i></button>
+                        </div>
                     </div>
                 `;
             });
         }
 
-        async function addDayImage() {
-            const url = prompt("Cole a URL da imagem:");
-            if(!url) return;
+        async function addTimelineStop() {
+            const timeVal = document.getElementById('new-stop-time').value.trim();
+            const titleVal = document.getElementById('new-stop-title').value.trim();
+            const descVal = document.getElementById('new-stop-desc').value.trim();
+
+            if(!titleVal) return alert("Digite o nome da atividade ou local.");
+
             const t = await db.travels.get(currentTravelId);
             const d = t.days[currentDayIndex];
-            if(!d.images) d.images = [];
-            d.images.push(url);
+            if(!d.stops) d.stops = [];
 
+            d.stops.push({ time: timeVal || '09:00AM', title: titleVal, desc: descVal });
             await db.travels.update(currentTravelId, { days: t.days });
-            renderDayImages(d.images);
+
+            document.getElementById('new-stop-time').value = '';
+            document.getElementById('new-stop-title').value = '';
+            document.getElementById('new-stop-desc').value = '';
+
+            renderDayTimeline(d.stops);
         }
 
-        async function removeDayImage(imgIdx) {
+        async function removeTimelineStop(stopIdx) {
             const t = await db.travels.get(currentTravelId);
             const d = t.days[currentDayIndex];
-            d.images.splice(imgIdx, 1);
+            d.stops.splice(stopIdx, 1);
             await db.travels.update(currentTravelId, { days: t.days });
-            renderDayImages(d.images);
+            renderDayTimeline(d.stops);
         }
 
-        async function saveDayDetails() {
+        /* PLANEJAMENTO DA VIAGEM */
+        async function addPlanItem(catKey) {
+            const name = prompt("Nome do local / hospedagem / voo:");
+            if(!name) return;
+            const dates = prompt("Data / Período (ex: 10/11 até 15/11):") || '';
+            const details = prompt("Anotações / Detalhes (opcional):") || '';
+
             const t = await db.travels.get(currentTravelId);
-            const d = t.days[currentDayIndex];
+            if(!t.plan) t.plan = { hotel: [], voo: [], tours: [], restaurantes: [] };
+            if(!t.plan[catKey] || !Array.isArray(t.plan[catKey])) t.plan[catKey] = [];
 
-            d.date = document.getElementById('day-date-input').value;
-            d.time = document.getElementById('day-time-input').value;
-            d.activity = document.getElementById('day-activity-input').value;
-            d.description = document.getElementById('day-desc-input').value;
-
-            await db.travels.update(currentTravelId, { days: t.days });
+            t.plan[catKey].push({ id: Date.now(), name, dates, details });
+            await db.travels.update(currentTravelId, { plan: t.plan });
+            renderTravelPlan();
         }
 
-        async function saveTravelPlan() {
+        async function deletePlanItem(catKey, itemId) {
             const t = await db.travels.get(currentTravelId);
-            const plan = {
-                hotel: document.getElementById('plan-hotel').value,
-                voo: document.getElementById('plan-voo').value,
-                tours: document.getElementById('plan-tours').value,
-                restaurantes: document.getElementById('plan-restaurantes').value
-            };
-            await db.travels.update(currentTravelId, { plan: plan });
+            if(t.plan && t.plan[catKey]) {
+                t.plan[catKey] = t.plan[catKey].filter(i => i.id !== itemId);
+                await db.travels.update(currentTravelId, { plan: t.plan });
+                renderTravelPlan();
+            }
+        }
+
+        async function renderTravelPlan() {
+            if(!currentTravelId) return;
+            const t = await db.travels.get(currentTravelId);
+            const plan = t.plan || { hotel: [], voo: [], tours: [], restaurantes: [] };
+
+            ['hotel', 'voo', 'tours', 'restaurantes'].forEach(catKey => {
+                const container = document.getElementById(`plan-list-${catKey}`);
+                container.innerHTML = '';
+
+                const items = Array.isArray(plan[catKey]) ? plan[catKey] : [];
+                if(items.length === 0) {
+                    container.innerHTML = '<p class="text-app-subtext text-xs italic">Nenhum item cadastrado.</p>';
+                    return;
+                }
+
+                items.forEach(i => {
+                    container.innerHTML += `
+                        <div class="bg-input-bg p-2.5 rounded-xl text-xs border border-app-card-hover flex justify-between items-center">
+                            <div>
+                                <span class="font-bold text-white block">${i.name}</span>
+                                ${i.dates ? `<span class="text-[10px] text-app-accent font-semibold block">${i.dates}</span>` : ''}
+                                ${i.details ? `<span class="text-[10px] text-app-subtext block">${i.details}</span>` : ''}
+                            </div>
+                            <button onclick="deletePlanItem('${catKey}', ${i.id})" class="text-color-cardinal p-1 cursor-pointer"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    `;
+                });
+            });
         }
 
         let isPatrimonioVisible = true;
