@@ -87,7 +87,7 @@
             width: 100%; background-color: #1C1C1E; color: inherit;
             font-size: 13px; font-weight: 500; padding: 11px 14px;
             border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex; justify-between; align-items: center;
             cursor: pointer; transition: all 0.2s ease; user-select: none;
         }
         html.light .custom-select-trigger { background-color: #F2F2F7; }
@@ -370,7 +370,6 @@
                 </div>
             </div>
 
-            <!-- TETO ALIMENTAÇÃO (AJUSTADO: REMOVIDAS AS FRASES DE TETO E DIMINUÍDA A FONTE) -->
             <div class="bg-app-card border-l-4 border-l-app-accent border border-app-card-hover rounded-2xl shadow-xl p-5 space-y-4">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -636,52 +635,6 @@
             </div>
 
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
-                <button onclick="toggleSimuladorPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
-                    <span><i class="fa-solid fa-calculator mr-1.5"></i> Simulador de Investimentos</span>
-                    <i class="fa-solid fa-chevron-down" id="sim-panel-icon"></i>
-                </button>
-
-                <div id="simulador-panel" class="hidden mt-4 space-y-4 pt-2 border-t border-app-card-hover">
-                    <form id="form-simulador" oninput="runSimulador()" class="space-y-3">
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="ui-field-group">
-                                <span class="ui-field-label">Patrimônio Inicial</span>
-                                <input type="number" id="sim-initial" value="10000" step="100" class="ui-input">
-                            </div>
-                            <div class="ui-field-group">
-                                <span class="ui-field-label">Aporte Mensal</span>
-                                <input type="number" id="sim-monthly" value="1000" step="100" class="ui-input">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-2">
-                            <div class="ui-field-group">
-                                <span class="ui-field-label">Início</span>
-                                <input type="month" id="sim-start-date" value="2026-09" class="ui-input !px-2 !text-[11px]">
-                            </div>
-                            <div class="ui-field-group">
-                                <span class="ui-field-label">Fim</span>
-                                <input type="month" id="sim-end-date" value="2027-12" class="ui-input !px-2 !text-[11px]">
-                            </div>
-                            <div class="ui-field-group">
-                                <span class="ui-field-label">Rendimento %/mês</span>
-                                <input type="number" id="sim-rate" value="0.88" step="0.01" class="ui-input">
-                            </div>
-                        </div>
-                    </form>
-
-                    <div class="bg-input-bg p-3 rounded-xl border border-app-card-hover flex justify-between items-center text-xs">
-                        <span class="text-app-subtext font-semibold">Resultado Final Projetado:</span>
-                        <span id="sim-final-result" class="text-base font-extrabold text-color-vidaloca">R$ 0,00</span>
-                    </div>
-
-                    <div class="h-44 relative w-full">
-                        <canvas id="simuladorChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
                 <button onclick="toggleAddInvestPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
                     <span><i class="fa-solid fa-plus-circle mr-1.5"></i> Adicionar / Gerenciar Dados de Investimento</span>
                     <i class="fa-solid fa-chevron-down" id="add-inv-icon"></i>
@@ -816,6 +769,53 @@
                     <div id="earnings-crud-list" class="space-y-2 pt-2"></div>
                 </div>
             </div>
+
+            <!-- SIMULADOR MOVIDO PARA O FINAL DA PÁGINA -->
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
+                <button onclick="toggleSimuladorPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
+                    <span><i class="fa-solid fa-calculator mr-1.5"></i> Simulador de Investimentos</span>
+                    <i class="fa-solid fa-chevron-down" id="sim-panel-icon"></i>
+                </button>
+
+                <div id="simulador-panel" class="hidden mt-4 space-y-4 pt-2 border-t border-app-card-hover">
+                    <form id="form-simulador" oninput="runSimulador()" class="space-y-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Patrimônio Inicial</span>
+                                <input type="number" id="sim-initial" value="10000" step="100" class="ui-input">
+                            </div>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Aporte Mensal</span>
+                                <input type="number" id="sim-monthly" value="1000" step="100" class="ui-input">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Início</span>
+                                <input type="month" id="sim-start-date" value="2026-09" class="ui-input !px-2 !text-[11px]">
+                            </div>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Fim</span>
+                                <input type="month" id="sim-end-date" value="2027-12" class="ui-input !px-2 !text-[11px]">
+                            </div>
+                            <div class="ui-field-group">
+                                <span class="ui-field-label">Rendimento %/mês</span>
+                                <input type="number" id="sim-rate" value="0.88" step="0.01" class="ui-input">
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="bg-input-bg p-3 rounded-xl border border-app-card-hover flex justify-between items-center text-xs">
+                        <span class="text-app-subtext font-semibold">Resultado Final Projetado:</span>
+                        <span id="sim-final-result" class="text-base font-extrabold text-color-vidaloca">R$ 0,00</span>
+                    </div>
+
+                    <div class="h-44 relative w-full">
+                        <canvas id="simuladorChart"></canvas>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- ================= VIAGENS ================= -->
@@ -829,9 +829,7 @@
                     </button>
                 </div>
 
-                <div id="travel-list-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- Cards dinâmicos das viagens -->
-                </div>
+                <div id="travel-list-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
             </div>
 
             <!-- TELA DE ROTEIRO DA VIAGEM SELECIONADA -->
@@ -852,7 +850,6 @@
 
                 <!-- CONTEÚDO DA ABA ORÇAMENTO -->
                 <div id="tsec-orcamento" class="hidden space-y-4">
-                    <!-- CAIXA GRANDE RESUMO DO ORÇAMENTO (PLANEJADO E REALIZADO) -->
                     <div class="bg-app-card border border-app-card-hover p-5 rounded-2xl text-center shadow-xl space-y-2">
                         <p class="text-[10px] uppercase font-bold text-app-subtext tracking-wider">Orçamento da Viagem</p>
                         <h2 class="text-3xl font-extrabold text-white" id="travel-total-budget">R$ 0,00</h2>
@@ -862,7 +859,6 @@
                         </div>
                     </div>
 
-                    <!-- CONFIGURAÇÕES DE CÂMBIO -->
                     <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl space-y-3 shadow">
                         <div class="flex justify-between items-center">
                             <h4 class="font-bold text-xs text-white flex items-center gap-2">
@@ -885,7 +881,6 @@
                         </div>
                     </div>
 
-                    <!-- FORMULÁRIO DE NOVA DESPESA/ORÇAMENTO -->
                     <form id="form-travel-budget" onsubmit="addTravelBudgetItem(event)" class="bg-app-card border border-app-card-hover p-4 rounded-2xl shadow space-y-3">
                         <h4 class="font-bold text-xs text-white">Adicionar Item ao Orçamento</h4>
                         
@@ -950,10 +945,8 @@
                         </button>
                     </form>
 
-                    <!-- LISTA DOS ITENS ORÇADOS (CATEGORIAS FIXAS) -->
                     <div id="travel-budget-items-list" class="space-y-4"></div>
 
-                    <!-- GRÁFICO DE ROSCA DE CUSTOS -->
                     <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl shadow space-y-3 mt-6">
                         <h4 class="font-bold text-xs text-white flex items-center gap-2">
                             <i class="fa-solid fa-chart-pie text-app-accent"></i> Distribuição dos Custos por Categoria
@@ -966,11 +959,8 @@
 
                 <!-- CONTEÚDO DA ABA ITINERÁRIO -->
                 <div id="tsec-itinerario" class="space-y-4 pb-24 relative">
-                    <div id="travel-days-container" class="space-y-3">
-                        <!-- Lista limpa de cards de dias -->
-                    </div>
+                    <div id="travel-days-container" class="space-y-3"></div>
 
-                    <!-- CAIXINHA PARA ADICIONAR UM NOVO DIA -->
                     <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl shadow space-y-3 mt-6">
                         <h4 class="font-bold text-xs text-white">Adicionar Novo Dia</h4>
                         <div class="grid grid-cols-2 gap-2">
@@ -999,7 +989,6 @@
 
                 <!-- CONTEÚDO DA ABA PLANEJAMENTO -->
                 <div id="tsec-planejamento" class="hidden space-y-4">
-                    <!-- HOSPEDAGEM / HOTEL -->
                     <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-3 shadow">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold text-xs text-app-accent uppercase tracking-wider flex items-center gap-2">
@@ -1010,7 +999,6 @@
                         <div id="plan-list-hotel" class="space-y-2"></div>
                     </div>
 
-                    <!-- VOO -->
                     <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-3 shadow">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold text-xs text-app-accent uppercase tracking-wider flex items-center gap-2">
@@ -1021,7 +1009,6 @@
                         <div id="plan-list-voo" class="space-y-2"></div>
                     </div>
 
-                    <!-- TOURS / PASSEIOS -->
                     <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-3 shadow">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold text-xs text-app-accent uppercase tracking-wider flex items-center gap-2">
@@ -1032,7 +1019,6 @@
                         <div id="plan-list-tours" class="space-y-2"></div>
                     </div>
 
-                    <!-- RESTAURANTES -->
                     <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 space-y-3 shadow">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold text-xs text-app-accent uppercase tracking-wider flex items-center gap-2">
@@ -1045,13 +1031,11 @@
                 </div>
             </div>
 
-            <!-- TELA DE DETALHES DO DIA (DESIGN TIMELINE) -->
-            <div id="travel-day-detail-view" class="hidden space-y-0 pb-20 -mx-4 -mt-4">
-                <!-- HERO HEADER COM CARROSSEL DE IMAGENS AMBLIAS -->
+            <!-- TELA DE DETALHES DO DIA (DESIGN TIMELINE SEM FAIXA PRETA NO TOPO) -->
+            <div id="travel-day-detail-view" class="hidden space-y-0 pb-20">
+                <!-- HERO HEADER ENCOSTAR NO TOPO -->
                 <div class="relative w-full h-72 bg-black overflow-hidden group">
-                    <div id="day-detail-hero-carousel" class="flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth">
-                        <!-- Imagens dinâmicas -->
-                    </div>
+                    <div id="day-detail-hero-carousel" class="flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth"></div>
 
                     <div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-black/20 to-black/30 pointer-events-none"></div>
                     
@@ -1059,7 +1043,7 @@
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
 
-                    <button onclick="editDayImages()" class="absolute top-4 right-4 z-20 text-white bg-black/60 px-2.5 py-1.5 rounded-full text-xs font-bold border border-white/20 backdrop-blur flex items-center gap-1.5 cursor-pointer">
+                    <button onclick="openDayImagesModal()" class="absolute top-4 right-4 z-20 text-white bg-black/60 px-3 py-1.5 rounded-full text-xs font-bold border border-white/20 backdrop-blur flex items-center gap-1.5 cursor-pointer">
                         <i class="fa-solid fa-images"></i> Fotos
                     </button>
 
@@ -1070,21 +1054,17 @@
                 </div>
 
                 <div class="p-5 space-y-6">
-                    <!-- DATA -->
                     <div>
                         <h3 id="day-detail-date-display" class="text-lg font-bold text-white tracking-tight"></h3>
                     </div>
 
-                    <!-- TIMELINE DAS PARADAS / ATIVIDADES (CRONOLÓGICA) -->
                     <div class="space-y-4">
                         <h4 class="font-bold text-xs uppercase tracking-wider text-app-subtext">Roteiro do Dia</h4>
-                        <div id="day-timeline-container" class="space-y-6 relative border-l-2 border-app-card-hover ml-3 pl-5">
-                            <!-- Itens da linha do tempo -->
-                        </div>
+                        <div id="day-timeline-container" class="space-y-6 relative border-l-2 border-app-card-hover ml-3 pl-5"></div>
                     </div>
 
-                    <!-- BOTÃO ADICIONAR ITEM NA TIMELINE (AUMENTADO O ESPAÇAMENTO) -->
-                    <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl shadow space-y-3 mt-10">
+                    <!-- DISTANCIAMENTO AUMENTADO (mt-16) DA CAIXINHA DE INSERIR DADOS -->
+                    <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl shadow space-y-3 mt-16">
                         <h4 class="font-bold text-xs text-white">Adicionar Parada / Atividade</h4>
                         <div class="grid grid-cols-3 gap-2">
                             <div class="ui-field-group col-span-1">
@@ -1107,6 +1087,32 @@
                 </div>
             </div>
         </section>
+
+        <!-- MODAL MINIMALISTA DE FOTOS (DESIGN CONFORME A IMAGEM REFERÊNCIA) -->
+        <div id="modal-day-photos" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+            <div class="bg-[#141414] border border-app-card-hover rounded-3xl max-w-sm w-full p-6 space-y-4 relative animate-fadeIn text-center">
+                <button onclick="closeDayImagesModal()" class="absolute top-4 right-4 text-app-subtext hover:text-white w-7 h-7 rounded-full bg-input-bg flex items-center justify-center cursor-pointer">
+                    <i class="fa-solid fa-xmark text-xs"></i>
+                </button>
+
+                <h3 class="text-base font-bold text-white">Upload de Fotos do Dia</h3>
+                <p class="text-[10px] text-app-subtext">Cole a URL da foto ou selecione do dispositivo</p>
+
+                <!-- RETÂNGULO MINIMALISTA DE UPLOAD/INSERÇÃO -->
+                <div class="border-2 border-dashed border-emerald-500/50 bg-emerald-950/10 rounded-2xl p-4 flex flex-col items-center justify-center space-y-2 cursor-pointer hover:bg-emerald-950/20 transition">
+                    <i class="fa-solid fa-cloud-arrow-up text-emerald-400 text-2xl"></i>
+                    <div class="w-full ui-field-group !mt-1">
+                        <input type="text" id="modal-photo-url-input" placeholder="Cole a URL da foto aqui..." class="ui-input !text-xs !py-1.5 text-center">
+                    </div>
+                    <button onclick="addPhotoFromModalInput()" class="bg-emerald-500 hover:bg-emerald-600 text-black font-extrabold px-3 py-1 rounded-xl text-[10px] cursor-pointer shadow">
+                        Adicionar Foto
+                    </button>
+                </div>
+
+                <!-- LISTA DE FOTOS CARREGADAS (CARDS COMPACTOS COM PREVIEW PEQUENA) -->
+                <div id="modal-photos-loaded-list" class="space-y-2 max-h-48 overflow-y-auto no-scrollbar pt-2 text-left"></div>
+            </div>
+        </div>
 
         <!-- MODAL ADICIONAR VIAGEM -->
         <div id="modal-add-travel" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
@@ -1185,7 +1191,6 @@
                         </div>
                     </div>
 
-                    <!-- CAMPO PREÇO COM "(OPCIONAL)" REMOVIDO DO RÓTULO -->
                     <div class="ui-field-group">
                         <span class="ui-field-label">Preço</span>
                         <input type="number" id="s-price" step="0.01" placeholder="R$ 0,00" class="ui-input">
@@ -1318,7 +1323,7 @@
 
     </main>
 
-    <!-- MODAL DO MENU DE NAVEGAÇÃO DE 3 FILEIRAS -->
+    <!-- MODAL DO MENU DE NAVEGAÇÃO -->
     <div id="nav-drawer-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="bg-[#141414] border border-app-card-hover rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative animate-fadeIn">
             <button onclick="closeNavigationMenu()" class="absolute top-4 right-4 text-app-subtext hover:text-white w-8 h-8 rounded-full bg-input-bg flex items-center justify-center cursor-pointer">
@@ -1456,7 +1461,7 @@
         </nav>
     </div>
 
-    <!-- JAVASCRIPT COMPLETO E LÓGICA DE DADOS -->
+    <!-- JAVASCRIPT COMPLETO -->
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
@@ -2463,7 +2468,6 @@
                                 ${i.desc ? i.desc : '<span class="italic text-app-subtext/50">Sem descrição/ingredientes cadastrados.</span>'}
                             </div>
 
-                            <!-- OPÇÕES DE AÇÃO OCULTAS POR PADRÃO (EXIBIDAS APENAS AO APERTAR E SEGURAR) -->
                             <div id="m-actions-${i.id}" class="hidden absolute right-3 top-3 bg-input-bg border border-app-accent/40 rounded-xl shadow-xl px-2 py-1 flex gap-2 z-20 animate-fadeIn">
                                 <button onclick="event.stopPropagation(); editMenu(${i.id})" class="text-app-accent hover:text-white p-1 text-xs cursor-pointer" title="Editar"><i class="fa-solid fa-pen"></i></button>
                                 <button onclick="event.stopPropagation(); deleteMenu(${i.id})" class="text-color-cardinal font-bold p-1 text-xs cursor-pointer" title="Excluir"><i class="fa-solid fa-trash"></i></button>
@@ -2472,6 +2476,7 @@
                     `;
                 });
             } else {
+                // VISÃO SEMANAL AJUSTADA COM PRESSIONAR E SEGURAR (SEM ÍCONES VISÍVEIS)
                 const monday = getMondayOfOffsetWeek(currentWeekOffset);
                 const daysName = ['Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado', 'Domingo'];
 
@@ -2497,14 +2502,17 @@
                     } else {
                         dayItems.forEach(i => {
                             dayCard += `
-                                <div class="flex justify-between items-center py-1 border-b border-app-card-hover/40 last:border-0 text-xs">
+                                <div class="relative py-1.5 border-b border-app-card-hover/40 last:border-0 text-xs flex justify-between items-center"
+                                     ontouchstart="handleMenuPressStart(${i.id})" ontouchend="handleMenuPressEnd()"
+                                     onmousedown="handleMenuPressStart(${i.id})" onmouseup="handleMenuPressEnd()" onmouseleave="handleMenuPressEnd()">
                                     <div>
                                         <span class="font-bold text-white block">${i.dish}</span>
                                         <span class="text-[10px] text-app-subtext">${i.type}</span>
                                     </div>
-                                    <div class="flex gap-2">
-                                        <button onclick="editMenu(${i.id})" class="text-app-subtext hover:text-white text-xs p-1"><i class="fa-solid fa-pen"></i></button>
-                                        <button onclick="deleteMenu(${i.id})" class="text-color-cardinal text-xs p-1"><i class="fa-solid fa-trash"></i></button>
+
+                                    <div id="m-actions-${i.id}" class="hidden absolute right-0 top-1/2 -translate-y-1/2 bg-input-bg border border-app-accent/40 rounded-xl shadow-xl px-2 py-1 flex gap-2 z-20 animate-fadeIn">
+                                        <button onclick="event.stopPropagation(); editMenu(${i.id})" class="text-app-accent hover:text-white p-1 text-xs cursor-pointer" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                        <button onclick="event.stopPropagation(); deleteMenu(${i.id})" class="text-color-cardinal font-bold p-1 text-xs cursor-pointer" title="Excluir"><i class="fa-solid fa-trash"></i></button>
                                     </div>
                                 </div>
                             `;
@@ -2806,7 +2814,6 @@
                 listContainer.innerHTML += catBlock;
             });
 
-            // RENDERIZAR GRÁFICO DE ROSCA DOS CUSTOS POR CATEGORIA
             const chartCanvas = document.getElementById('travelBudgetChart');
             if(chartCanvas) {
                 if(travelBudgetChartInstance) travelBudgetChartInstance.destroy();
@@ -2884,7 +2891,6 @@
             if(confirm("Excluir este dia do itinerário?")) {
                 const t = await db.travels.get(currentTravelId);
                 t.days.splice(dayIdx, 1);
-                // Reordenar os números dos dias
                 t.days.forEach((d, i) => d.dayNum = i + 1);
                 await db.travels.update(currentTravelId, { days: t.days });
                 renderTravelDays();
@@ -2921,7 +2927,6 @@
                             <p class="text-[10px] text-app-subtext">${stopsCount} ${stopsCount === 1 ? 'stop' : 'stops'}</p>
                         </div>
 
-                        <!-- OPÇÕES DE AÇÃO DO DIA (EXIBIDAS AO APERTAR E SEGURAR) -->
                         <div id="td-actions-${idx}" class="hidden absolute right-3 top-3 bg-input-bg border border-app-accent/40 rounded-xl shadow-xl px-2 py-1 flex gap-2 z-20 animate-fadeIn">
                             <button onclick="event.stopPropagation(); deleteTravelDay(${idx})" class="text-color-cardinal font-bold p-1 text-xs cursor-pointer" title="Excluir Dia"><i class="fa-solid fa-trash"></i> Excluir</button>
                         </div>
@@ -2938,7 +2943,6 @@
             document.getElementById('day-detail-country-title').innerText = t.country;
             document.getElementById('day-detail-number-title').innerText = `Day ${d.dayNum}`;
 
-            // CARROSSEL DE IMAGENS NO TOPO (AUMENTADO)
             const heroCarousel = document.getElementById('day-detail-hero-carousel');
             heroCarousel.innerHTML = '';
             const imgList = d.imgUrls && d.imgUrls.length > 0 ? d.imgUrls : [d.imgUrl || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500'];
@@ -2966,19 +2970,66 @@
             renderTravelDays();
         }
 
-        async function editDayImages() {
+        /* MODAL MINIMALISTA DE FOTOS JS (CONFORME A IMAGEM DE REFERÊNCIA) */
+        function openDayImagesModal() {
+            document.getElementById('modal-day-photos').classList.remove('hidden');
+            renderModalPhotosList();
+        }
+
+        function closeDayImagesModal() {
+            document.getElementById('modal-day-photos').classList.add('hidden');
+            openDayDetail(currentDayIndex);
+        }
+
+        async function renderModalPhotosList() {
             const t = await db.travels.get(currentTravelId);
             const d = t.days[currentDayIndex];
-            const currentList = d.imgUrls && d.imgUrls.length > 0 ? d.imgUrls.join('\n') : (d.imgUrl || '');
+            const list = d.imgUrls || [];
+            const container = document.getElementById('modal-photos-loaded-list');
+            container.innerHTML = '';
 
-            const newUrls = prompt("Insira as URLs das imagens para o topo (uma por linha):", currentList);
-            if(newUrls === null) return;
+            if(list.length === 0) {
+                container.innerHTML = '<p class="text-[10px] text-app-subtext text-center italic">Nenhuma foto adicionada ainda.</p>';
+                return;
+            }
 
-            const urlsArray = newUrls.split('\n').map(u => u.trim()).filter(u => u !== '');
-            d.imgUrls = urlsArray.length > 0 ? urlsArray : ['https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500'];
+            list.forEach((imgUrl, idx) => {
+                container.innerHTML += `
+                    <div class="bg-input-bg border border-app-card-hover rounded-xl p-2 flex items-center justify-between shadow-sm">
+                        <div class="flex items-center gap-2 overflow-hidden pr-2">
+                            <img src="${imgUrl}" class="w-8 h-8 rounded-lg object-cover flex-shrink-0 border border-white/10">
+                            <span class="text-[10px] font-semibold text-white truncate max-w-[170px]">${imgUrl}</span>
+                        </div>
+                        <button onclick="removePhotoFromModal(${idx})" class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white flex items-center justify-center font-bold text-xs cursor-pointer flex-shrink-0 transition">
+                            -
+                        </button>
+                    </div>
+                `;
+            });
+        }
 
+        async function addPhotoFromModalInput() {
+            const input = document.getElementById('modal-photo-url-input');
+            const urlVal = input.value.trim();
+            if(!urlVal) return alert("Digite ou cole a URL da imagem.");
+
+            const t = await db.travels.get(currentTravelId);
+            const d = t.days[currentDayIndex];
+            if(!d.imgUrls) d.imgUrls = [];
+
+            d.imgUrls.push(urlVal);
             await db.travels.update(currentTravelId, { days: t.days });
-            openDayDetail(currentDayIndex);
+
+            input.value = '';
+            renderModalPhotosList();
+        }
+
+        async function removePhotoFromModal(idx) {
+            const t = await db.travels.get(currentTravelId);
+            const d = t.days[currentDayIndex];
+            d.imgUrls.splice(idx, 1);
+            await db.travels.update(currentTravelId, { days: t.days });
+            renderModalPhotosList();
         }
 
         function renderDayTimeline(stops) {
@@ -2990,7 +3041,6 @@
                 return;
             }
 
-            // ORDENAÇÃO CRONOLÓGICA AUTOMÁTICA
             stops.sort((a, b) => (a.time || '00:00').localeCompare(b.time || '00:00'));
 
             stops.forEach((s, idx) => {
@@ -2999,7 +3049,6 @@
                          ontouchstart="handleTravelPressStart('stop', ${currentDayIndex}, ${idx})" ontouchend="handleTravelPressEnd()"
                          onmousedown="handleTravelPressStart('stop', ${currentDayIndex}, ${idx})" onmouseup="handleTravelPressEnd()" onmouseleave="handleTravelPressEnd()">
                         
-                        <!-- Bolinha na linha do tempo -->
                         <div class="absolute -left-[27px] top-1 w-3 h-3 rounded-full bg-app-accent border-2 border-black"></div>
                         
                         <div class="flex items-start gap-4">
@@ -3010,7 +3059,6 @@
                             </div>
                         </div>
 
-                        <!-- OPÇÃO DE EXCLUIR ATIVIDADE (EXIBIDA AO APERTAR E SEGURAR) -->
                         <div id="stop-actions-${idx}" class="hidden absolute right-0 top-0 bg-input-bg border border-app-accent/40 rounded-xl shadow-xl px-2 py-1 flex gap-2 z-20 animate-fadeIn">
                             <button onclick="removeTimelineStop(${idx})" class="text-color-cardinal font-bold p-1 text-xs cursor-pointer"><i class="fa-solid fa-trash"></i> Excluir</button>
                         </div>
