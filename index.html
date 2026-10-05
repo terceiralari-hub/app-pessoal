@@ -87,7 +87,7 @@
             width: 100%; background-color: #1C1C1E; color: inherit;
             font-size: 13px; font-weight: 500; padding: 11px 14px;
             border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex; justify-between: space-between; align-items: center;
             cursor: pointer; transition: all 0.2s ease; user-select: none;
         }
         html.light .custom-select-trigger { background-color: #F2F2F7; }
@@ -127,23 +127,76 @@
         
         <!-- ================= TELA INICIAL / HOME ================= -->
         <section id="tab-home" class="tab-content active p-0">
-            <div class="relative w-full h-screen h-[100dvh] overflow-hidden flex flex-col justify-center items-center p-6 bg-black">
+            <div class="relative w-full h-screen h-[100dvh] overflow-hidden flex flex-col justify-end p-6 bg-black">
+                <!-- Imagem de Fundo -->
                 <img src="423.png" alt="Personagem" class="absolute inset-0 w-full h-full object-cover object-center opacity-85 z-0 pointer-events-none">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/60 z-10 pointer-events-none"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30 z-10 pointer-events-none"></div>
 
-                <div class="relative z-20 space-y-2 text-center my-auto">
-                    <h2 class="text-3xl font-extrabold text-white tracking-tight drop-shadow-md">
-                        Bem-vinda de volta
-                    </h2>
-                    <p class="text-sm font-semibold text-app-accent/90 tracking-wide drop-shadow">
-                        vamos começar?
-                    </p>
-                </div>
+                <!-- Menu Estático Sobreposto com Transparência -->
+                <div class="relative z-20 w-full mb-6">
+                    <div class="bg-black/40 backdrop-blur-md border border-white/15 rounded-3xl p-5 text-center shadow-2xl space-y-4">
+                        <div class="grid grid-cols-2 gap-3 text-left">
+                            <button onclick="nav('dashboard')" class="bg-white/10 hover:bg-white/20 p-3 rounded-2xl border border-white/10 flex items-center gap-3 transition cursor-pointer backdrop-blur-sm">
+                                <div class="w-9 h-9 rounded-xl bg-app-accent/20 text-app-accent flex items-center justify-center font-bold text-sm">
+                                    <i class="fa-solid fa-wallet"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Financeiro</span>
+                                    <span class="text-[9px] text-gray-300">Gastos e Tetos</span>
+                                </div>
+                            </button>
 
-                <div class="absolute bottom-6 right-6 z-20">
-                    <button onclick="openNavigationMenu()" class="w-12 h-12 bg-gradient-to-r from-app-accent-blue to-app-accent hover:scale-105 active:scale-95 text-white rounded-2xl shadow-2xl flex items-center justify-center border border-white/20 backdrop-blur-md transition cursor-pointer">
-                        <i class="fa-solid fa-list text-xl"></i>
-                    </button>
+                            <button onclick="nav('investments')" class="bg-white/10 hover:bg-white/20 p-3 rounded-2xl border border-white/10 flex items-center gap-3 transition cursor-pointer backdrop-blur-sm">
+                                <div class="w-9 h-9 rounded-xl bg-app-accent-blue/20 text-app-accent-blue flex items-center justify-center font-bold text-sm">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Investimentos</span>
+                                    <span class="text-[9px] text-gray-300">Patrimônio</span>
+                                </div>
+                            </button>
+
+                            <button onclick="nav('shopping')" class="bg-white/10 hover:bg-white/20 p-3 rounded-2xl border border-white/10 flex items-center gap-3 transition cursor-pointer backdrop-blur-sm">
+                                <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Compras</span>
+                                    <span class="text-[9px] text-gray-300">Supermercado</span>
+                                </div>
+                            </button>
+
+                            <button onclick="nav('menu')" class="bg-white/10 hover:bg-white/20 p-3 rounded-2xl border border-white/10 flex items-center gap-3 transition cursor-pointer backdrop-blur-sm">
+                                <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm">
+                                    <i class="fa-solid fa-utensils"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Cardápio</span>
+                                    <span class="text-[9px] text-gray-300">Refeições</span>
+                                </div>
+                            </button>
+
+                            <button onclick="nav('travel')" class="bg-white/10 hover:bg-white/20 p-3 rounded-2xl border border-white/10 flex items-center gap-3 transition cursor-pointer backdrop-blur-sm">
+                                <div class="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">
+                                    <i class="fa-solid fa-plane"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Viagens</span>
+                                    <span class="text-[9px] text-gray-300">Roteiros</span>
+                                </div>
+                            </button>
+
+                            <button onclick="nav('settings')" class="bg-white/10 hover:bg-white/20 p-3 rounded-2xl border border-white/10 flex items-center gap-3 transition cursor-pointer backdrop-blur-sm">
+                                <div class="w-9 h-9 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-sm">
+                                    <i class="fa-solid fa-gear"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Ajustes</span>
+                                    <span class="text-[9px] text-gray-300">Backup e Dados</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -758,7 +811,6 @@
                 </div>
             </div>
 
-            <!-- SIMULADOR NO FINAL -->
             <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-4">
                 <button onclick="toggleSimuladorPanel()" class="w-full text-left font-bold text-xs text-app-accent flex justify-between items-center cursor-pointer">
                     <span><i class="fa-solid fa-calculator mr-1.5"></i> Simulador de Investimentos</span>
@@ -1136,42 +1188,29 @@
                 </div>
             </div>
 
+            <!-- FORMULÁRIO COM CALCULADORA EMBUTIDA (QTD x PREÇO UNITÁRIO) -->
             <form id="form-shopping" class="flex flex-col gap-3 bg-app-card border border-app-card-hover p-4 rounded-2xl shadow">
                 <div class="ui-field-group">
                     <span class="ui-field-label">Nome do Item</span>
-                    <input type="text" id="s-item" placeholder="Ex: Queijo Muçarela, Detergente..." required class="ui-input">
+                    <input type="text" id="s-item" placeholder="Ex: Açúcar, Queijo, Detergente..." required class="ui-input">
                 </div>
 
-                <div class="grid grid-cols-3 gap-2">
+                <div class="grid grid-cols-2 gap-2">
                     <div class="ui-field-group">
-                        <span class="ui-field-label">Qtd</span>
-                        <input type="number" id="s-qtd-num" placeholder="1" step="0.1" min="0.1" required class="ui-input">
-                    </div>
-                    <div class="ui-field-group">
-                        <span class="ui-field-label">Unidade</span>
-                        <div class="custom-select-container" data-id="s-unit">
-                            <div class="custom-select-trigger !px-2 !text-xs" tabindex="0">
-                                <span class="trigger-label">unidade</span>
-                                <i class="fa-solid fa-chevron-down text-app-accent text-[8px]"></i>
-                            </div>
-                            <div class="custom-select-options">
-                                <div class="custom-option selected" data-value="unidade">unidade</div>
-                                <div class="custom-option" data-value="kg">kg</div>
-                                <div class="custom-option" data-value="g">g</div>
-                                <div class="custom-option" data-value="l">l</div>
-                                <div class="custom-option" data-value="ml">ml</div>
-                                <div class="custom-option" data-value="pacote">pacote</div>
-                                <div class="custom-option" data-value="caixa">caixa</div>
-                                <div class="custom-option" data-value="dúzia">dúzia</div>
-                            </div>
-                            <input type="hidden" id="s-unit" value="unidade">
-                        </div>
+                        <span class="ui-field-label">Quantidade</span>
+                        <input type="number" id="s-qtd-num" placeholder="1" step="0.1" min="0.1" required oninput="calculateShoppingTotal()" class="ui-input">
                     </div>
 
                     <div class="ui-field-group">
-                        <span class="ui-field-label">Preço</span>
-                        <input type="number" id="s-price" step="0.01" placeholder="R$ 0,00" class="ui-input">
+                        <span class="ui-field-label">Preço Unitário (R$)</span>
+                        <input type="number" id="s-price-unit" step="0.01" placeholder="Ex: 4,38" oninput="calculateShoppingTotal()" class="ui-input">
                     </div>
+                </div>
+
+                <!-- Painel de Resultado da Calculadora Embutida -->
+                <div class="flex justify-between items-center bg-input-bg px-3 py-2 rounded-xl border border-app-card-hover text-xs">
+                    <span class="text-app-subtext font-semibold">Total Calculado:</span>
+                    <span id="s-calc-preview" class="font-extrabold text-app-accent">R$ 0,00</span>
                 </div>
 
                 <div class="ui-field-group">
@@ -1252,17 +1291,17 @@
                 <div class="grid grid-cols-2 gap-2">
                     <div class="ui-field-group">
                         <span class="ui-field-label">Quantidade</span>
-                        <input type="number" step="0.1" id="modal-edit-s-qtd" class="ui-input">
+                        <input type="number" step="0.1" id="modal-edit-s-qtd" oninput="calculateModalEditTotal()" class="ui-input">
                     </div>
                     <div class="ui-field-group">
-                        <span class="ui-field-label">Unidade</span>
-                        <input type="text" id="modal-edit-s-unit" placeholder="ex: kg, un" class="ui-input">
+                        <span class="ui-field-label">Preço Unitário (R$)</span>
+                        <input type="number" step="0.01" id="modal-edit-s-price-unit" oninput="calculateModalEditTotal()" class="ui-input">
                     </div>
                 </div>
 
-                <div class="ui-field-group">
-                    <span class="ui-field-label">Preço Total (R$)</span>
-                    <input type="number" step="0.01" id="modal-edit-s-price" class="ui-input">
+                <div class="flex justify-between items-center bg-input-bg px-3 py-2 rounded-xl border border-app-card-hover text-xs">
+                    <span class="text-app-subtext font-semibold">Total Calculado:</span>
+                    <span id="modal-edit-s-calc-preview" class="font-extrabold text-app-accent">R$ 0,00</span>
                 </div>
 
                 <div class="ui-field-group">
@@ -1370,80 +1409,6 @@
 
     </main>
 
-    <!-- MODAL DO MENU DE NAVEGAÇÃO -->
-    <div id="nav-drawer-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-[#141414] border border-app-card-hover rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative animate-fadeIn">
-            <button onclick="closeNavigationMenu()" class="absolute top-4 right-4 text-app-subtext hover:text-white w-8 h-8 rounded-full bg-input-bg flex items-center justify-center cursor-pointer">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <h3 class="text-lg font-bold text-white mb-1">Para onde vamos?</h3>
-            <p class="text-xs text-app-subtext mb-5">Escolha uma seção para navegar:</p>
-
-            <div class="grid grid-cols-2 gap-3 text-left">
-                <button onclick="closeNavigationMenu(); nav('dashboard')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition cursor-pointer">
-                    <div class="w-9 h-9 rounded-xl bg-app-accent/10 text-app-accent flex items-center justify-center font-bold text-sm">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
-                    <div>
-                        <span class="text-xs font-bold text-white block">Financeiro</span>
-                        <span class="text-[9px] text-app-subtext">Gastos e Tetos</span>
-                    </div>
-                </button>
-
-                <button onclick="closeNavigationMenu(); nav('investments')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition cursor-pointer">
-                    <div class="w-9 h-9 rounded-xl bg-app-accent-blue/10 text-app-accent-blue flex items-center justify-center font-bold text-sm">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <div>
-                        <span class="text-xs font-bold text-white block">Investimentos</span>
-                        <span class="text-[9px] text-app-subtext">Patrimônio</span>
-                    </div>
-                </button>
-
-                <button onclick="closeNavigationMenu(); nav('shopping')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition cursor-pointer">
-                    <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-sm">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div>
-                        <span class="text-xs font-bold text-white block">Compras</span>
-                        <span class="text-[9px] text-app-subtext">Supermercado</span>
-                    </div>
-                </button>
-
-                <button onclick="closeNavigationMenu(); nav('menu')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition cursor-pointer">
-                    <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-sm">
-                        <i class="fa-solid fa-utensils"></i>
-                    </div>
-                    <div>
-                        <span class="text-xs font-bold text-white block">Cardápio</span>
-                        <span class="text-[9px] text-app-subtext">Refeições</span>
-                    </div>
-                </button>
-
-                <button onclick="closeNavigationMenu(); nav('travel')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition cursor-pointer">
-                    <div class="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-sm">
-                        <i class="fa-solid fa-plane"></i>
-                    </div>
-                    <div>
-                        <span class="text-xs font-bold text-white block">Viagens</span>
-                        <span class="text-[9px] text-app-subtext">Roteiros</span>
-                    </div>
-                </button>
-
-                <button onclick="closeNavigationMenu(); nav('settings')" class="bg-input-bg hover:bg-app-card-hover p-3 rounded-2xl border border-app-card-hover flex items-center gap-3 transition cursor-pointer">
-                    <div class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center font-bold text-sm">
-                        <i class="fa-solid fa-gear"></i>
-                    </div>
-                    <div>
-                        <span class="text-xs font-bold text-white block">Ajustes</span>
-                        <span class="text-[9px] text-app-subtext">Backup e Dados</span>
-                    </div>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- MODAL DE CONFIRMAÇÃO -->
     <div id="custom-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-[#141414] border border-app-card-hover rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl relative animate-fadeIn">
@@ -1511,13 +1476,6 @@
     <!-- JAVASCRIPT COMPLETO -->
     <script>
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
-
-        function openNavigationMenu() {
-            document.getElementById('nav-drawer-modal').classList.remove('hidden');
-        }
-        function closeNavigationMenu() {
-            document.getElementById('nav-drawer-modal').classList.add('hidden');
-        }
 
         function initCustomDropdowns() {
             document.querySelectorAll('.custom-select-container').forEach(container => {
@@ -1621,9 +1579,9 @@
         }
 
         const db = new Dexie("FinPWA_DB");
-        db.version(19).stores({
+        db.version(20).stores({
             transactions: '++id, type, amount, description, category, subcategory, date, payer, details, sharedPayer, userAmount',
-            shopping: '++id, text, quantity, price, category, done, dateMonth',
+            shopping: '++id, text, quantity, priceUnit, priceTotal, category, done, dateMonth',
             shopping_history: '++id, marketName, dateStr, total, dateMonth, items',
             menu: '++id, dish, type, desc, dateStr',
             investments: '++id, name, category, bank, amount, rate, indexer, acqMonth, vencMonth, status',
@@ -2188,36 +2146,52 @@
             loadShopping();
         }
 
+        // CALCULADORA EMBUTIDA (QTD x PREÇO UNITÁRIO)
+        function calculateShoppingTotal() {
+            const qtd = parseFloat(document.getElementById('s-qtd-num').value) || 0;
+            const priceUnit = parseFloat(document.getElementById('s-price-unit').value) || 0;
+            const total = qtd * priceUnit;
+            document.getElementById('s-calc-preview').innerText = formatCurrency(total);
+        }
+
+        function calculateModalEditTotal() {
+            const qtd = parseFloat(document.getElementById('modal-edit-s-qtd').value) || 0;
+            const priceUnit = parseFloat(document.getElementById('modal-edit-s-price-unit').value) || 0;
+            const total = qtd * priceUnit;
+            document.getElementById('modal-edit-s-calc-preview').innerText = formatCurrency(total);
+        }
+
         document.getElementById('form-shopping').addEventListener('submit', async (e) => {
             e.preventDefault();
             const itemInput = document.getElementById('s-item');
-            const qtdNumInput = document.getElementById('s-qtd-num');
-            const unitInput = document.getElementById('s-unit');
-            const priceInput = document.getElementById('s-price');
+            const qtdInput = document.getElementById('s-qtd-num');
+            const priceUnitInput = document.getElementById('s-price-unit');
             const categoryInput = document.getElementById('s-category');
             const monthFilterInput = document.getElementById('s-month-filter');
 
-            if (!itemInput.value || !qtdNumInput.value) return;
+            if (!itemInput.value || !qtdInput.value) return;
 
-            const qtdStr = `${qtdNumInput.value} ${unitInput.value}`;
-            const priceVal = priceInput.value ? parseFloat(priceInput.value) : 0;
+            const qtd = parseFloat(qtdInput.value) || 1;
+            const priceUnit = priceUnitInput.value ? parseFloat(priceUnitInput.value) : 0;
+            const priceTotal = qtd * priceUnit;
 
             await db.shopping.add({
                 text: itemInput.value,
-                quantity: qtdStr,
-                price: priceVal,
+                quantity: qtd,
+                priceUnit: priceUnit,
+                priceTotal: priceTotal,
                 category: categoryInput.value,
                 done: false,
                 dateMonth: monthFilterInput.value
             });
 
             itemInput.value = ''; 
-            qtdNumInput.value = '';
-            priceInput.value = '';
+            qtdInput.value = '';
+            priceUnitInput.value = '';
+            document.getElementById('s-calc-preview').innerText = 'R$ 0,00';
             loadShopping();
         });
 
-        // AJUSTADO: TEMPO DOBRADO PARA PRESCIONAR (1000ms)
         function handleShoppingPressStart(id) {
             clearTimeout(shoppingPressTimer);
             shoppingPressTimer = setTimeout(() => {
@@ -2238,7 +2212,7 @@
             const container = document.getElementById('shopping-list-container');
             container.innerHTML = '';
             
-            let totalAccumulatedDone = 0; // AJUSTADO: APENAS MARCADOS
+            let totalAccumulatedDone = 0;
 
             if(items.length === 0) { 
                 container.innerHTML = '<p class="text-center text-app-subtext py-6 text-sm">Lista de compras vazia neste mês.</p>'; 
@@ -2263,9 +2237,9 @@
                 const catKey = (i.category === "Outras despesas" || !grouped[i.category]) ? "Outros" : i.category;
                 grouped[catKey].push(i);
                 
-                // CONTABILIZAR APENAS SE TIVER PREÇO E ESTIVER MARCADO COMO "DONE"
-                if(i.done && i.price) {
-                    totalAccumulatedDone += parseFloat(i.price);
+                const itemTotal = i.priceTotal !== undefined ? i.priceTotal : (i.price || 0);
+                if(i.done && itemTotal) {
+                    totalAccumulatedDone += parseFloat(itemTotal);
                 }
             });
 
@@ -2291,7 +2265,8 @@
 
                     grouped[cat].forEach(i => {
                         const doneClass = i.done ? 'shopping-item-done' : '';
-                        const priceDisplay = (i.price && isShowPrices) ? `<span class="text-[11px] font-semibold text-app-accent mr-2">${formatCurrency(i.price)}</span>` : '';
+                        const itemTotal = i.priceTotal !== undefined ? i.priceTotal : (i.price || 0);
+                        const priceDisplay = (itemTotal && isShowPrices) ? `<span class="text-[11px] font-semibold text-app-accent mr-2">${formatCurrency(itemTotal)}</span>` : '';
 
                         htmlCard += `
                             <div class="relative py-1 border-b border-app-card-hover/40 last:border-0"
@@ -2306,7 +2281,7 @@
 
                                     <div class="flex items-center flex-shrink-0">
                                         ${priceDisplay}
-                                        <span class="text-app-subtext text-xs font-semibold bg-input-bg px-2 py-0.5 rounded-md border border-app-card-hover">${i.quantity}</span>
+                                        <span class="text-app-subtext text-xs font-semibold bg-input-bg px-2 py-0.5 rounded-md border border-app-card-hover">Qtd: ${i.quantity}</span>
                                     </div>
                                 </div>
 
@@ -2330,26 +2305,20 @@
             renderShoppingHistoryList();
         }
 
-        // POP-UP / MODAL DE EDIÇÃO UNIFICADA
         async function openEditShoppingModal(id) {
             const item = await db.shopping.get(id);
             if(!item) return;
 
             document.getElementById('modal-edit-s-id').value = item.id;
             document.getElementById('modal-edit-s-text').value = item.text || '';
-            
-            const parts = (item.quantity || '').split(' ');
-            const qtdNum = parts[0] || '1';
-            const unitStr = parts.slice(1).join(' ') || 'unidade';
-
-            document.getElementById('modal-edit-s-qtd').value = parseFloat(qtdNum) || 1;
-            document.getElementById('modal-edit-s-unit').value = unitStr;
-            document.getElementById('modal-edit-s-price').value = item.price || '';
+            document.getElementById('modal-edit-s-qtd').value = item.quantity || 1;
+            document.getElementById('modal-edit-s-price-unit').value = item.priceUnit || '';
             
             const categoryVal = item.category || 'Mercearia';
             document.getElementById('modal-edit-s-category').value = categoryVal;
             document.getElementById('modal-edit-s-cat-label').innerText = categoryVal;
 
+            calculateModalEditTotal();
             document.getElementById('modal-edit-shopping').classList.remove('hidden');
         }
 
@@ -2360,17 +2329,18 @@
         async function saveEditShoppingModal() {
             const id = parseInt(document.getElementById('modal-edit-s-id').value, 10);
             const text = document.getElementById('modal-edit-s-text').value.trim();
-            const qtdNum = document.getElementById('modal-edit-s-qtd').value || '1';
-            const unitStr = document.getElementById('modal-edit-s-unit').value.trim() || 'unidade';
-            const priceVal = parseFloat(document.getElementById('modal-edit-s-price').value) || 0;
+            const qtd = parseFloat(document.getElementById('modal-edit-s-qtd').value) || 1;
+            const priceUnit = parseFloat(document.getElementById('modal-edit-s-price-unit').value) || 0;
+            const priceTotal = qtd * priceUnit;
             const categoryVal = document.getElementById('modal-edit-s-category').value;
 
             if(!text) return alert("Digite o nome do item.");
 
             await db.shopping.update(id, {
                 text: text,
-                quantity: `${qtdNum} ${unitStr}`,
-                price: priceVal,
+                quantity: qtd,
+                priceUnit: priceUnit,
+                priceTotal: priceTotal,
                 category: categoryVal
             });
 
@@ -2378,7 +2348,6 @@
             loadShopping();
         }
 
-        // OPÇÃO 2: FINALIZAR COMPRA E SALVAR NO HISTÓRICO
         async function finishShoppingSession() {
             const filterMonth = document.getElementById('s-month-filter').value;
             const items = await db.shopping.where('dateMonth').equals(filterMonth).toArray();
@@ -2390,8 +2359,9 @@
 
             let totalSpent = 0;
             const savedItems = items.map(i => {
-                if(i.done && i.price) totalSpent += parseFloat(i.price);
-                return { text: i.text, quantity: i.quantity, price: i.price, category: i.category, done: i.done };
+                const itemTotal = i.priceTotal !== undefined ? i.priceTotal : (i.price || 0);
+                if(i.done && itemTotal) totalSpent += parseFloat(itemTotal);
+                return { text: i.text, quantity: i.quantity, price: itemTotal, category: i.category, done: i.done };
             });
 
             const dateToday = new Date().toLocaleDateString('pt-BR');
@@ -2404,7 +2374,6 @@
                 items: savedItems
             });
 
-            // LIMPA A LISTA ATUAL PARA INICIAR A PRÓXIMA COMPRA DO ZERO
             await db.shopping.bulkDelete(items.map(i => i.id));
             
             showModal('Compra Finalizada!', `Compra no ${marketName} registrada com total de ${formatCurrency(totalSpent)}. A lista foi zerada para novas compras.`);
@@ -2435,7 +2404,7 @@
                 let itemsListHtml = '';
                 (h.items || []).forEach(i => {
                     if(i.done) {
-                        itemsListHtml += `<div class="flex justify-between text-[11px] text-app-subtext"><span>- ${i.text} (${i.quantity})</span><span>${i.price ? formatCurrency(i.price) : 'R$ 0,00'}</span></div>`;
+                        itemsListHtml += `<div class="flex justify-between text-[11px] text-app-subtext"><span>- ${i.text} (Qtd: ${i.quantity})</span><span>${i.price ? formatCurrency(i.price) : 'R$ 0,00'}</span></div>`;
                     }
                 });
 
@@ -2488,8 +2457,9 @@
                 if(catItems.length > 0) {
                     msg += `*${cat.toUpperCase()}*\n`;
                     catItems.forEach(i => {
-                        const pr = i.price ? ` - ${formatCurrency(i.price)}` : '';
-                        msg += `${i.done ? '✅' : '▫️'} ${i.text} (${i.quantity})${pr}\n`;
+                        const itemTotal = i.priceTotal !== undefined ? i.priceTotal : (i.price || 0);
+                        const pr = itemTotal ? ` - ${formatCurrency(itemTotal)}` : '';
+                        msg += `${i.done ? '✅' : '▫️'} ${i.text} (Qtd: ${i.quantity})${pr}\n`;
                     });
                     msg += `\n`;
                 }
@@ -2503,7 +2473,6 @@
         let selectedMenuDateStr = new Date().toISOString().slice(0, 10);
         let menuPressTimer = null;
 
-        // AJUSTADO: TEMPO DOBRADO PARA PRESCIONAR (1000ms)
         function handleMenuPressStart(id) {
             clearTimeout(menuPressTimer);
             menuPressTimer = setTimeout(() => {
@@ -3011,7 +2980,6 @@
             }
         }
 
-        // AJUSTADO: TEMPO DOBRADO PARA PRESCIONAR (1000ms)
         function handleTravelPressStart(type, dayIdx, stopIdx = null) {
             clearTimeout(travelPressTimer);
             travelPressTimer = setTimeout(() => {
