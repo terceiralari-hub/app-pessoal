@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Casinha - Gestão Pessoal</title>
     
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#EE9F80">
+    <meta name="theme-color" content="#0A0A0A">
     <link rel="icon" href="355.png">
     <link rel="apple-touch-icon" href="355.png">
 
@@ -14,26 +14,28 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        'palette-linen': '#F7F5F2',
-                        'palette-sky': '#D2DDE7',
-                        'palette-berry': '#D5A0A8',
-                        'palette-sunrise': '#EE9F80',
-                        'palette-watermelon': '#E37E7F',
-                        'app-text': '#2D2D2D',
-                        'app-subtext': '#7A7A7A'
+                        'app-bg': '#0A0A0A',
+                        'app-card': '#141414',
+                        'app-card-hover': '#1F1F1F',
+                        'app-accent': '#16D6FA',
+                        'app-accent-blue': '#5274FF',
+                        'app-subtext': '#8E8E93',
+                        'input-bg': '#1C1C1E',
+                        'color-cardinal': '#FF453A',
+                        'color-vidaloca': '#30D158'
                     }
                 }
             }
         }
     </script>
 
-    <!-- FontAwesome & Dexie.js & Chart.js -->
+    <!-- FontAwesome & Dexie.js -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         ::-webkit-scrollbar { display: none; }
@@ -43,8 +45,8 @@
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             overflow-x: hidden;
-            background-color: #F7F5F2;
-            color: #2D2D2D;
+            background-color: #0A0A0A;
+            color: #FFFFFF;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
@@ -54,50 +56,31 @@
 
         .ui-field-group { position: relative; margin-top: 6px; }
         .ui-field-label {
-            position: absolute; top: -9px; left: 14px;
-            background-color: #FFFFFF; padding: 0 6px;
-            font-size: 10px; font-weight: 700; color: #7A7A7A;
+            position: absolute; top: -9px; left: 12px;
+            background-color: #141414; padding: 0 6px;
+            font-size: 10px; font-weight: 600; color: #8E8E93;
             border-radius: 4px; z-index: 10;
         }
 
         .ui-input {
-            width: 100%; background-color: #F7F5F2; color: #2D2D2D;
-            font-size: 13px; font-weight: 500; padding: 12px 16px;
-            border-radius: 18px; border: 1px solid #E5E0D8;
+            width: 100%; background-color: #1C1C1E; color: inherit;
+            font-size: 13px; font-weight: 500; padding: 11px 14px;
+            border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);
             outline: none; transition: all 0.2s ease;
         }
-        .ui-input:focus { border-color: #EE9F80; box-shadow: 0 0 0 3px rgba(238, 159, 128, 0.2); }
-
-        .custom-select-container { position: relative; width: 100%; }
-        .custom-select-trigger {
-            width: 100%; background-color: #F7F5F2; color: #2D2D2D;
-            font-size: 13px; font-weight: 500; padding: 12px 16px;
-            border-radius: 18px; border: 1px solid #E5E0D8;
-            display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; transition: all 0.2s ease; user-select: none;
-        }
-        .custom-select-container.open .custom-select-options { display: block; animation: fadeIn 0.15s ease-out; }
-
-        .custom-select-options {
-            position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-            background-color: #FFFFFF; border: 1px solid #E5E0D8;
-            border-radius: 18px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            z-index: 50; max-height: 200px; overflow-y: auto; display: none; padding: 6px;
-        }
-        .custom-option { padding: 10px 14px; font-size: 13px; font-weight: 500; border-radius: 12px; cursor: pointer; color: #2D2D2D; }
-        .custom-option:hover, .custom-option.selected { background-color: #F7F5F2; color: #EE9F80; font-weight: 700; }
+        .ui-input:focus { border-color: #16D6FA; box-shadow: 0 0 8px rgba(22, 214, 250, 0.2); }
 
         .round-cb-sm {
-            appearance: none; width: 1.1rem; height: 1.1rem;
-            border: 2px solid #D5A0A8; border-radius: 50%;
+            appearance: none; width: 1rem; height: 1rem;
+            border: 1.5px solid #5274FF; border-radius: 50%;
             display: grid; place-content: center; cursor: pointer; margin-right: 0.5rem; flex-shrink: 0;
-            position: relative; z-index: 10; background-color: #FFFFFF;
+            position: relative; z-index: 10; background-color: transparent;
         }
         .round-cb-sm::before {
-            content: ""; width: 0.55rem; height: 0.55rem; border-radius: 50%;
-            transform: scale(0); transition: 0.15s transform ease-in-out; background-color: #E37E7F;
+            content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%;
+            transform: scale(0); transition: 0.15s transform ease-in-out; box-shadow: inset 1em 1em #16D6FA;
         }
-        .round-cb-sm:checked { border-color: #E37E7F; }
+        .round-cb-sm:checked { border-color: #16D6FA; }
         .round-cb-sm:checked::before { transform: scale(1); }
 
         .item-done { opacity: 0.4; text-decoration: line-through; }
@@ -107,14 +90,16 @@
 
     <main class="max-w-md sm:max-w-xl md:max-w-2xl mx-auto p-4 space-y-5">
         
-        <!-- ================= 1. COMPRAS (MERCADO) ================= -->
+        <!-- ================= 1. COMPRAS ================= -->
         <section id="tab-shopping" class="tab-content active space-y-4">
-            <div class="bg-palette-sunrise rounded-3xl p-5 text-white shadow-sm space-y-1">
-                <span class="text-[10px] uppercase font-bold text-white/80 tracking-wider">Organização de Casa</span>
-                <h2 class="text-2xl font-black">Lista de Compras</h2>
+            <div class="flex justify-between items-center pt-2">
+                <div>
+                    <h1 class="text-xl font-extrabold text-white">Compras</h1>
+                    <p class="text-xs text-app-subtext">Lista de mercado e itens</p>
+                </div>
             </div>
 
-            <div class="bg-white border border-gray-200/60 p-4 rounded-3xl shadow-sm space-y-3">
+            <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl shadow space-y-3">
                 <form id="form-shopping" class="space-y-3">
                     <div class="ui-field-group">
                         <span class="ui-field-label">Item</span>
@@ -130,16 +115,16 @@
                             <input type="number" step="0.01" id="shop-price" placeholder="0,00" class="ui-input">
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-palette-sunrise text-white p-3 rounded-2xl font-black text-xs cursor-pointer shadow-sm hover:opacity-90 transition">
+                    <button type="submit" class="w-full bg-app-accent-blue text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer hover:opacity-90 transition">
                         + Adicionar à Lista
                     </button>
                 </form>
             </div>
 
-            <div class="bg-white border border-gray-200/60 p-4 rounded-3xl shadow-sm space-y-3">
-                <div class="flex justify-between items-center border-b border-gray-100 pb-2">
-                    <h3 class="font-bold text-xs text-app-text uppercase">Itens da Lista</h3>
-                    <span id="shopping-total" class="text-xs font-black text-palette-watermelon">Total: R$ 0,00</span>
+            <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl shadow space-y-3">
+                <div class="flex justify-between items-center border-b border-app-card-hover pb-2">
+                    <h3 class="font-bold text-xs text-white uppercase tracking-wider">Itens da Lista</h3>
+                    <span id="shopping-total" class="text-xs font-bold text-app-accent">Total: R$ 0,00</span>
                 </div>
                 <div id="shopping-list" class="space-y-2"></div>
             </div>
@@ -147,24 +132,24 @@
 
         <!-- ================= 2. CARDÁPIO ================= -->
         <section id="tab-menu" class="tab-content space-y-4">
-            <div class="bg-palette-berry rounded-3xl p-5 text-white shadow-sm space-y-1">
-                <span class="text-[10px] uppercase font-bold text-white/80 tracking-wider">Planejamento Alimentar</span>
-                <h2 class="text-2xl font-black">Cardápio da Semana</h2>
+            <div class="pt-2">
+                <h1 class="text-xl font-extrabold text-white">Cardápio</h1>
+                <p class="text-xs text-app-subtext">Planejamento das refeições</p>
             </div>
 
-            <div class="bg-white border border-gray-200/60 p-4 rounded-3xl shadow-sm space-y-3">
+            <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl shadow space-y-3">
                 <form id="form-menu" class="space-y-3">
                     <div class="grid grid-cols-2 gap-2">
                         <div class="ui-field-group">
-                            <span class="ui-field-label">Dia</span>
-                            <input type="text" id="menu-day" placeholder="Ex: Segunda, Almoço..." required class="ui-input">
+                            <span class="ui-field-label">Dia / Refeição</span>
+                            <input type="text" id="menu-day" placeholder="Ex: Segunda - Almoço" required class="ui-input">
                         </div>
                         <div class="ui-field-group">
                             <span class="ui-field-label">Prato</span>
                             <input type="text" id="menu-dish" placeholder="Ex: Frango grelhado..." required class="ui-input">
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-palette-berry text-white p-3 rounded-2xl font-black text-xs cursor-pointer shadow-sm hover:opacity-90 transition">
+                    <button type="submit" class="w-full bg-app-accent-blue text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer hover:opacity-90 transition">
                         + Salvar Refeição
                     </button>
                 </form>
@@ -175,17 +160,17 @@
 
         <!-- ================= 3. FINANCEIRO ================= -->
         <section id="tab-dashboard" class="tab-content space-y-4">
-            <div class="bg-white border border-gray-200/60 rounded-3xl shadow-sm p-5 text-center space-y-2">
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow-xl p-5 text-center space-y-2">
                 <p class="text-[10px] uppercase tracking-wider text-app-subtext font-bold">Saldo Geral</p>
-                <h2 class="text-3xl font-black text-palette-watermelon" id="dash-balance">R$ 0,00</h2>
-                <div class="flex justify-between border-t border-gray-100 pt-3 text-xs font-bold">
-                    <div class="text-emerald-600 flex items-center gap-1"><i class="fa-solid fa-arrow-up text-[10px]"></i> <span id="dash-income">R$ 0,00</span></div>
-                    <div class="text-palette-watermelon flex items-center gap-1"><i class="fa-solid fa-arrow-down text-[10px]"></i> <span id="dash-expense">R$ 0,00</span></div>
+                <h2 class="text-3xl font-extrabold text-white" id="dash-balance">R$ 0,00</h2>
+                <div class="flex justify-between border-t border-app-card-hover pt-3 text-xs font-bold">
+                    <div class="text-color-vidaloca flex items-center gap-1"><i class="fa-solid fa-arrow-up text-[10px]"></i> <span id="dash-income">R$ 0,00</span></div>
+                    <div class="text-color-cardinal flex items-center gap-1"><i class="fa-solid fa-arrow-down text-[10px]"></i> <span id="dash-expense">R$ 0,00</span></div>
                 </div>
             </div>
 
-            <div class="bg-white border border-gray-200/60 rounded-3xl shadow-sm p-4 space-y-3">
-                <h3 class="font-bold text-xs text-app-text flex items-center gap-2"><i class="fa-solid fa-plus-circle text-palette-sunrise"></i> Nova Transação</h3>
+            <div class="bg-app-card border border-app-card-hover rounded-2xl shadow p-4 space-y-3">
+                <h3 class="font-bold text-xs text-white flex items-center gap-2"><i class="fa-solid fa-plus-circle text-app-accent"></i> Nova Transação</h3>
                 <form id="form-transaction" class="space-y-3">
                     <div class="grid grid-cols-2 gap-2">
                         <div class="ui-field-group">
@@ -204,27 +189,27 @@
                         <span class="ui-field-label">Descrição</span>
                         <input type="text" id="t-desc" placeholder="Ex: Mercado, Aluguel..." required class="ui-input">
                     </div>
-                    <button type="submit" class="w-full bg-palette-sunrise text-white p-3 rounded-2xl font-black text-xs cursor-pointer shadow-sm">
+                    <button type="submit" class="w-full bg-app-accent-blue text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer shadow hover:opacity-90 transition">
                         Salvar Transação
                     </button>
                 </form>
             </div>
 
-            <div class="bg-white border border-gray-200/60 rounded-3xl p-4 shadow-sm space-y-2">
-                <h3 class="font-bold text-xs text-app-text uppercase">Últimas Movimentações</h3>
+            <div class="bg-app-card border border-app-card-hover rounded-2xl p-4 shadow space-y-2">
+                <h3 class="font-bold text-xs text-white uppercase tracking-wider">Últimas Movimentações</h3>
                 <div id="transaction-list" class="space-y-2"></div>
             </div>
         </section>
 
         <!-- ================= 4. INVESTIMENTOS ================= -->
         <section id="tab-investments" class="tab-content space-y-4">
-            <div class="bg-palette-sky rounded-3xl p-5 text-app-text shadow-sm space-y-1">
+            <div class="bg-app-card border border-app-card-hover rounded-2xl p-5 text-white shadow space-y-1">
                 <span class="text-[10px] uppercase font-bold text-app-subtext tracking-wider">Patrimônio</span>
-                <h2 class="text-2xl font-black">Investimentos</h2>
-                <p class="text-xl font-bold mt-1" id="inv-total">Total: R$ 0,00</p>
+                <h2 class="text-2xl font-extrabold">Investimentos</h2>
+                <p class="text-xl font-bold text-app-accent mt-1" id="inv-total">Total: R$ 0,00</p>
             </div>
 
-            <div class="bg-white border border-gray-200/60 p-4 rounded-3xl shadow-sm space-y-3">
+            <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl shadow space-y-3">
                 <form id="form-investment" class="space-y-3">
                     <div class="ui-field-group">
                         <span class="ui-field-label">Nome do Ativo / Banco</span>
@@ -234,7 +219,7 @@
                         <span class="ui-field-label">Valor Investido (R$)</span>
                         <input type="number" step="0.01" id="inv-amount" placeholder="0,00" required class="ui-input">
                     </div>
-                    <button type="submit" class="w-full bg-palette-sky text-app-text p-3 rounded-2xl font-black text-xs cursor-pointer shadow-sm hover:opacity-90 transition">
+                    <button type="submit" class="w-full bg-app-accent-blue text-white p-2.5 rounded-xl font-bold text-xs cursor-pointer shadow hover:opacity-90 transition">
                         + Registrar Investimento
                     </button>
                 </form>
@@ -247,8 +232,8 @@
 
     <!-- NAVEGAÇÃO INFERIOR -->
     <nav class="fixed bottom-3 left-0 right-0 z-40 flex justify-center px-4">
-        <div class="bg-white/90 backdrop-blur-md border border-gray-200/80 rounded-full shadow-lg p-1.5 max-w-md w-full flex justify-between items-center text-xs font-bold">
-            <button onclick="nav('shopping')" class="nav-btn flex-1 py-2 rounded-full text-center text-palette-sunrise bg-palette-linen" data-target="shopping">
+        <div class="bg-app-card/95 border border-app-card-hover backdrop-blur-md rounded-full shadow-2xl p-1.5 max-w-md w-full flex justify-between items-center text-xs font-bold">
+            <button onclick="nav('shopping')" class="nav-btn flex-1 py-2 rounded-full text-center text-app-accent bg-app-card-hover" data-target="shopping">
                 <i class="fa-solid fa-cart-shopping block text-sm"></i><span class="text-[9px]">Compras</span>
             </button>
             <button onclick="nav('menu')" class="nav-btn flex-1 py-2 rounded-full text-center text-app-subtext" data-target="menu">
@@ -280,14 +265,14 @@
             document.getElementById(`tab-${tabId}`).classList.add('active');
 
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('text-palette-sunrise', 'bg-palette-linen');
+                btn.classList.remove('text-app-accent', 'bg-app-card-hover');
                 btn.classList.add('text-app-subtext');
             });
 
             const activeBtn = document.querySelector(`.nav-btn[data-target="${tabId}"]`);
             if (activeBtn) {
                 activeBtn.classList.remove('text-app-subtext');
-                activeBtn.classList.add('text-palette-sunrise', 'bg-palette-linen');
+                activeBtn.classList.add('text-app-accent', 'bg-app-card-hover');
             }
         }
 
@@ -314,14 +299,14 @@
                 const itemTotal = i.qty * i.price;
                 if(!i.done) total += itemTotal;
                 container.innerHTML += `
-                    <div class="flex justify-between items-center bg-palette-linen/60 p-3 rounded-2xl border border-gray-200/40 text-xs ${i.done ? 'item-done' : ''}">
+                    <div class="flex justify-between items-center bg-input-bg p-3 rounded-xl border border-app-card-hover/60 text-xs ${i.done ? 'item-done' : ''}">
                         <div class="flex items-center gap-2">
                             <input type="checkbox" ${i.done ? 'checked' : ''} onclick="toggleShop(${i.id}, this.checked)" class="round-cb-sm">
-                            <span class="font-bold text-app-text">${i.qty}x ${i.item}</span>
+                            <span class="font-bold text-white">${i.qty}x ${i.item}</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <span class="font-bold text-app-text">${formatCurrency(itemTotal)}</span>
-                            <button onclick="deleteShop(${i.id})" class="text-palette-watermelon"><i class="fa-solid fa-trash"></i></button>
+                            <span class="font-bold text-white">${formatCurrency(itemTotal)}</span>
+                            <button onclick="deleteShop(${i.id})" class="text-color-cardinal"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                 `;
@@ -358,12 +343,12 @@
 
             list.forEach(m => {
                 container.innerHTML += `
-                    <div class="bg-white border border-gray-200/60 p-4 rounded-3xl flex justify-between items-center shadow-sm">
+                    <div class="bg-app-card border border-app-card-hover p-4 rounded-2xl flex justify-between items-center shadow">
                         <div>
-                            <span class="text-[10px] uppercase font-black text-palette-berry tracking-wider">${m.day}</span>
-                            <h4 class="text-sm font-bold text-app-text">${m.dish}</h4>
+                            <span class="text-[10px] uppercase font-bold text-app-accent tracking-wider">${m.day}</span>
+                            <h4 class="text-sm font-bold text-white">${m.dish}</h4>
                         </div>
-                        <button onclick="deleteMenu(${m.id})" class="text-palette-watermelon p-2"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="deleteMenu(${m.id})" class="text-color-cardinal p-2"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 `;
             });
@@ -398,12 +383,12 @@
                 else expense += t.amount;
 
                 container.innerHTML += `
-                    <div class="flex justify-between items-center bg-palette-linen/60 p-3 rounded-2xl border border-gray-200/40 text-xs">
+                    <div class="flex justify-between items-center bg-input-bg p-3 rounded-xl border border-app-card-hover/60 text-xs">
                         <div>
-                            <span class="font-bold text-app-text block">${t.desc}</span>
+                            <span class="font-bold text-white block">${t.desc}</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <span class="font-black ${t.type === 'income' ? 'text-emerald-600' : 'text-palette-watermelon'}">
+                            <span class="font-bold ${t.type === 'income' ? 'text-color-vidaloca' : 'text-color-cardinal'}">
                                 ${t.type === 'income' ? '+' : '-'} ${formatCurrency(t.amount)}
                             </span>
                             <button onclick="deleteTransaction(${t.id})" class="text-app-subtext"><i class="fa-solid fa-trash"></i></button>
@@ -443,11 +428,11 @@
             list.forEach(i => {
                 total += i.amount;
                 container.innerHTML += `
-                    <div class="flex justify-between items-center bg-white border border-gray-200/60 p-3.5 rounded-2xl shadow-sm text-xs">
-                        <span class="font-bold text-app-text">${i.name}</span>
+                    <div class="flex justify-between items-center bg-app-card border border-app-card-hover p-3.5 rounded-2xl shadow text-xs">
+                        <span class="font-bold text-white">${i.name}</span>
                         <div class="flex items-center gap-3">
-                            <span class="font-black text-palette-watermelon">${formatCurrency(i.amount)}</span>
-                            <button onclick="deleteInvestment(${i.id})" class="text-palette-watermelon"><i class="fa-solid fa-trash"></i></button>
+                            <span class="font-bold text-app-accent">${formatCurrency(i.amount)}</span>
+                            <button onclick="deleteInvestment(${i.id})" class="text-color-cardinal"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                 `;
